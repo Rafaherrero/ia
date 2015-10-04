@@ -1,8 +1,8 @@
 # Harry Potter y los Monstruos del Laberinto
-## 0. Tabla de Contenido
-1. **[Escenario](#1-escenario)**
-2. **[Agentes](#2-Agentes)**
-    1. Harry Potter
+## Tabla de Contenido
+1. **[Escenario](#escenario)**
+2. **[Agentes](#agentes)**
+    1. **[Harry Potter](#harry-potter)**
         1. Percepciones
         2. Acciones
         3. Objetivos
@@ -14,35 +14,35 @@
         4. Entorno
 3. Tipología Software
 
-## 1. Escenario
+## Escenario
 Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.
 
-## 2. Agentes
-### 2.1. Harry Potter
+## Agentes
+### Harry Potter
 Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual hay enemigos. 
-#### 2.1.1 Percepciones
+#### Percepciones
 * Si en algunas de las casillas adyacentes existe una pared.
 * Si en algunas de las casillas adyacentes existe algun obstáculo.
 * Si en algunas de las casillas adyacentes 
-#### 2.1.2 Acciones
+#### Acciones
 * Lista numerda de las acciones
-#### 2.1.3 Objetivos
+#### Objetivos
 * Lista numerda de los objetivos
-#### 2.1.4 Entorno
+#### Entorno
 * Lista numerda del entorno
 
-### 2.2. Monstruos
+### Monstruos
 Breve instroducción sobre los monstruos
-#### 2.2.1 Percepciones
+#### Percepciones
 * Lista numerda de las percepciones
-#### 2.2.2 Acciones
+#### Acciones
 * Lista numerda de las acciones
-#### 2.2.3 Objetivos
+#### Objetivos
 * Lista numerda de los objetivos
-#### 2.2.4 Entorno
+#### Entorno
 * Lista numerda del entorno
 
-## 3. Tipología Software
+## Tipología Software
 TIpo de tipología usada
 
 <!---

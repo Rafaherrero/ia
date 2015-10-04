@@ -1,7 +1,7 @@
 # Harry Potter y los Monstruos del Laberinto
-## Tabla de Contenido
-1. **[Escenario](#1.-Escenario)**
-2. **[Agentes](#2.-Agentes)**
+## 0. Tabla de Contenido
+1. **[Escenario](#1-escenario)**
+2. **[Agentes](#2-Agentes)**
     1. Harry Potter
         1. Percepciones
         2. Acciones

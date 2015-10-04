@@ -1,4 +1,15 @@
-# Diseño del agente
+# Harry Potter y los Monstruos del Laberinto
+## Escenario
+Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.
+
+## Agentes
+### Harry Potter
+Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual hay enemigos. 
+#### Percepciones
+1. Si en algunas de las casillas adyacentes existe una pared.
+2. Si en algunas de las casillas adyacentes existe algun obstáculo.
+3. Si en algunas de las casillas adyacentes 
+, pero solo podrá hacerles frente a algunos de ellos. Si se agota la barra de energía, podrá recuperar parte de ella con grageas Bertie Bott dispersas por el laberinto. Si Harry no tuviese energía y se encontrase con un enemigo, tendrá que buscar una salida. Los monstruos se moverán cada dos pasos de 
 ## Percepciones
 1. Si en algunas de las casillas adyacentes existe un obstáculo.
 2. Si alguna de las casillas adyacentes está vacía.

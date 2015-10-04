@@ -14,6 +14,8 @@
         4. **[Entorno](#entorno-1)**
 3. **[Tipología Software](#tipología-software)**
 
+**[Notas](#notas)**
+
 ## Escenario
 Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.
 
@@ -23,36 +25,42 @@ Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz 
 Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual hay enemigos. 
 
 #### Percepciones
-* Si en algunas de las casillas adyacentes existe una pared.
-* Si en algunas de las casillas adyacentes existe algun obstáculo.
-* Si en algunas de las casillas adyacentes
+* Si en alguna de las casillas adyacentes existe una pared.
+* Si en alguna de las casillas adyacentes existe algun obstáculo.
+* Si en alguna de las casillas adyacentes existe algún monstruo.
+* Si la casilla actual es una energía.
+* Si la casilla actual es la "copa<sup>[1](#copa)</sup>".
+* Cantidad de energía actual
 
 #### Acciones
-* Lista numerda de las acciones
+* Lista desordenada de las acciones
 
 #### Objetivos
-* Lista numerda de los objetivos
+* Lista desordenada de los objetivos
 
 #### Entorno
-* Lista numerda del entorno
+* Lista desordenada del entorno
 
 ### Monstruos
 Breve instroducción sobre los monstruos
 
 #### Percepciones
-* Lista numerda de las percepciones
+* Lista desordenada de las percepciones
 
 #### Acciones
-* Lista numerda de las acciones
+* Lista desordenada de las acciones
 
 #### Objetivos
-* Lista numerda de los objetivos
+* Lista desordenada de los objetivos
 
 #### Entorno
-* Lista numerda del entorno
+* Lista desordenada del entorno
 
 ## Tipología Software
 Tipo de tipología usada
+
+# Notas
+<a name="copa">1</a>: La copa es el destino final del agente, la salida del laberinto.
 
 <!---
 HOLA SOY UN COMENTARIO

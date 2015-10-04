@@ -8,42 +8,51 @@
         3. **[Objetivos](objetivos)**
         4. **[Entorno](entorno)**
     2. **[Monstruos](monstruos)**
-        1. **[Percepciones](percepciones)**
-        2. **[Acciones](acciones)**
-        3. **[Objetivos](objetivos)**
-        4. **[Entorno](entorno)**
+        1. **[Percepciones](percepciones-1)**
+        2. **[Acciones](acciones-1)**
+        3. **[Objetivos](objetivos-1)**
+        4. **[Entorno](entorno-1)**
 3. **[Tipología Software](tipología-software)**
 
 ## Escenario
 Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.
 
 ## Agentes
+
 ### Harry Potter
 Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual hay enemigos. 
+
 #### Percepciones
 * Si en algunas de las casillas adyacentes existe una pared.
 * Si en algunas de las casillas adyacentes existe algun obstáculo.
-* Si en algunas de las casillas adyacentes 
+* Si en algunas de las casillas adyacentes
+
 #### Acciones
 * Lista numerda de las acciones
+
 #### Objetivos
 * Lista numerda de los objetivos
+
 #### Entorno
 * Lista numerda del entorno
 
 ### Monstruos
 Breve instroducción sobre los monstruos
+
 #### Percepciones
 * Lista numerda de las percepciones
+
 #### Acciones
 * Lista numerda de las acciones
+
 #### Objetivos
 * Lista numerda de los objetivos
+
 #### Entorno
 * Lista numerda del entorno
 
 ## Tipología Software
-TIpo de tipología usada
+Tipo de tipología usada
 
 <!---
 HOLA SOY UN COMENTARIO

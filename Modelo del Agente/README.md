@@ -3,16 +3,16 @@
 1. **[Escenario](#escenario)**
 2. **[Agentes](#agentes)**
     1. **[Harry Potter](#harry-potter)**
-        1. Percepciones
-        2. Acciones
-        3. Objetivos
-        4. Entorno
-    2. Monstruos
-        1. Percepciones
-        2. Acciones
-        3. Objetivos
-        4. Entorno
-3. Tipología Software
+        1. **[Percepciones](#percepciones)**
+        2. **[Acciones](acciones)**
+        3. **[Objetivos](objetivos)**
+        4. **[Entorno](entorno)**
+    2. **[Monstruos](monstruos)**
+        1. **[Percepciones](percepciones)**
+        2. **[Acciones](acciones)**
+        3. **[Objetivos](objetivos)**
+        4. **[Entorno](entorno)**
+3. **[Tipología Software](tipología-software)**
 
 ## Escenario
 Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.

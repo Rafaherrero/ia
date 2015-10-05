@@ -12,11 +12,7 @@
         2. **[Acciones](#acciones-1)**
         3. **[Objetivos](#objetivos-1)**
         4. **[Entorno](#entorno-1)**
-<<<<<<< HEAD
 3. **[Tipología de Arquitectura del Software](#tipología-de-arquitectura-del-software)**
-=======
-3. **[Tipología del Agente](#tipología-del-agente)**
->>>>>>> 4ac4057a31acd830e43247f333a2932a9d9a4bc3
 4. **[Notas](#notas)**
 
 ## Escenario

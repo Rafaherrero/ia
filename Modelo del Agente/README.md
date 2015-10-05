@@ -12,7 +12,7 @@
         2. **[Acciones](#acciones-1)**
         3. **[Objetivos](#objetivos-1)**
         4. **[Entorno](#entorno-1)**
-3. **[Tipología Software](#tipología-software)**
+3. **[Tipología del Agente](#tipología-del-agente)**
 4. **[Notas](#notas)**
 
 ## Escenario

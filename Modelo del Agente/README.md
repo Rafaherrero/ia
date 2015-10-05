@@ -74,7 +74,7 @@ Los monstruos son los enemigos. Como no son muy listos, caminarán de forma alea
 * No se muy bien que poner aquí
 
 ## Tipología de Arquitectura del Software
-El agente elegido es **Harry Potter**. Harry va a tener que ir que ir descubriendo el mapa, e ir recordando por donde puede serguir avanzando y qué lugares ya ha recorrido. Además de esto, tendrá que decidir si atacar monstruos en depedencia de varios factores, como la cantidad de grageas descubiertas y no usadas, cantidad de energuía que le queda, porcentaje descubierto del mapa, etc. Por ejemplo, si se encontrase un monstruo y sólo queda una energía restante, pero el porcentaje descubierto del mapa es muy alto, podría decidir atacar al monstruo ya que le queda muy poco para llegar a la Copa y podría merecer la pena el riesgo.
+El agente elegido es **Harry Potter**. Harry va a tener que ir que ir descubriendo el mapa, e ir recordando por donde puede serguir avanzando y qué lugares ya ha recorrido. Además de esto, tendrá que decidir si atacar monstruos en depedencia de varios factores, como la cantidad de grageas descubiertas y no usadas, cantidad de energía que le queda, porcentaje descubierto del mapa, etc. Por ejemplo, si se encontrase un monstruo y sólo queda una energía restante, pero el porcentaje descubierto del mapa es muy alto, podría decidir atacar al monstruo ya que le queda muy poco para llegar a la Copa y podría merecer la pena el riesgo.
 
 Por estos motivos, debemos elegir un **agente basado en utilidad**.
 

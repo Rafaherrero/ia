@@ -13,54 +13,78 @@
         3. **[Objetivos](#objetivos-1)**
         4. **[Entorno](#entorno-1)**
 3. **[Tipología Software](#tipología-software)**
-
-**[Notas](#notas)**
+4. **[Notas](#notas)**
 
 ## Escenario
-Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto. Dentro del mismo, se encontrará con diversos enemigos.
+Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz de Fuego, donde el protagonista tiene que encontrar una copa dentro de un laberinto para poder ganar. Dentro del mismo, se encontrará con diversos enemigos.
 
 ## Agentes
 
 ### Harry Potter
-Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual hay enemigos. 
+Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual deberá hacer frente a enemigos y sobrevivir a ellos.
 
 #### Percepciones
 * Si en alguna de las casillas adyacentes existe una pared.
-* Si en alguna de las casillas adyacentes existe algun obstáculo.
+* Si en alguna de las casillas adyacentes existe algun seto<sup>[1](#seto)</sup>.
 * Si en alguna de las casillas adyacentes existe algún monstruo.
-* Si la casilla actual es una energía.
-* Si la casilla actual es la "copa<sup>[1](#copa)</sup>".
-* Cantidad de energía actual
+* Si la casilla actual es una Gragea Bertie Bott<sup>[2](#gragea)</sup>.
+* Si la casilla actual es la Copa de los Tres Magos<sup>[3](#copa)</sup>.
+* Cantidad de energía actual.
+* Coordenadas de las Grageas encontradas hasta el momento.
+* Coordenadas de los monstruos encontrados hasta el momento.
+* Porcentaje descubierto del mapa.
 
 #### Acciones
-* Lista desordenada de las acciones
+* Ocupar la casilla adyacente con menos coste.
+* No ocuparla si es una pared o un seto.
+* Si hay varias elegir una aleatoriamente.
+* Si hay un monstruo en el medio del camino:
+    * Atacar (dependiendo de una serie de parámetros).
+    * Huir (dependiendo de una serie de parámetros).
+* Buscar una gragea si queda poca energía.
 
 #### Objetivos
-* Lista desordenada de los objetivos
+* Sobrevivir
+* Encontrar la Copa de los Tres Magos
 
 #### Entorno
-* Lista desordenada del entorno
+* No se muy bien que poner aquí
 
 ### Monstruos
-Breve instroducción sobre los monstruos
+Los monstruos son los enemigos. Como no son muy listos, caminarán de forma aleatoria, y en caso de toparse con un agente que no sea otro Mounstro, avisará a sus amigos y atacará durante un tiempo.
 
 #### Percepciones
-* Lista desordenada de las percepciones
+* Si en alguna de las casillas adyacentes existe una pared.
+* Si en alguna de las casillas adyacentes existe algun seto.
+* Si en alguna de las casillas adyacentes existe algún agente.
+* Si se escucha el aullido de otro monstruo y su origen.
 
 #### Acciones
-* Lista desordenada de las acciones
+* Moverse aleatoriamente a casillas adyacentes por defecto.
+* No ocuparla si es una pared o un seto.
+* Si en un radio de 2 casillas hay un agente que no sea un monstruo, aullar y atacar.
+* Moverse hacia él si está en un radio de 3 casillas.
+* Olvidarse si está a más de 3 casillas.
+* Si se es atacado, morirse
 
 #### Objetivos
-* Lista desordenada de los objetivos
+* Detectar enemigos e ir a por ellos.
 
 #### Entorno
-* Lista desordenada del entorno
+* No se muy bien que poner aquí
 
-## Tipología Software
-Tipo de tipología usada
+## Tipología del Agente
+El agente elegido es **Harry Potter**. Harry va a tener que ir que ir descubriendo el mapa, e ir recordando por donde puede serguir avanzando y qué lugares ya ha recorrido. Además de esto, tendrá que decidir si atacar monstruos en depedencia de varios factores, como la cantidad de grageas descubiertas y no usadas, cantidad de energuía que le queda, porcentaje descubierto del mapa, etc. Por ejemplo, si se encontrase un monstruo y sólo queda una energía restante, pero el porcentaje descubierto del mapa es muy alto, podría decidir atacar al monstruo ya que le queda muy poco para llegar a la Copa y podría merecer la pena el riesgo.
 
-# Notas
-<a name="copa">1</a>: La copa es el destino final del agente, la salida del laberinto.
+Por estos motivos, debemos elegir un **agente basado en utilidad**.
+
+
+## Notas
+<ol type="1">
+<li><a name="seto">Seto</a>: Son los obstáculos del laberinto.</li>
+<li><a name="gragea">Gragea Bertie Bott</a>: Elementos que al ser usados rellenan la parte de la energía.</li>
+<li><a name="copa">Copa de los Tres Magos</a>: La copa es el destino final del agente, la salida del laberinto.</li>
+</ol>
 
 <!---
 HOLA SOY UN COMENTARIO

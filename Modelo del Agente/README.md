@@ -81,9 +81,9 @@ Por estos motivos, debemos elegir un **agente basado en utilidad**.
 
 ## Notas
 <ol type="1">
-<li><a name="seto">*Seto*</a>: Son los obstáculos del laberinto.</li>
-<li><a name="gragea">*Gragea Bertie Bott*</a>: Elementos que al ser usados rellenan la parte de la energía.</li>
-<li><a name="copa">*Copa de los Tres Magos*</a>: La copa es el destino final del agente, la salida del laberinto.</li>
+<li><a name="seto"><i>Seto</i></a>: Son los obstáculos del laberinto.</li>
+<li><a name="gragea"><i>Gragea Bertie Bott</i></a>: Elementos que al ser usados rellenan la parte de la energía.</li>
+<li><a name="copa"><i>Copa de los Tres Magos</i></a>: La copa es el destino final del agente, la salida del laberinto.</li>
 </ol>
 
 <!---

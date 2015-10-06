@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     VentanaPrincipal w;
     w.show();
-    //Soy Danielaso
+    //ACABO DE HACER UN SUPER CAMBIO, impementado
 
     return a.exec();
 }

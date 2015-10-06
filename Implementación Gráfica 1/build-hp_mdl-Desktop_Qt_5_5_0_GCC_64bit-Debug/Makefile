@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = hp_mdl1.0.0
-DISTDIR = /home/daniel/Documentos/Repositorios/ia/Implementación\ Gráfica\ 1/hp_mld/build-hp_mdl-Desktop_Qt_5_5_0_GCC_64bit-Debug/.tmp/hp_mdl1.0.0
+DISTDIR = /home/daniel/Documentos/Repositorios/ia/Implementación\ Gráfica\ 1/build-hp_mdl-Desktop_Qt_5_5_0_GCC_64bit-Debug/.tmp/hp_mdl1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.5.0/5.5/gcc_64 -Wl,-rpath,/opt/Qt5.5.0/5.5/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/opt/Qt5.5.0/5.5/gcc_64/lib -lQt5Widgets -L/usr/lib64 -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -632,7 +632,7 @@ moc_ventanaprincipal.cpp: /opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QMainWindow 
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qicon.h \
 		../hp_mdl/ventanaprincipal.h
-	/opt/Qt5.5.0/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.5.0/5.5/gcc_64/mkspecs/linux-g++ -I'/home/daniel/Documentos/Repositorios/ia/Implementación Gráfica 1/hp_mld/hp_mdl' -I/opt/Qt5.5.0/5.5/gcc_64/include -I/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets -I/opt/Qt5.5.0/5.5/gcc_64/include/QtGui -I/opt/Qt5.5.0/5.5/gcc_64/include/QtCore -I. ../hp_mdl/ventanaprincipal.h -o moc_ventanaprincipal.cpp
+	/opt/Qt5.5.0/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.5.0/5.5/gcc_64/mkspecs/linux-g++ -I'/home/daniel/Documentos/Repositorios/ia/Implementación Gráfica 1/hp_mdl' -I/opt/Qt5.5.0/5.5/gcc_64/include -I/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets -I/opt/Qt5.5.0/5.5/gcc_64/include/QtGui -I/opt/Qt5.5.0/5.5/gcc_64/include/QtCore -I. ../hp_mdl/ventanaprincipal.h -o moc_ventanaprincipal.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -873,7 +873,45 @@ ventanaprincipal.o: ../hp_mdl/ventanaprincipal.cpp ../hp_mdl/ventanaprincipal.h 
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qicon.h \
-		ui_ventanaprincipal.h
+		ui_ventanaprincipal.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QStatusBar \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QToolBar \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ventanaprincipal.o ../hp_mdl/ventanaprincipal.cpp
 
 moc_ventanaprincipal.o: moc_ventanaprincipal.cpp 

@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::VentanaPrincipal *ui;
+    //SUPER IMPLEMENTACION DE RAFA
 };
 
 #endif // VENTANAPRINCIPAL_H

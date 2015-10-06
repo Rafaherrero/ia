@@ -17,7 +17,7 @@ public:
 
 private:
     Ui::VentanaPrincipal *ui;
-    //soy rafaelo
+    //SUPER IMPLEMENTACION DE RAFA
 };
 
 #endif // VENTANAPRINCIPAL_H

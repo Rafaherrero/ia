@@ -48,7 +48,7 @@ Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro
 * Encontrar la Copa de los Tres Magos
 
 #### Entorno
-* No se muy bien que poner aquí
+* El laberinto
 
 ### Monstruos
 Los monstruos son los enemigos. Como no son muy listos, caminarán de forma aleatoria, y en caso de toparse con un agente que no sea otro Mounstro, avisará a sus amigos y atacará durante un tiempo.
@@ -71,7 +71,7 @@ Los monstruos son los enemigos. Como no son muy listos, caminarán de forma alea
 * Detectar enemigos e ir a por ellos.
 
 #### Entorno
-* No se muy bien que poner aquí
+* El laberinto
 
 ## Tipología de Arquitectura del Software
 El agente elegido es **Harry Potter**. Harry va a tener que ir que ir descubriendo el mapa, e ir recordando por donde puede serguir avanzando y qué lugares ya ha recorrido. Además de esto, tendrá que decidir si atacar monstruos en depedencia de varios factores, como la cantidad de grageas descubiertas y no usadas, cantidad de energía que le queda, porcentaje descubierto del mapa, etc. Por ejemplo, si se encontrase un monstruo y sólo queda una energía restante, pero el porcentaje descubierto del mapa es muy alto, podría decidir atacar al monstruo ya que le queda muy poco para llegar a la Copa y podría merecer la pena el riesgo.

@@ -34,6 +34,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(item);
 
 	ui->grafico_mapa->show();
+	ui->estado_harry->setText("Harry ha entrado al laberinto");
+	ui->estado_harry->adjustSize();
 }
 
 VentanaPrincipal::~VentanaPrincipal()

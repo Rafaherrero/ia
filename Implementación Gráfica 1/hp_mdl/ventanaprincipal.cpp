@@ -20,6 +20,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->setupUi(this);
 
 	scene = new QGraphicsScene(this);
+    scene->setSceneRect(0,0,64,64);
+    //ui->grafico_mapa->resize(67,67);
+    ui->grafico_mapa->resize(4000,4000);
 	ui->grafico_mapa->setScene(scene);
 
     QString filename = "img/grass_wall.png";
@@ -30,8 +33,11 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QImage image(filename);
 
 	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsPixmapItem* item2 = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    item2->setPos(0,16);
 
 	scene->addItem(item);
+    scene->addItem(item2);
 
 	ui->grafico_mapa->show();
 }

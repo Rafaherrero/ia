@@ -22,17 +22,25 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->setScene(scene);
 
-    QString filename = "img/grass_wall.png";
+	QString filename = "img/grass_wall.png";
+	QString pared = "img/pared.png";
 
 	if (!fileExists(filename))
 			std::cerr << "No existe esa ruta" << std::endl;
 
 	QImage image(filename);
+	QImage imagepared(pared);
 
 	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+	QGraphicsPixmapItem* itempared = new QGraphicsPixmapItem(QPixmap::fromImage(imagepared));
+
+	qint32 tamanox = 100;
+	qint32 tamanoy = 100;
 
 	scene->addItem(item);
+	scene->addItem(itempared);
 
+	ui->grafico_mapa->setGeometry(10,0,tamanox*16,tamanoy*16);
 	ui->grafico_mapa->show();
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();

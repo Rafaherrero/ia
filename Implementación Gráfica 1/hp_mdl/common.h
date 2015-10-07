@@ -1,6 +1,9 @@
 #ifndef COMMON
 #define COMMON
 
+#include <QString>
+#include <QFileInfo>
+
 #define ID_NULO 0
 #define ID_HARRY_POTTER 1
 #define ID_COPA_MAGOS 2

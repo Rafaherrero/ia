@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         ventanaprincipal.cpp \
     mapa.cpp \
-    harry_potter.cpp
+    harry_potter.cpp \
+    exceptions.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa.h \
     harry_potter.h \
-    common.h
+    common.h \
+    exceptions.h
 
 FORMS    += ventanaprincipal.ui
 

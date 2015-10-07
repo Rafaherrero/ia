@@ -3,16 +3,6 @@
 
 #include <iostream>
 
-bool fileExists(QString path) {
-	QFileInfo checkFile(path);
-	// check if file exists and if yes: Is it really a file and no directory?
-	if (checkFile.exists() && checkFile.isFile()) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
@@ -28,8 +18,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QString filename = "img/grass_wall.png";
 	QString pared = "img/pared.png";
 
-	if (!fileExists(filename))
-			std::cerr << "No existe esa ruta" << std::endl;
+//	if (!fileExistsHola(filename))
+	//		std::cerr << "No existe esa ruta" << std::endl;
 
 	QImage image(filename);
 	QImage imagepared(pared);

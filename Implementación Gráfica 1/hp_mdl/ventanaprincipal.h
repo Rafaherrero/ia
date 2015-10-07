@@ -9,6 +9,8 @@
 #include <QGraphicsPixmapItem>
 #include <QFileInfo>
 
+#include "common.h"
+
 namespace Ui {
 class VentanaPrincipal;
 }

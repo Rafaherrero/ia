@@ -20,3 +20,5 @@ HEADERS  += ventanaprincipal.h \
     mapa.h
 
 FORMS    += ventanaprincipal.ui
+
+CONFIG += c++11

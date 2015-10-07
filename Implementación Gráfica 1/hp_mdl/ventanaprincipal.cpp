@@ -41,7 +41,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(item);
     scene->addItem(item2);
 
-	ui->grafico_mapa->setGeometry(10,0,tamanox*16,tamanoy*16);
+    //ui->grafico_mapa->setGeometry(10,0,tamanox*16,tamanoy*16);
 	ui->grafico_mapa->show();
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();

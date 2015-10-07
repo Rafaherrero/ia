@@ -22,7 +22,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->setScene(scene);
 
-	QString filename = ":/img/grass_wall.png";
+    QString filename = "img/grass_wall.png";
 
 	if (!fileExists(filename))
 			std::cerr << "No existe esa ruta" << std::endl;

@@ -15,8 +15,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     ui->grafico_mapa->resize(4000,4000);
 	ui->grafico_mapa->setScene(scene);
 
-	QString filename = "img/grass_wall.png";
-	QString pared = "img/pared.png";
+	QString filename = "recursos/img/grass_wall.png";
+	QString pared = "recursos/img/pared.png";
 
 //	if (!fileExistsHola(filename))
 	//		std::cerr << "No existe esa ruta" << std::endl;
@@ -35,6 +35,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->grafico_mapa->show();
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
+
+	mapa* el_mapa = new mapa(5,5);
+	el_mapa->generar_laberinto();
 }
 
 VentanaPrincipal::~VentanaPrincipal()

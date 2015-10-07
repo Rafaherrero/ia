@@ -10,6 +10,7 @@
 #include <QFileInfo>
 
 #include "common.h"
+#include "mapa.h"
 
 namespace Ui {
 class VentanaPrincipal;

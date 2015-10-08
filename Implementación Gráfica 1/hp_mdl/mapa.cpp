@@ -91,17 +91,11 @@ bool mapa::existe_alrededor(QPoint celda, unsigned valor, QPoint omitir)
 		if(celda.x()+1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
 			return true;
 	if(datos_[celda.x()-1][celda.y()] == valor)
-		return true;
-	if(datos_[celda.x()+1][celda.y()-1] == valor)
-		return true;
-	if(datos_[celda.x()+1][celda.y()+1] == valor)
-		return true;
-	if(datos_[celda.x()-1][celda.y()-1] == valor)
-		return true;
-	if(datos_[celda.x()-1][celda.y()+1] == valor)
-		return true;
+		if(celda.x()-1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
+			return true;
 	if(datos_[celda.x()][celda.y()-1] == valor)
-		return true;
+		if(celda.x() != omitir.x() && celda.y()-1 == omitir.y())//FIXME, LO DEJE AQUI
+			return true;
 	if(datos_[celda.x()][celda.y()+1] == valor)
 		return true;
 	return false;

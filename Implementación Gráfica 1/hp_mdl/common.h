@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QFileInfo>
+#include <QPoint>
 
 #define ID_NULO 0
 #define ID_HARRY_POTTER 1

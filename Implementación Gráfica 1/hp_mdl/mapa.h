@@ -63,20 +63,71 @@ private:
 	bool existe_alrededor(QPoint, unsigned, QPoint); //retornar verdadero si está alrededor el valor unsigned al menos una vez.
 	unsigned esta_la_copa_alrededor(QPoint); //devuelve un -1 si es un error
 public:
+	/*!
+	 * \brief Constructor vacío
+	 */
 	mapa(void);
+
+	/*!
+	 * \brief Constructor al que se le pasa el tamaño
+	 * \param x Tamaño en x del mapa
+	 * \param y Tamaño en y del mapa
+	 */
 	mapa(unsigned,unsigned);
-    void resize(unsigned,unsigned); //Cambiar el tamaño del mapa
-	void generar_laberinto(); //Generar aleatoriamente con forma de laberinto
-	void generar_laberinto(QPoint); //Generar aleatoriamente con la copa en un lugar
-	void generar_laberinto(QPoint, QPoint); //Generar aleatoriamente el laberinto sabiendo la entrada y salida
-	void generar_aleatorio(unsigned); //Colocar los setos aleatoriamente (sin forma de laberinto)
-    void colocar_monstruos(unsigned); //Colocar una cantidad de monstruos en el mapa
 
-	//FIXME: Metodo para cambiar inicio y final
+	/*!
+	 * \brief Cambiar el tamaño del mapa
+	 * \param x Tamaño en x del mapa
+	 * \param y Tamaño en y del mapa
+	 */
+	void resize(unsigned,unsigned);
 
-	QImage get_tile(QPoint); //sacar la imagen de un punto determinado. USAD ESTE
+	/*!
+	 * \brief Generar el laberinto usando como inicio y final "inicio_", y "final_"
+	 */
+	void generar_laberinto();
 
+	/*!
+	 * \brief Colocar los setos aleatoriamente (sin forma de laberinto)
+	 * \param Porcentaje de ocupación del mapa de los setos
+	 */
+	void generar_aleatorio(unsigned);
+
+	/*!
+	 * \brief Colocar una cantidad de monstruos en el mapa
+	 * \param num Cantidad de monstruos
+	 */
+	void colocar_monstruos(unsigned);
+
+	/*!
+	 * \brief Colocar la copa (la salida) en un punto determinado). Por defecto es la esquina inferior derecha.
+	 * \param Coordenadas de la copa
+	 */
+	void colocar_copa(QPoint);
+
+	/*!
+	 * \brief Colocar a harry en un punto determinado). Por defecto es la esquina superior izquierda.
+	 * \param Coordenadas de harry
+	 */
+	void colocar_harry(QPoint);
+
+	/*!
+	 * \brief Obtener la imagen que va en una determinada casilla
+	 * \param La casilla en cuestión
+	 * \return La imagen
+	 */
+	QImage get_tile(QPoint);
+
+	/*!
+	 * \brief Devuelve el tamaño en x del mapa
+	 * \return La x
+	 */
     unsigned& get_x(void);
+
+	/*!
+	 * \brief Devuelve el tamaño en y del mapa
+	 * \return La y
+	 */
     unsigned& get_y(void);
 };
 

@@ -12,9 +12,13 @@ mapa::mapa(unsigned x, unsigned y):
 	tamano_x_(x),
 	tamano_y_(y)
 {
-	datos_.resize(x);
-	for(auto &i : datos_)
-		i.resize(y, MAPA_ID_OTROS_VACIO);
+	setos_.resize(x);
+	for(auto &i : setos_)
+		i.resize(y, ID_MAPA_OTROS_VACIO);
+
+	entidades_.resize(x);
+	for(auto &i : setos_)
+		i.resize(y, ID_MAPA_OTROS_VACIO);
 }
 
 bool mapa::existe_imagen(QString ruta)
@@ -31,7 +35,7 @@ bool mapa::existe_imagen(QString ruta)
 
 void mapa::importar_imagenes(void)
 {
-	//FIXME
+	//TODO
 }
 
 void mapa::generar_laberinto(void)
@@ -39,7 +43,7 @@ void mapa::generar_laberinto(void)
 	//Bloquear todo
 	for(auto &i : datos_)
 		for(auto &j : i)
-			j = MAPA_ID_SI_HAY_SETO;
+			j = ID_MAPA_SI_HAY_SETO;
 
 	QPoint dummy(0,0);
 	explora_vecinos_y_excava(dummy, dummy);
@@ -63,7 +67,7 @@ void mapa::explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior)
 	if(punto_actual.y() == (int)(tamano_y_-1))
 		return;
 
-	if(existe_alrededor(punto_actual, MAPA_ID_NO_HAY_SETO, punto_anterior))
+	if(existe_alrededor(punto_actual, ID_MAPA_NO_HAY_SETO, punto_anterior))
 		return;
 
 	unsigned siguiente_a_explorar;
@@ -71,14 +75,14 @@ void mapa::explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior)
 	siguiente_a_explorar = qrand()%4;
 
 	switch(esta_la_copa_alrededor(punto_actual)){ //Si estamos al lado de la copa, ocuparla inmediatamente
-	case MAPA_ID_ARRIBA: siguiente_a_explorar = MAPA_ID_ARRIBA; break;
-	case MAPA_ID_ABAJO: siguiente_a_explorar = MAPA_ID_ABAJO; break;
-	case MAPA_ID_DERECHA: siguiente_a_explorar = MAPA_ID_DERECHA; break;
-	case MAPA_ID_IZQUIERDA: siguiente_a_explorar = MAPA_ID_IZQUIERDA; break;
+	case ID_MAPA_ARRIBA: siguiente_a_explorar = ID_MAPA_ARRIBA; break;
+	case ID_MAPA_ABAJO: siguiente_a_explorar = ID_MAPA_ABAJO; break;
+	case ID_MAPA_DERECHA: siguiente_a_explorar = ID_MAPA_DERECHA; break;
+	case ID_MAPA_IZQUIERDA: siguiente_a_explorar = ID_MAPA_IZQUIERDA; break;
 	default: break;
 	}
 
-	datos_[punto_actual.x()][punto_actual.y()] = MAPA_ID_NO_HAY_SETO;
+	datos_[punto_actual.x()][punto_actual.y()] = ID_MAPA_NO_HAY_SETO;
 
 
 
@@ -88,13 +92,13 @@ void mapa::explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior)
 bool mapa::existe_alrededor(QPoint celda, unsigned valor, QPoint omitir)
 {
 	if(datos_[celda.x()+1][celda.y()] == valor)
-		if(celda.x()+1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
+		if(celda.x()+1 != omitir.x() && celda.y() == omitir.y())
 			return true;
 	if(datos_[celda.x()-1][celda.y()] == valor)
-		if(celda.x()-1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
+		if(celda.x()-1 != omitir.x() && celda.y() == omitir.y())
 			return true;
 	if(datos_[celda.x()][celda.y()-1] == valor)
-		if(celda.x() != omitir.x() && celda.y()-1 == omitir.y())//FIXME, LO DEJE AQUI
+		if(celda.x() != omitir.x() && celda.y()-1 == omitir.y())
 			return true;
 	if(datos_[celda.x()][celda.y()+1] == valor)
 		return true;
@@ -103,14 +107,14 @@ bool mapa::existe_alrededor(QPoint celda, unsigned valor, QPoint omitir)
 
 unsigned mapa::esta_la_copa_alrededor(QPoint celda)
 {
-	if(datos_[celda.x()+1][celda.y()] == MAPA_ID_COPA)
-		return MAPA_ID_DERECHA;
-	if(datos_[celda.x()-1][celda.y()] == MAPA_ID_COPA)
-		return MAPA_ID_IZQUIERDA;
-	if(datos_[celda.x()][celda.y()-1] == MAPA_ID_COPA)
-		return MAPA_ID_ABAJO;
-	if(datos_[celda.x()][celda.y()+1] == MAPA_ID_COPA)
-		return MAPA_ID_ARRIBA;
+	if(datos_[celda.x()+1][celda.y()] == ID_MAPA_COPA)
+		return ID_MAPA_DERECHA;
+	if(datos_[celda.x()-1][celda.y()] == ID_MAPA_COPA)
+		return ID_MAPA_IZQUIERDA;
+	if(datos_[celda.x()][celda.y()-1] == ID_MAPA_COPA)
+		return ID_MAPA_ABAJO;
+	if(datos_[celda.x()][celda.y()+1] == ID_MAPA_COPA)
+		return ID_MAPA_ARRIBA;
 }
 
 void mapa::generar_aleatorio(unsigned porcentaje)
@@ -147,7 +151,7 @@ QImage mapa::get_tile(QPoint celda)
 
 	FIXME: Esto es para cargar una imagen.*/
 	switch (datos_[celda.x()][celda.y()]) {
-	case MAPA_ID_OTROS_COMPLETO: return otros_.completo_; break;
+	case ID_MAPA_OTROS_COMPLETO: return otros_.completo_; break;
 	default: break;
 	}
 	return otros_.completo_;

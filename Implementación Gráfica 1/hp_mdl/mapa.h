@@ -17,36 +17,40 @@
 #include "common.h"
 
 //IDs para generación del laberinto
-#define MAPA_ID_SI_HAY_SETO 1
-#define MAPA_ID_NO_HAY_SETO 0
+#define ID_MAPA_SI_HAY_SETO 1
+#define ID_MAPA_NO_HAY_SETO 0
 
-#define MAPA_ID_ARRIBA 0
-#define MAPA_ID_ABAJO 1
-#define MAPA_ID_DERECHA 2
-#define MAPA_ID_IZQUIERDA 3
+//Direcciones
+#define ID_ORIENTACION_ARRIBA 0
+#define ID_ORIENTACION_ABAJO 1
+#define ID_ORIENTACION_DERECHA 2
+#define ID_ORIENTACION_IZQUIERDA 3
 
 //IDs para imágenes
-#define MAPA_ID_OTROS_COMPLETO 250
-#define MAPA_ID_OTROS_CUATRO 251
-#define MAPA_ID_OTROS_UNICO 252
-#define MAPA_ID_OTROS_VACIO 253
-#define MAPA_ID_UNA_ABAJO 254
-#define MAPA_ID_UNA_ARRIBA 255
-#define MAPA_ID_UNA_DERECHA 256
-#define MAPA_ID_UNA_IZQUIERDA 257
-#define MAPA_ID_DOS_ABA_DER 258
-#define MAPA_ID_DOS_ABA_IZQ 259
-#define MAPA_ID_DOS_ARR_DER 260
-#define MAPA_ID_DOS_ARR_IZQ 260
-#define MAPA_ID_DOS_HORIZONTAL 262
-#define MAPA_ID_DOS_VERTICAL 263
-#define MAPA_ID_TRES_ABAJO 264
-#define MAPA_ID_TRES_ARRIBA 265
-#define MAPA_ID_TRES_DERECHA 266
-#define MAPA_ID_TRES_IZQUIERDA 267
+#define ID_MAPA_OTROS_COMPLETO 250
+#define ID_MAPA_OTROS_CUATRO 251
+#define ID_MAPA_OTROS_UNICO 252
+#define ID_MAPA_OTROS_VACIO 253
+#define ID_MAPA_UNA_ABAJO 254
+#define ID_MAPA_UNA_ARRIBA 255
+#define ID_MAPA_UNA_DERECHA 256
+#define ID_MAPA_UNA_IZQUIERDA 257
+#define ID_MAPA_DOS_ABA_DER 258
+#define ID_MAPA_DOS_ABA_IZQ 259
+#define ID_MAPA_DOS_ARR_DER 260
+#define ID_MAPA_DOS_ARR_IZQ 260
+#define ID_MAPA_DOS_HORIZONTAL 262
+#define ID_MAPA_DOS_VERTICAL 263
+#define ID_MAPA_TRES_ABAJO 264
+#define ID_MAPA_TRES_ARRIBA 265
+#define ID_MAPA_TRES_DERECHA 266
+#define ID_MAPA_TRES_IZQUIERDA 267
 
-#define MAPA_ID_COPA 350 //Final del mapa
-#define MAPA_ID_INICIO 351
+//Entidades
+#define ID_ENTIDADES_COPA 350 //Final del mapa
+#define ID_ENTIDADES_INICIO 351
+#define ID_ENTIDADES_MONSTRUO 352
+#define ID_ENTIDADES_GRAGEA 353
 
 /*!
  * \brief Clase mapa
@@ -60,19 +64,24 @@ private:
 	/*!
 	 * \brief Atributo que contiene la anchura del mapa (x)
 	 */
-	unsigned tamano_x_; //anchura del mapa
+	unsigned tamano_x_;
 
 	/*!
 	 * \brief Atributo que contiene la altura del mapa (y)
 	 */
-	unsigned tamano_y_; //altura del mapa
+	unsigned tamano_y_;
 
 	/*!
-	 * \brief Matrix que contiene los datos.
-	 * Los datos se guardan en forma de unsigned, codificados según los define
-	 * que están arriba. Por ejemplo, el 350 sería la copa.
+	 * \brief Matrix que contiene la posición (y orientación) de los setos.
 	 */
-	std::vector<std::vector<unsigned> > datos_;
+	std::vector<std::vector<unsigned> > setos_;
+
+	/*!
+	 * \brief Matrix que contiene la posición de las entidades.
+	 */
+	std::vector<std::vector<unsigned> > entidades_;
+
+	//std::vector<std::vector<unsigned> > background_; No hace falta porque es siempre el mismo tile.
 
 	/*!
 	 * \brief Lugar donde Harry Potter empezaría a caminar.
@@ -91,7 +100,26 @@ private:
 		QImage unico_;
 		QImage vacio_;
 	} otros_;
-	//FIXME: Añadir resto de imagenes
+	struct una{
+		QImage abajo_;
+		QImage arriba_;
+		QImage derecha_;
+		QImage izquierda_;
+	} una_;
+	struct dos{
+		QImage aba_der_;
+		QImage aba_izq_;
+		QImage arr_der_;
+		QImage arr_izq_;
+		QImage horizontal_;
+		QImage vertical_;
+	} dos_;
+	struct tres{
+		QImage abajo_;
+		QImage arriba_;
+		QImage derecha_;
+		QImage izquierda_;
+	} tres_;
 private:
 	/*!
 	 * \brief Convetir los muros simples a muros complejos conectados
@@ -113,13 +141,13 @@ private:
 	 */
 	void importar_imagenes(void);
 
-	//DOCUMENTAME: va explorando el laberinto y excavando las paredes de forma recursiva.
+	//TODO: Documentar: va explorando el laberinto y excavando las paredes de forma recursiva.
 	void explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior);
 
-	//DOCUMENTAME: retornar verdadero si está alrededor el valor unsigned al menos una vez.
+	//TODO: Documentar: retornar verdadero si está alrededor el valor unsigned al menos una vez.
 	bool existe_alrededor(QPoint celda, unsigned valor, QPoint omitir);
 
-	//DOCUMENTAME: comprueba si la copa está en una casilla adyacente devuelve un -1 si es un error
+	//TODO: Documentar: comprueba si la copa está en una casilla adyacente devuelve un -1 si es un error
 	unsigned esta_la_copa_alrededor(QPoint celda);
 public:
 	/*!
@@ -171,11 +199,31 @@ public:
 	void colocar_harry(QPoint celda);
 
 	/*!
-	 * \brief Obtener la imagen que va en una determinada casilla
+	 * \brief Obtener la imagen que va en una determinada casilla de la capa background
 	 * \param celda La casilla en cuestión
 	 * \return La imagen
 	 */
-	QImage get_tile(QPoint celda);
+	QImage get_tile_bg(QPoint celda);
+
+	/*!
+	 * \brief Obtener la imagen que va en una determinada casilla de la capa de los setos
+	 * \param celda La casilla en cuestión
+	 * \return La imagen
+	 */
+	QImage get_tile_seto(QPoint celda);
+
+	/*!
+	 * \brief Obtener la imagen que va en una determinada casilla de la capa de entidades
+	 * \param celda La casilla en cuestión
+	 * \return La imagen
+	 */
+	QImage get_tile_entidad(QPoint celda);
+
+	/*!
+	 * \brief Se usa para limpiar una casilla si hay un monstruo o una grajea
+	 * \param Celda a limpiar
+	 */
+	void limpiar_casilla(QPoint celda);
 
 	/*!
 	 * \brief Devuelve el tamaño en x del mapa

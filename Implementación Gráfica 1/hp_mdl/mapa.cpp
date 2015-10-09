@@ -42,7 +42,7 @@ void mapa::generar_laberinto(void)
 			j = MAPA_ID_SI_HAY_SETO;
 
 	QPoint dummy(0,0);
-	explora_vecinos_y_excava(dummy);
+	explora_vecinos_y_excava(dummy, dummy);
 
 	for(auto &i : datos_){
 		for(auto &j : i)
@@ -113,16 +113,6 @@ unsigned mapa::esta_la_copa_alrededor(QPoint celda)
 		return MAPA_ID_ARRIBA;
 }
 
-void mapa::generar_laberinto(QPoint posicion_copa)
-{
-	//FIXME
-}
-
-void mapa::generar_laberinto(QPoint posicion_copa, QPoint posicion_harry)
-{
-	//FIXME
-}
-
 void mapa::generar_aleatorio(unsigned porcentaje)
 {
 	//FIXME
@@ -143,8 +133,9 @@ unsigned& mapa::get_y(void)
 	return tamano_y_;
 }
 
-QImage mapa::get_tile(QPoint coords)
+QImage mapa::get_tile(QPoint celda)
 {
+	/*
 	QString tile = "img/grass_wall.png";
 
 	if (!existe_imagen(tile)){
@@ -153,4 +144,11 @@ QImage mapa::get_tile(QPoint coords)
 
 	QImage image(tile);
 	return image;
+
+	FIXME: Esto es para cargar una imagen.*/
+	switch (datos_[celda.x()][celda.y()]) {
+	case MAPA_ID_OTROS_COMPLETO: return otros_.completo_; break;
+	default: break;
+	}
+	return otros_.completo_;
 }

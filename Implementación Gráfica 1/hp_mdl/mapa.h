@@ -44,24 +44,70 @@
 class mapa
 {
 private:
+	/*!
+	 * \brief Atributo que contiene la anchura del mapa (x)
+	 */
 	unsigned tamano_x_; //anchura del mapa
-	unsigned tamano_y_; //altura del mapa
-	std::vector<std::vector<unsigned> > datos_; /*Datos que contiene el laberinto.
-	//En principio 0 es desocupado y 1 es ocupado, pero luego
-	250 es centro, 251 es completo, etc.
-	*/
 
+	/*!
+	 * \brief Atributo que contiene la altura del mapa (y)
+	 */
+	unsigned tamano_y_; //altura del mapa
+
+	/*!
+	 * \brief Matrix que contiene los datos.
+	 * Los datos se guardan en forma de unsigned, codificados según los define
+	 * que están arriba. Por ejemplo, el 350 sería la copa.
+	 */
+	std::vector<std::vector<unsigned> > datos_;
+
+	/*!
+	 * \brief Lugar donde Harry Potter empezaría a caminar.
+	 */
 	QPoint inicio_;
+
+	/*!
+	 * \brief Lugar donde se encuentra a copa
+	 */
 	QPoint final_;
-	//Imagenes
-	QImage centro_; //FIXME
+
+	//Cargar las imágenes en la clase
+	struct otros{
+		QImage completo_;
+		QImage cuatro_;
+		QImage unico_;
+		QImage vacio_;
+	} otros_;
+	//FIXME: Añadir resto de imagenes
 private:
-	void corregir_posicion(void); //Hacerlo si sobra tiempo. Se usa para determinar la dirección de los tiles.
-	bool existe_imagen(QString); //Saber si existe una imagen en una ruta determinada
-	void importar_imagenes(void); //revisar una por una las imagenes e importarlas a la clase.
-	void explora_vecinos_y_excava(QPoint, QPoint); //va explorando el laberinto y excavando las paredes de forma recursiva.
-	bool existe_alrededor(QPoint, unsigned, QPoint); //retornar verdadero si está alrededor el valor unsigned al menos una vez.
-	unsigned esta_la_copa_alrededor(QPoint); //devuelve un -1 si es un error
+	/*!
+	 * \brief Convetir los muros simples a muros complejos conectados
+	 * Sirve para corregir los muros, y convertirlos de simples muros cuadrados
+	 * a muros que se interconectan entre ellos usando esquinas, intersecciones,
+	 * etc. Hacerlo si sobra tiempo.
+	 */
+	void corregir_posicion(void);
+
+	/*!
+	 * \brief Se usa para saber si existe una determinada imagen en una ruta.
+	 * \param ruta Ruta en la que está localizada la imagen a comprobar.
+	 * \return Verdadero si existe, falso en otro caso.
+	 */
+	bool existe_imagen(QString ruta);
+
+	/*!
+	 * \brief Se usa para importar una a una las imágenes e incluirlas en la clase como QImage
+	 */
+	void importar_imagenes(void);
+
+	//DOCUMENTAME: va explorando el laberinto y excavando las paredes de forma recursiva.
+	void explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior);
+
+	//DOCUMENTAME: retornar verdadero si está alrededor el valor unsigned al menos una vez.
+	bool existe_alrededor(QPoint celda, unsigned valor, QPoint omitir);
+
+	//DOCUMENTAME: comprueba si la copa está en una casilla adyacente devuelve un -1 si es un error
+	unsigned esta_la_copa_alrededor(QPoint celda);
 public:
 	/*!
 	 * \brief Constructor vacío
@@ -73,7 +119,7 @@ public:
 	 * \param x Tamaño en x del mapa
 	 * \param y Tamaño en y del mapa
 	 */
-	mapa(unsigned,unsigned);
+	mapa(unsigned x ,unsigned y);
 
 	/*!
 	 * \brief Cambiar el tamaño del mapa
@@ -85,7 +131,7 @@ public:
 	/*!
 	 * \brief Generar el laberinto usando como inicio y final "inicio_", y "final_"
 	 */
-	void generar_laberinto();
+	void generar_laberinto(void);
 
 	/*!
 	 * \brief Colocar los setos aleatoriamente (sin forma de laberinto)
@@ -97,26 +143,26 @@ public:
 	 * \brief Colocar una cantidad de monstruos en el mapa
 	 * \param num Cantidad de monstruos
 	 */
-	void colocar_monstruos(unsigned);
+	void colocar_monstruos(unsigned cantidad_mon);
 
 	/*!
 	 * \brief Colocar la copa (la salida) en un punto determinado). Por defecto es la esquina inferior derecha.
 	 * \param Coordenadas de la copa
 	 */
-	void colocar_copa(QPoint);
+	void colocar_copa(QPoint celda);
 
 	/*!
 	 * \brief Colocar a harry en un punto determinado). Por defecto es la esquina superior izquierda.
 	 * \param Coordenadas de harry
 	 */
-	void colocar_harry(QPoint);
+	void colocar_harry(QPoint celda);
 
 	/*!
 	 * \brief Obtener la imagen que va en una determinada casilla
 	 * \param La casilla en cuestión
 	 * \return La imagen
 	 */
-	QImage get_tile(QPoint);
+	QImage get_tile(QPoint celda);
 
 	/*!
 	 * \brief Devuelve el tamaño en x del mapa

@@ -1,3 +1,10 @@
+/*!
+ * \file mapa.h
+ * \brief Contiene la definición de la clase "mapa"
+ * \author Daniel Ramos Acosta <alu0100843095@ull.edu.es>
+ * \date 9 de Octubre
+ */
+
 #ifndef MAPA_H
 #define MAPA_H
 
@@ -41,6 +48,12 @@
 #define MAPA_ID_COPA 350 //Final del mapa
 #define MAPA_ID_INICIO 351
 
+/*!
+ * \brief Clase mapa
+ * Proporciona una interfaz para poder manejar diversas funciones del mapa, como
+ * generar el laberinto, obtener tiles dependiendo de lo que haya, etc.
+ * \author Daniel Ramos Acosta <alu0100843095@ull.edu.es>
+ */
 class mapa
 {
 private:
@@ -126,7 +139,7 @@ public:
 	 * \param x Tamaño en x del mapa
 	 * \param y Tamaño en y del mapa
 	 */
-	void resize(unsigned,unsigned);
+	void resize(unsigned x,unsigned y);
 
 	/*!
 	 * \brief Generar el laberinto usando como inicio y final "inicio_", y "final_"
@@ -135,31 +148,31 @@ public:
 
 	/*!
 	 * \brief Colocar los setos aleatoriamente (sin forma de laberinto)
-	 * \param Porcentaje de ocupación del mapa de los setos
+	 * \param porcentaje Porcentaje de ocupación del mapa de los setos
 	 */
-	void generar_aleatorio(unsigned);
+	void generar_aleatorio(unsigned porcentaje);
 
 	/*!
 	 * \brief Colocar una cantidad de monstruos en el mapa
-	 * \param num Cantidad de monstruos
+	 * \param cantidad_mon Cantidad de monstruos
 	 */
 	void colocar_monstruos(unsigned cantidad_mon);
 
 	/*!
 	 * \brief Colocar la copa (la salida) en un punto determinado). Por defecto es la esquina inferior derecha.
-	 * \param Coordenadas de la copa
+	 * \param celda Coordenadas de la copa
 	 */
 	void colocar_copa(QPoint celda);
 
 	/*!
-	 * \brief Colocar a harry en un punto determinado). Por defecto es la esquina superior izquierda.
-	 * \param Coordenadas de harry
+	 * \brief Colocar a harry en un punto determinado. Por defecto es la esquina superior izquierda.
+	 * \param celda Coordenadas de harry
 	 */
 	void colocar_harry(QPoint celda);
 
 	/*!
 	 * \brief Obtener la imagen que va en una determinada casilla
-	 * \param La casilla en cuestión
+	 * \param celda La casilla en cuestión
 	 * \return La imagen
 	 */
 	QImage get_tile(QPoint celda);

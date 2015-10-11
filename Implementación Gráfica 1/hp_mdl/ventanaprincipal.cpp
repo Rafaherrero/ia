@@ -38,6 +38,13 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	mapa* el_mapa = new mapa(5,5);
 	el_mapa->generar_laberinto();
+
+	harry_potter harry_popotter;
+	harry_popotter.movimiento();
+}
+
+void VentanaPrincipal::set_texto_estado(QString estado_harry){
+	ui->estado_harry->setText(estado_harry);
 }
 
 VentanaPrincipal::~VentanaPrincipal()

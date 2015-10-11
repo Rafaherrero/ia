@@ -26,6 +26,8 @@ public:
     harry_potter();
 	QPoint get_posicion_harry();
 	void set_posicion_harry(QPoint ranas_de_chocolate);
+	void set_mana(unsigned mana_encontrado);
+	void set_vidas(unsigned vida_gastada);
 	void movimiento();
 	unsigned get_mana();
 	unsigned get_vidas();

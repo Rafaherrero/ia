@@ -23,6 +23,7 @@ class VentanaPrincipal : public QMainWindow
 public:
 	explicit VentanaPrincipal(QWidget *parent = 0);
 	~VentanaPrincipal();
+	void set_texto_estado(QString estado_harry);
 
 private:
 	Ui::VentanaPrincipal *ui;

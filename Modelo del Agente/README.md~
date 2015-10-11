@@ -20,6 +20,8 @@ Nuestro escenario se basa en la cuarta parte de la saga Harry Potter, El Cáliz 
 
 ## Agentes
 
+### Alfredito Junior
+
 ### Harry Potter
 Harry Potter, el niño que sobrevivió, tendrá que llegar hasta una copa dentro de un laberinto, en el cual deberá hacer frente a enemigos y sobrevivir a ellos.
 

@@ -230,6 +230,26 @@ unsigned& mapa::get_y(void)
 	return tamano_y_;
 }
 
+bool mapa::get_seto(QPoint celda)
+{
+	if(setos_.at(celda).valor_ == ID_MAPA_SI_HAY_SETO)
+		return true;
+	return false;
+}
+
+id_t mapa::get_entidad(QPoint celda)
+{
+	return entidades_.at(celda).valor_;
+}
+
+id_t mapa::get(QPoint celda)
+{
+	if(get_seto(celda) == ID_MAPA_SI_HAY_SETO)
+		return ID_GLOBAL_SETO_HAY;
+	//En otro caso
+	return get_entidad(celda);
+}
+
 QImage mapa::get_tile_seto(QPoint celda)
 {
 	/*

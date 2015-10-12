@@ -28,5 +28,8 @@
 
 typedef unsigned id_t;
 
+#define TAMANO_X 35
+#define TAMANO_Y 15
+
 #endif // COMMON
 

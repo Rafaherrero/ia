@@ -7,17 +7,18 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
-	//mapa* el_mapa = new mapa(5,5);
-	//el_mapa->generar_laberinto();
+	mapa* el_mapa = new mapa(5,5);
+	el_mapa->generar_laberinto();
 
 	ui->setupUi(this);
-
+	this->setMaximumSize((TAMANO_X*18)+29,(TAMANO_Y*18)+84);
 	scene = new QGraphicsScene(this);
 	//scene->setSceneRect(0,0,64,64);
     //ui->grafico_mapa->resize(67,67);
-	ui->grafico_mapa->resize(1800,1800);
+	ui->grafico_mapa->resize(TAMANO_X*18,TAMANO_Y*18);
 	ui->grafico_mapa->setScene(scene);
-	scene->setSceneRect(0, 0, 1800, 1800);
+	scene->setSceneRect(0, 0, TAMANO_X*18, TAMANO_Y*18);
+	ui->grafico_mapa->setMaximumSize((TAMANO_X*18)+3,(TAMANO_Y*18)+3);
 
 	QImage image_seto(RUTA_SETO);
 	QImage image_cesped(RUTA_CESPED);

@@ -77,7 +77,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->adjustSize();
 
 
-
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){

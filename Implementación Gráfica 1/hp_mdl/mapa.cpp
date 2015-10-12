@@ -1,5 +1,132 @@
 #include "mapa.h"
 
+/*
+
+class tabla_t{
+private:
+	std::vector<std::vector<nodo_mapa> > tabla_;
+	unsigned tamano_x_;
+	unsigned tamano_y_;
+public:
+	tabla_t(void);
+	tabla_t(unsigned x, unsigned y);
+	void resize(unsigned x, unsigned y);
+	nodo_mapa& at(QPoint coord);
+	nodo_mapa& at_dir(QPoint coord, id_t dir);
+};
+
+*/
+
+tabla_t::tabla_t(void):
+	tamano_x_(0),
+	tamano_y_(0)
+{}
+
+
+tabla_t::tabla_t(unsigned x, unsigned y):
+	tamano_x_(x),
+	tamano_y_(y)
+{
+	tabla_.resize(x);
+	for(auto &i : tabla_)
+		i.resize(y);
+	actualizar_puntos();
+}
+
+tabla_t::tabla_t(unsigned x, unsigned y, id_t val):
+	tamano_x_(x),
+	tamano_y_(y)
+{
+	tabla_.resize(x);
+	for(auto &i : tabla_)
+		i.resize(y);
+	for(auto &i : tabla_)
+		for(auto &j : i)
+			j.valor_ = val;
+	actualizar_puntos();
+}
+
+void tabla_t::actualizar_puntos(void)
+{
+	for(unsigned i = 0; i < tamano_x_; i++){
+		for(unsigned j = 0; j < tamano_y_; j++){
+			tabla_[i][j].coord_.setX(i);
+			tabla_[i][j].coord_.setY(j);
+		}
+	}
+}
+
+void tabla_t::resize(unsigned x, unsigned y)
+{
+	tabla_.resize(x);
+	for(auto &i : tabla_)
+		i.resize(y);
+	actualizar_puntos();
+}
+
+void tabla_t::desplazar_punto(QPoint& punto, id_t dir)
+{
+	switch(dir){
+	case ID_ORIENTACION_ARRIBA: punto.ry()++; break;
+	case ID_ORIENTACION_ABAJO: punto.ry()--; break;
+	case ID_ORIENTACION_DERECHA: punto.rx()++; break;
+	case ID_ORIENTACION_IZQUIERDA: punto.rx()--; break;
+	case ID_ORIENTACION_ABA_IZQ: punto.ry()--; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_IZQ: punto.ry()++; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_DER: punto.ry()++; punto.rx()++; break;
+	case ID_ORIENTACION_ABA_DER: punto.ry()--; punto.rx()++; break;
+	}
+}
+
+nodo_mapa& tabla_t::at(QPoint coord)
+{
+	return tabla_[coord.x()][coord.y()];
+}
+
+nodo_mapa& tabla_t::at_dir(QPoint coord, id_t dir)
+{
+	desplazar_punto(coord, dir);
+	return tabla_[coord.x()][coord.y()];
+}
+
+unsigned tabla_t::t_x(void)
+{
+	return tamano_x_;
+}
+
+unsigned tabla_t::t_y(void)
+{
+	return tamano_y_;
+}
+
+void tabla_t::clear(id_t val)
+{
+	for(auto &i : tabla_)
+		for(auto &j : i)
+			j.valor_ = val;
+}
+
+bool tabla_t::alcanzable(QPoint celda)
+{
+	return (celda.x() > 0 && celda.y() > 0) && (celda.x() < tamano_x_ && celda.y() < tamano_y_);
+}
+
+bool tabla_t::alcanzable(QPoint celda, id_t dir)
+{
+	desplazar_punto(celda, dir);
+
+	return alcanzable(celda);
+}
+
+void tabla_t::imprime(std::ostream& os)
+{
+	for(auto &i : tabla_){
+		for(auto &j : i)
+			os << j.valor_ << " ";
+		os << std::endl;
+	}
+}
+
 mapa::mapa(void):
 	tamano_x_(0),
 	tamano_y_(0),
@@ -10,11 +137,10 @@ mapa::mapa(void):
 
 mapa::mapa(unsigned x, unsigned y):
 	tamano_x_(x),
-	tamano_y_(y)
+	tamano_y_(y),
+	setos_(x,y, ID_MAPA_OTROS_VACIO),
+	entidades_(x,y, ID_MAPA_OTROS_VACIO)
 {
-	datos_.resize(x);
-	for(auto &i : datos_)
-		i.resize(y, MAPA_ID_OTROS_VACIO);
 }
 
 bool mapa::existe_imagen(QString ruta)
@@ -31,96 +157,55 @@ bool mapa::existe_imagen(QString ruta)
 
 void mapa::importar_imagenes(void)
 {
-	//FIXME
+	//TODO
 }
 
 void mapa::generar_laberinto(void)
 {
-	//Bloquear todo
-	for(auto &i : datos_)
-		for(auto &j : i)
-			j = MAPA_ID_SI_HAY_SETO;
+	//Inicializar datos
+	setos_.clear(ID_GENERACION_VACIO);
 
-	QPoint dummy(0,0);
-	explora_vecinos_y_excava(dummy, dummy);
+	explora_vecinos_y_excava(inicio_);
 
-	for(auto &i : datos_){
-		for(auto &j : i)
-			std::cout << j << " ";
-		std::cout << std::endl;
-	}
+	//TODO: Quitar el chivato este
+	setos_.imprime(std::cout);
 }
 
-void mapa::explora_vecinos_y_excava(QPoint punto_actual, QPoint punto_anterior)
+void mapa::explora_vecinos_y_excava(QPoint celda)
 {
-	//Revisar que no está caerca del borde
-	if(punto_actual.x() == 0)
-		return;
-	if(punto_actual.x() == (int)(tamano_x_-1))
-		return;
-	if(punto_actual.y() == 0)
-		return;
-	if(punto_actual.y() == (int)(tamano_y_-1))
-		return;
-
-	if(existe_alrededor(punto_actual, MAPA_ID_NO_HAY_SETO, punto_anterior))
-		return;
-
-	unsigned siguiente_a_explorar;
-
-	siguiente_a_explorar = qrand()%4;
-
-	switch(esta_la_copa_alrededor(punto_actual)){ //Si estamos al lado de la copa, ocuparla inmediatamente
-	case MAPA_ID_ARRIBA: siguiente_a_explorar = MAPA_ID_ARRIBA; break;
-	case MAPA_ID_ABAJO: siguiente_a_explorar = MAPA_ID_ABAJO; break;
-	case MAPA_ID_DERECHA: siguiente_a_explorar = MAPA_ID_DERECHA; break;
-	case MAPA_ID_IZQUIERDA: siguiente_a_explorar = MAPA_ID_IZQUIERDA; break;
-	default: break;
+	setos_.at(celda).valor_ = ID_GENERACION_VISITADO;
+	unsigned explorar = 0;
+	while(tiene_vecinos_sin_visitar(celda)){
+		explorar = qrand()%4;
+		if(setos_.at_dir(celda, explorar).valor_ == ID_GENERACION_VACIO)
+			explora_vecinos_y_excava(setos_.at_dir(celda, explorar).coord_);
 	}
-
-	datos_[punto_actual.x()][punto_actual.y()] = MAPA_ID_NO_HAY_SETO;
-
-
 
 	return;
 }
 
-bool mapa::existe_alrededor(QPoint celda, unsigned valor, QPoint omitir)
+bool mapa::tiene_vecinos_sin_visitar(QPoint celda)
 {
-	if(datos_[celda.x()+1][celda.y()] == valor)
-		if(celda.x()+1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
-			return true;
-	if(datos_[celda.x()-1][celda.y()] == valor)
-		if(celda.x()-1 != omitir.x() && celda.y() == omitir.y())//FIXME, LO DEJE AQUI
-			return true;
-	if(datos_[celda.x()][celda.y()-1] == valor)
-		if(celda.x() != omitir.x() && celda.y()-1 == omitir.y())//FIXME, LO DEJE AQUI
-			return true;
-	if(datos_[celda.x()][celda.y()+1] == valor)
+	//Hay que verificar que, en los cuatro sentidos, es alcanzable y además no ha sido visitada.
+	if(setos_.alcanzable(celda, ID_ORIENTACION_ARRIBA) && setos_.at_dir(celda, ID_ORIENTACION_ARRIBA).valor_ == ID_GENERACION_VACIO)
+		return true;
+	if(setos_.alcanzable(celda, ID_ORIENTACION_ABAJO) && setos_.at_dir(celda, ID_ORIENTACION_ABAJO).valor_ == ID_GENERACION_VACIO)
+		return true;
+	if(setos_.alcanzable(celda, ID_ORIENTACION_DERECHA) && setos_.at_dir(celda, ID_ORIENTACION_DERECHA).valor_ == ID_GENERACION_VACIO)
+		return true;
+	if(setos_.alcanzable(celda, ID_ORIENTACION_IZQUIERDA) && setos_.at_dir(celda, ID_ORIENTACION_IZQUIERDA).valor_ == ID_GENERACION_VACIO)
 		return true;
 	return false;
 }
 
-unsigned mapa::esta_la_copa_alrededor(QPoint celda)
-{
-	if(datos_[celda.x()+1][celda.y()] == MAPA_ID_COPA)
-		return MAPA_ID_DERECHA;
-	if(datos_[celda.x()-1][celda.y()] == MAPA_ID_COPA)
-		return MAPA_ID_IZQUIERDA;
-	if(datos_[celda.x()][celda.y()-1] == MAPA_ID_COPA)
-		return MAPA_ID_ABAJO;
-	if(datos_[celda.x()][celda.y()+1] == MAPA_ID_COPA)
-		return MAPA_ID_ARRIBA;
-}
-
 void mapa::generar_aleatorio(unsigned porcentaje)
 {
-	//FIXME
+	//TODO
 }
 
 void mapa::colocar_monstruos(unsigned cantidad_mon)
 {
-	//FIXME
+	//TODO
 }
 
 unsigned& mapa::get_x(void)
@@ -133,7 +218,7 @@ unsigned& mapa::get_y(void)
 	return tamano_y_;
 }
 
-QImage mapa::get_tile(QPoint celda)
+QImage mapa::get_tile_seto(QPoint celda)
 {
 	/*
 	QString tile = "img/grass_wall.png";
@@ -146,9 +231,9 @@ QImage mapa::get_tile(QPoint celda)
 	return image;
 
 	FIXME: Esto es para cargar una imagen.*/
-	switch (datos_[celda.x()][celda.y()]) {
-	case MAPA_ID_OTROS_COMPLETO: return otros_.completo_; break;
-	default: break;
+	switch (setos_.at(celda).valor_) {
+		case ID_MAPA_OTROS_COMPLETO: return imagenes_.otros_.completo_; break;
+		default: break;
 	}
-	return otros_.completo_;
+	return imagenes_.otros_.completo_;
 }

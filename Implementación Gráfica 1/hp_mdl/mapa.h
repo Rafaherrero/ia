@@ -61,8 +61,6 @@
 #define ID_GENERACION_MARCADO 103
 #define ID_GENERACION_VACIO 100
 
-typedef unsigned id_t;
-
 struct nodo_mapa{
 	QPoint coord_;
 	id_t valor_;
@@ -217,6 +215,20 @@ public:
 	 * \return La imagen
 	 */
 	QImage get_tile_entidad(QPoint celda);
+
+	/*!
+	 * \brief Se usa para saber si en una celda existe un seto, o no.
+	 * \param celda La casilla en cuestión
+	 * \return Verdadero si hay un seto, falso si no
+	 */
+	bool get_seto(QPoint celda);//Demandado por rafa y airam
+
+	/*!
+	 * \brief Se usa para devolver la ID de la entidad de una casilla.
+	 * \param celda La casilla en cuestión
+	 * \return Devuelve el ID de la entidad
+	 */
+	id_t get_entidad(QPoint celda); //Demandado por rafa y airam
 
 	/*!
 	 * \brief Se usa para limpiar una casilla si hay un monstruo o una grajea

@@ -7,7 +7,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
-	mapa* el_mapa = new mapa(5,5);
+	mapa* el_mapa = new mapa(TAMANO_X,TAMANO_Y);
 	el_mapa->generar_laberinto();
 
 	ui->setupUi(this);
@@ -38,9 +38,20 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 		conti=0;
 		for (int i=0;(i<TAMANO_Y*18);i=i+18){
 			QPoint posicion_objeto(conti,contj);
-			tipo_celda = el_mapa->get_entidad(posicion_objeto);
-			if (tipo_celda==)
+			if (el_mapa->get_seto(posicion_objeto)){
+				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
+				objeto[conti][contj]-> setOffset(i,j);
+				scene->addItem(objeto[conti][contj]);
+				conti++;
+			}
+			else{
+				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+				objeto[conti][contj]-> setOffset(i,j);
+				scene->addItem(objeto[conti][contj]);
+				conti++;
+			}
 		}
+		contj++;
 	}
 
 		//			if (cont>99&&cont<200){

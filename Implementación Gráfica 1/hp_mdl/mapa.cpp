@@ -1,21 +1,8 @@
 #include "mapa.h"
 
-/*
-
-class tabla_t{
-private:
-	std::vector<std::vector<nodo_mapa> > tabla_;
-	unsigned tamano_x_;
-	unsigned tamano_y_;
-public:
-	tabla_t(void);
-	tabla_t(unsigned x, unsigned y);
-	void resize(unsigned x, unsigned y);
-	nodo_mapa& at(QPoint coord);
-	nodo_mapa& at_dir(QPoint coord, id_t dir);
-};
-
-*/
+//========================================================
+//                   Clase tabla_t
+//========================================================
 
 tabla_t::tabla_t(void):
 	tamano_x_(0),
@@ -108,7 +95,8 @@ void tabla_t::clear(id_t val)
 
 bool tabla_t::alcanzable(QPoint celda)
 {
-	return (celda.x() > 0 && celda.y() > 0) && (celda.x() < tamano_x_ && celda.y() < tamano_y_);
+	bool expr = (celda.x() > 0 && celda.y() > 0) && (celda.x() < tamano_x_ && celda.y() < tamano_y_);
+	return expr;
 }
 
 bool tabla_t::alcanzable(QPoint celda, id_t dir)
@@ -126,6 +114,10 @@ void tabla_t::imprime(std::ostream& os)
 		os << std::endl;
 	}
 }
+
+//========================================================
+//                   Clase mapa
+//========================================================
 
 mapa::mapa(void):
 	tamano_x_(0),
@@ -171,31 +163,51 @@ void mapa::generar_laberinto(void)
 	setos_.imprime(std::cout);
 }
 
-void mapa::explora_vecinos_y_excava(QPoint celda)
+void mapa::explora_vecinos_y_excava(QPoint celda) //TODO: Comprobar que funciona
 {
 	setos_.at(celda).valor_ = ID_GENERACION_VISITADO;
-	unsigned explorar = 0;
-	while(tiene_vecinos_sin_visitar(celda)){
-		explorar = qrand()%4;
-		if(setos_.at_dir(celda, explorar).valor_ == ID_GENERACION_VACIO)
-			explora_vecinos_y_excava(setos_.at_dir(celda, explorar).coord_);
-	}
+	while(existe_casilla_ocupable(celda))
+		explora_vecinos_y_excava(casilla_ocupable(celda));
 
 	return;
 }
 
-bool mapa::tiene_vecinos_sin_visitar(QPoint celda)
+bool mapa::existe_casilla_ocupable(QPoint celda)
 {
-	//Hay que verificar que, en los cuatro sentidos, es alcanzable y además no ha sido visitada.
-	if(setos_.alcanzable(celda, ID_ORIENTACION_ARRIBA) && setos_.at_dir(celda, ID_ORIENTACION_ARRIBA).valor_ == ID_GENERACION_VACIO)
-		return true;
-	if(setos_.alcanzable(celda, ID_ORIENTACION_ABAJO) && setos_.at_dir(celda, ID_ORIENTACION_ABAJO).valor_ == ID_GENERACION_VACIO)
-		return true;
-	if(setos_.alcanzable(celda, ID_ORIENTACION_DERECHA) && setos_.at_dir(celda, ID_ORIENTACION_DERECHA).valor_ == ID_GENERACION_VACIO)
-		return true;
-	if(setos_.alcanzable(celda, ID_ORIENTACION_IZQUIERDA) && setos_.at_dir(celda, ID_ORIENTACION_IZQUIERDA).valor_ == ID_GENERACION_VACIO)
-		return true;
-	return false;
+	QPoint error(-1, -1);
+	if(casilla_ocupable(celda) == error)
+		return false;
+	return true;
+}
+
+QPoint mapa::casilla_ocupable(QPoint celda)
+{
+	unsigned desplazamiento = qrand();
+	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
+		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
+		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			QPoint revisar = setos_.at_dir(celda, i_e).coord_;
+			if(!tienes_adyacentes(revisar))
+				return(revisar);
+			//Si tiene adyacentes, mirar en otra dirección
+		}
+	}
+	QPoint dummy(-1,-1); //Si no tiene adyacentes, devolver un nulo (-1,-1)
+	return dummy;
+}
+
+bool mapa::tienes_adyacentes(QPoint celda)
+{
+	unsigned cantidad_adyacentes = 0;
+	for(unsigned i = 0; i < 8; i++){ //por cada dirección (incluyendo las esquinas)
+		if(setos_.alcanzable(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			if(setos_.at_dir(celda, i).valor_ == ID_GENERACION_VISITADO)
+				cantidad_adyacentes++;
+			if(cantidad_adyacentes > 1)
+				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
+		}
+	}
+	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
 }
 
 void mapa::generar_aleatorio(unsigned porcentaje)
@@ -232,8 +244,8 @@ QImage mapa::get_tile_seto(QPoint celda)
 
 	FIXME: Esto es para cargar una imagen.*/
 	switch (setos_.at(celda).valor_) {
-		case ID_MAPA_OTROS_COMPLETO: return imagenes_.otros_.completo_; break;
-		default: break;
+	case ID_MAPA_OTROS_COMPLETO: return imagenes_.otros_.completo_; break;
+	default: break;
 	}
 	return imagenes_.otros_.completo_;
 }

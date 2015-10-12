@@ -227,6 +227,13 @@ public:
 	id_t get_entidad(QPoint celda); //Demandado por rafa y airam
 
 	/*!
+	 * \brief Se usa para devolver la mezcla de lo que haya en una casilla
+	 * \param celda La casilla en cuestión
+	 * \return Devuelve el ID de lo que sea
+	 */
+	id_t get(QPoint celda);
+
+	/*!
 	 * \brief Se usa para contar una concreta especie de entidad
 	 * \param entidad la entidad en cuestión
 	 * \return devuelve el número de coincidencias

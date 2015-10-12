@@ -132,19 +132,15 @@ private:
 	//Cargar las imágenes en la clase
 	imagenes_t imagenes_;
 private:
-	//Metodos de acceso a la tabla
+	void corregir_posicion(void); //Usado para convertir de hay seto o no hay seto, a esquinas e intersecciones
+	bool existe_imagen(QString ruta); //Comprobar si existe una determinada imagen en la ruta especificada
+	void importar_imagenes(void); //Importar todos los sprites a la clase.
 
-	void corregir_posicion(void);
-	bool existe_imagen(QString ruta);
-	void importar_imagenes(void);
-
-	void explora_vecinos_y_excava(QPoint celda);
-
-	bool tiene_vecinos_sin_visitar(QPoint celda);
-
-	unsigned dame_uno_ocupable(QPoint celda);
-
-	bool tienes_adyacentes(QPoint celda, QPoint ignorar);
+	//Métodos para crear el laberinto
+	void explora_vecinos_y_excava(QPoint celda); //Método recursivo que crea el laberinto
+	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
+	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
+	bool tienes_adyacentes(QPoint celda); //Devuelve verdadero si tiene adyacentes, falso si no.
 
 public:
 	/*!
@@ -240,6 +236,7 @@ public:
 	/*!
 	 * \brief Se usa para limpiar una casilla si hay un monstruo o una grajea
 	 * \param Celda a limpiar
+	 * \return devuelve el número de esas entidades encontradas
 	 */
 	void limpiar_casilla(QPoint celda);
 

@@ -231,6 +231,13 @@ public:
 	id_t get_entidad(QPoint celda); //Demandado por rafa y airam
 
 	/*!
+	 * \brief Se usa para contar una concreta especie de entidad
+	 * \param entidad la entidad en cuestión
+	 * \return devuelve el número de coincidencias
+	 */
+	unsigned contar_entidades(id_t entidad); //Demandado por rafa
+
+	/*!
 	 * \brief Se usa para limpiar una casilla si hay un monstruo o una grajea
 	 * \param Celda a limpiar
 	 */

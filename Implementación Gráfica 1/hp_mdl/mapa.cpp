@@ -182,13 +182,14 @@ bool mapa::existe_casilla_ocupable(QPoint celda)
 
 QPoint mapa::casilla_ocupable(QPoint celda)
 {
-	unsigned desplazamiento = qrand();
+	unsigned desplazamiento = random();
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
 		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
 		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			QPoint revisar = setos_.at_dir(celda, i_e).coord_;
-			if(!tienes_adyacentes(revisar))
-				return(revisar);
+			if(setos_.at(revisar).valor_ == ID_GENERACION_VACIO)
+				if(!tienes_adyacentes(revisar))
+					return(revisar);
 			//Si tiene adyacentes, mirar en otra dirección
 		}
 	}
@@ -208,6 +209,25 @@ bool mapa::tienes_adyacentes(QPoint celda)
 		}
 	}
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
+}
+
+unsigned long mapa::mix(unsigned long a, unsigned long b, unsigned long c)
+{
+	a=a-b;  a=a-c;  a=a^(c >> 13);
+	b=b-c;  b=b-a;  b=b^(a << 8);
+	c=c-a;  c=c-b;  c=c^(b >> 13);
+	a=a-b;  a=a-c;  a=a^(c >> 12);
+	b=b-c;  b=b-a;  b=b^(a << 16);
+	c=c-a;  c=c-b;  c=c^(b >> 5);
+	a=a-b;  a=a-c;  a=a^(c >> 3);
+	b=b-c;  b=b-a;  b=b^(a << 10);
+	c=c-a;  c=c-b;  c=c^(b >> 15);
+	return c;
+}
+
+unsigned long mapa::random(void)
+{
+	return mix(clock(), time(NULL), getpid());
 }
 
 void mapa::generar_aleatorio(unsigned porcentaje)

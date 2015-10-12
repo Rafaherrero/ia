@@ -12,6 +12,9 @@
 #include <iostream>
 #include <QImage>
 #include <QPoint>
+#include <ctime>
+#include <unistd.h>
+#include <cstdlib>
 
 #include "exceptions.h"
 #include "common.h"
@@ -141,6 +144,10 @@ private:
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
 	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
 	bool tienes_adyacentes(QPoint celda); //Devuelve verdadero si tiene adyacentes, falso si no.
+
+	//Generar numeros aleatorios
+	unsigned long mix(unsigned long a, unsigned long b, unsigned long c);
+	unsigned long random(void);
 
 public:
 	/*!

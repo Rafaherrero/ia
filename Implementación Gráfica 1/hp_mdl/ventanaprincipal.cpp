@@ -36,7 +36,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
 
-	mapa* el_mapa = new mapa(5,5);
+	mapa* el_mapa = new mapa(6,6);
 	el_mapa->generar_laberinto();
 }
 

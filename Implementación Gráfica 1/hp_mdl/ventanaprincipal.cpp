@@ -27,60 +27,56 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QImage image_dementor(RUTA_DEMENTOR);
 	QImage image_gragea(RUTA_GRAGEA);
 
-	QGraphicsPixmapItem* harry = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
-	QGraphicsPixmapItem* copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
-	//QImage imagepared(pared);
+	QGraphicsPixmapItem* objeto[TAMANO_X][TAMANO_Y];
 
-	//QGraphicsPixmapItem* pared = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-	//QGraphicsPixmapItem* item2 = new QGraphicsPixmapItem(QPixmap::fromImage(imagepared));
-	QGraphicsPixmapItem* seto[10000];
-	QGraphicsPixmapItem* cesped[10000];
-	QGraphicsPixmapItem* gragea[10000];
-	QGraphicsPixmapItem* dementor[10000];
+	unsigned conti=0;
+	unsigned contj=0;
+	QPoint posicion_objeto(0,0);
+	id_t tipo_celda;
 
-	unsigned cont=0;
-
-	for (int i=0;(i<1800);i=i+18){
-		for (int j=0;(j<1800);j=j+18){
-			if (cont>99&&cont<200){
-				if (cont==100){
-					cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
-					cesped[cont]->setOffset(i,j);
-					scene->addItem(cesped[cont]);
-					harry->setOffset(i,j);
-					scene->addItem(harry);
-					cont++;
-				}
-				else{
-				cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
-				cesped[cont]->setOffset(i,j);
-				scene->addItem(cesped[cont]);
-				cont++;
-				}
-			}
-			else{
-			seto[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
-			seto[cont]->setOffset(i,j);
-			scene->addItem(seto[cont]);
-			cont++;
-			}
+	for (int j=0;(j<TAMANO_X*18);j=j+18){
+		conti=0;
+		for (int i=0;(i<TAMANO_Y*18);i=i+18){
+			QPoint posicion_objeto(conti,contj);
+			tipo_celda = el_mapa->get_entidad(posicion_objeto);
+			if (tipo_celda==)
 		}
 	}
-	//ui->grafico_mapa->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio );
 
+		//			if (cont>99&&cont<200){
+		//				if (cont==100){
+		//					cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+		//					cesped[cont]->setOffset(i,j);
+		//					scene->addItem(cesped[cont]);
+		//					harry->setOffset(i,j);
+		//					scene->addItem(harry);
+		//					cont++;
+		//				}
+		//				else{
+		//				cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+		//				cesped[cont]->setOffset(i,j);
+		//				scene->addItem(cesped[cont]);
+		//				cont++;
+		//				}
+		//			}
+		//			else{
+		//			seto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
+		//			seto[conti][contj]->setOffset(i,j);
+		//			scene->addItem(seto[conti][contj]);
+		//			cont++;
+		//			}
+		//			contj++;
+		//		}
+		//		conti++;
 
-	//scene->addItem(item2);
-
-    //ui->grafico_mapa->setGeometry(10,0,tamanox*16,tamanoy*16);
-	//ui->grafico_mapa->show();
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
-
 
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
 	ui->estado_harry->setText(estado_harry);
+	ui->estado_harry->adjustSize();
 }
 
 VentanaPrincipal::~VentanaPrincipal()

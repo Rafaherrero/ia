@@ -7,6 +7,7 @@
 #include <mapa.h>
 #include <ventanaprincipal.h>
 #include <harry_potter.h>
+#include <unistd.h>
 
 #define ID_GLOBAL_NULO 0
 #define ID_GLOBAL_HARRY_POTTER 1
@@ -28,7 +29,7 @@
 
 typedef unsigned id_t;
 
-#define TAMANO_X 35
+#define TAMANO_X 10
 #define TAMANO_Y 15
 
 #endif // COMMON

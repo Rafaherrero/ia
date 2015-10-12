@@ -36,8 +36,8 @@ void harry_potter::movimiento(){
 	//while (get_vidas()>0&&get_vidas()<=3){
 	//set_posicion_harry (clase_airam.movimiento_harry());
 //}
-	VentanaPrincipal harry;
-	if (get_vidas()>0&&get_vidas()<=3){
-		harry.set_texto_estado("¡¡¡¡Harry ha encontrado la copa!!!!");
-	}
+//	VentanaPrincipal harry;
+//	if (get_vidas()>0&&get_vidas()<=3){
+//		harry.set_texto_estado("¡¡¡¡Harry ha encontrado la copa!!!!");
+//	}
 }

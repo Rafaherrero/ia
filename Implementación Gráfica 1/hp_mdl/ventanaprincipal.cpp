@@ -7,6 +7,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
+	mapa* el_mapa = new mapa(5,5);
+	el_mapa->generar_laberinto();
+
 	ui->setupUi(this);
 
 	scene = new QGraphicsScene(this);
@@ -16,27 +19,51 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, 1800, 1800);
 
-	QString filename = "img/pared.png";
+	QString png_pared = "img/Pared_(definitivo).png";
+	QString png_cesped = "img/Cesped_(definitivo).png";
+	QString png_harry = "img/Harry_Popotter_(definitivo).png";
 	//QString pared = "recursos/img/Pared_(definitivo).png";
 
 	//if (!fileExists(filename))
 		//std::cerr << "No existe esa ruta" << std::endl;
 
-	QImage image(filename);
+	QImage image_pared(png_pared);
+	QImage image_cesped(png_cesped);
+	QImage image_harry(png_harry);
 	//QImage imagepared(pared);
 
 	//QGraphicsPixmapItem* pared = new QGraphicsPixmapItem(QPixmap::fromImage(image));
 	//QGraphicsPixmapItem* item2 = new QGraphicsPixmapItem(QPixmap::fromImage(imagepared));
-	QGraphicsPixmapItem* pared1[10000];
+	QGraphicsPixmapItem* pared[10000];
+	QGraphicsPixmapItem* cesped[10000];
+	QGraphicsPixmapItem* harry[10000];
 	unsigned cont=0;
 
 	for (int i=0;(i<1800);i=i+18){
 		for (int j=0;(j<1800);j=j+18){
-			pared1[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-			pared1[cont]->setOffset(i,j);
-			scene->addItem(pared1[cont]);
-			std::cout << cont << " ";
+			if (cont>99&&cont<200){
+				if (cont==100){
+					cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+					cesped[cont]->setOffset(i,j);
+					scene->addItem(cesped[cont]);
+					harry[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
+					harry[cont]->setOffset(i,j);
+					scene->addItem(harry[cont]);
+					cont++;
+				}
+				else{
+				cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+				cesped[cont]->setOffset(i,j);
+				scene->addItem(cesped[cont]);
+				cont++;
+				}
+			}
+			else{
+			pared[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_pared));
+			pared[cont]->setOffset(i,j);
+			scene->addItem(pared[cont]);
 			cont++;
+			}
 		}
 	}
 	//ui->grafico_mapa->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio );
@@ -49,8 +76,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
 
-	mapa* el_mapa = new mapa(5,5);
-	el_mapa->generar_laberinto();
+
 
 }
 

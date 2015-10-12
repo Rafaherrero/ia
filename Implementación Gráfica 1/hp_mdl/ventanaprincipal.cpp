@@ -7,8 +7,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
-	mapa* el_mapa = new mapa(5,5);
-	el_mapa->generar_laberinto();
+	//mapa* el_mapa = new mapa(5,5);
+	//el_mapa->generar_laberinto();
 
 	ui->setupUi(this);
 
@@ -19,24 +19,24 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, 1800, 1800);
 
-	QString png_pared = "img/Pared_(definitivo).png";
-	QString png_cesped = "img/Cesped_(definitivo).png";
-	QString png_harry = "img/Harry_Popotter_(definitivo).png";
-	//QString pared = "recursos/img/Pared_(definitivo).png";
+	QImage image_seto(RUTA_SETO);
+	QImage image_cesped(RUTA_CESPED);
+	QImage image_harry(RUTA_HARRY);
+	QImage image_copa(RUTA_COPA);
+	QImage image_dementor(RUTA_DEMENTOR);
+	QImage image_gragea(RUTA_GRAGEA);
 
-	//if (!fileExists(filename))
-		//std::cerr << "No existe esa ruta" << std::endl;
-
-	QImage image_pared(png_pared);
-	QImage image_cesped(png_cesped);
-	QImage image_harry(png_harry);
+	QGraphicsPixmapItem* harry = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
+	QGraphicsPixmapItem* copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
 	//QImage imagepared(pared);
 
 	//QGraphicsPixmapItem* pared = new QGraphicsPixmapItem(QPixmap::fromImage(image));
 	//QGraphicsPixmapItem* item2 = new QGraphicsPixmapItem(QPixmap::fromImage(imagepared));
-	QGraphicsPixmapItem* pared[10000];
+	QGraphicsPixmapItem* seto[10000];
 	QGraphicsPixmapItem* cesped[10000];
-	QGraphicsPixmapItem* harry[10000];
+	QGraphicsPixmapItem* gragea[10000];
+	QGraphicsPixmapItem* dementor[10000];
+
 	unsigned cont=0;
 
 	for (int i=0;(i<1800);i=i+18){
@@ -46,9 +46,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 					cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
 					cesped[cont]->setOffset(i,j);
 					scene->addItem(cesped[cont]);
-					harry[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
-					harry[cont]->setOffset(i,j);
-					scene->addItem(harry[cont]);
+					harry->setOffset(i,j);
+					scene->addItem(harry);
 					cont++;
 				}
 				else{
@@ -59,9 +58,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 				}
 			}
 			else{
-			pared[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_pared));
-			pared[cont]->setOffset(i,j);
-			scene->addItem(pared[cont]);
+			seto[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
+			seto[cont]->setOffset(i,j);
+			scene->addItem(seto[cont]);
 			cont++;
 			}
 		}

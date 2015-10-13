@@ -47,6 +47,7 @@ void mapa::generar_laberinto(void)
 	//TODO: Quitar el chivato este
 	setos_.imprime(std::cout);
 	std::cout << "Corrigiendo las posiciones" << std::endl;
+	terminar_generar();
 	corregir_posiciones();
 	setos_.imprime(std::cout);
 }
@@ -78,7 +79,7 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 			id_t comp = setos_.at(revisar);
 			if(comp == ID_GENERACION_VACIO && (comp != ID_GENERACION_VISITADO) && (comp != ID_GENERACION_MARCADO)){
 				std::cout << "Vamos a revisar (" << celda.x() << ", " << celda.y() << ")" << std::endl;
-				if(!tienes_adyacentes(revisar))
+				if(!tienes_adyacentes(revisar, i_e))
 					return(revisar);
 			}
 			//Si tiene adyacentes, mirar en otra dirección
@@ -88,8 +89,36 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 	return dummy;
 }
 
-bool mapa::tienes_adyacentes(QPoint celda) //FIXME
+bool mapa::tienes_adyacentes(QPoint celda, unsigned origen) //FIXME
 {
+	unsigned desplazamiento = 0;
+	switch (origen) {
+	case ID_ORIENTACION_ARRIBA:
+		desplazamiento+=4;
+		break;
+	case ID_ORIENTACION_DERECHA:
+		desplazamiento+=6;
+		break;
+	case ID_ORIENTACION_IZQUIERDA:
+		desplazamiento+=2;
+		break;
+	default:
+		break;
+	}
+
+	unsigned cantidad_adyacentes = 0;
+	for(unsigned i = 0; i < 6; i++){ //por cada dirección (incluyendo las esquinas)
+		std::cout << "Vas a mirar a: " << convertir_reloj(i) << std::endl;
+		QPoint mirando = setos_.dir(celda, convertir_reloj(i+desplazamiento));
+		if(setos_.alcanzable(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
+				cantidad_adyacentes++;
+			if(cantidad_adyacentes > 1)
+				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
+		}
+	}
+	return false;
+	/*
 	unsigned cantidad_adyacentes = 0;
 	for(unsigned i = 0; i < 4; i++){ //por cada dirección (incluyendo las esquinas)
 		QPoint mirando = setos_.dir(celda, i);
@@ -101,6 +130,36 @@ bool mapa::tienes_adyacentes(QPoint celda) //FIXME
 		}
 	}
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
+	*/
+}
+
+id_t mapa::convertir_reloj(unsigned i)
+{
+	i = i % 8;
+	id_t final;
+	switch(i){
+	case 0: final = ID_ORIENTACION_DERECHA; break;
+	case 1: final = ID_ORIENTACION_ABA_DER; break;
+	case 2: final = ID_ORIENTACION_ABAJO; break;
+	case 3: final = ID_ORIENTACION_ABA_IZQ; break;
+	case 4: final = ID_ORIENTACION_IZQUIERDA; break;
+	case 5: final = ID_ORIENTACION_ARR_IZQ; break;
+	case 6: final = ID_ORIENTACION_ARRIBA; break;
+	case 7: final = ID_ORIENTACION_ARR_DER; break;
+	}
+	return final;
+}
+
+void mapa::terminar_generar(void)
+{
+	for(unsigned i = 0; i < tamano_y_; i++){
+		for(unsigned j = 0; j < tamano_x_; j++){
+			if(i == 0 || j ==0 || i == tamano_y_-1 || j == tamano_x_-1){
+				QPoint aux(i, j);
+				setos_.at(aux) = ID_GENERACION_VACIO;
+			}
+		}
+	}
 }
 
 unsigned long mapa::mix(unsigned long a, unsigned long b, unsigned long c)

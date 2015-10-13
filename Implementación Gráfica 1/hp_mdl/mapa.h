@@ -44,6 +44,16 @@
 #define ID_MAPA_TRES_DERECHA 116
 #define ID_MAPA_TRES_IZQUIERDA 117
 
+//Revisar en forma de reloj
+#define ID_SENTIDO_RELOJ_ABAJO 0
+#define ID_SENTIDO_RELOJ_ABA_IZQ 1
+#define ID_SENTIDO_RELOJ_IZQUIERDA 2
+#define ID_SENTIDO_RELOJ_ARR_IZQ 3
+#define ID_SENTIDO_RELOJ_ARRIBA 4
+#define ID_SENTIDO_RELOJ_ARR_DER 5
+#define ID_SENTIDO_RELOJ_DERECHA 6
+#define ID_SENTIDO_RELOJ_ABA_DER 7
+
 //Entidades
 #define ID_ENTIDADES_COPA 350 //Final del mapa
 #define ID_ENTIDADES_INICIO 351
@@ -102,7 +112,9 @@ private:
 	void explora_vecinos_y_excava(QPoint celda); //Método recursivo que crea el laberinto
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
 	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
-	bool tienes_adyacentes(QPoint celda); //Devuelve verdadero si tiene adyacentes, falso si no.
+	bool tienes_adyacentes(QPoint celda, unsigned origen); //Devuelve verdadero si tiene adyacentes, falso si no.
+	id_t convertir_reloj(unsigned i);
+	void terminar_generar(void);
 
 	//Generar numeros aleatorios
 	unsigned long mix(unsigned long a, unsigned long b, unsigned long c);

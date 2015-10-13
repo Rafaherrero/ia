@@ -83,7 +83,7 @@ void tabla_t::clear(id_t val)
 
 bool tabla_t::alcanzable(QPoint celda)
 {
-	bool expr = (celda.x() >= 0 && celda.y() >= 0) && ((unsigned)celda.x() < tam_x_ && (unsigned)celda.y() < tam_y_); //Dejarlo asi para el debugger
+	bool expr = (celda.x() >= 1 && celda.y() >= 1) && ((unsigned)celda.x() < tam_x_-1 && (unsigned)celda.y() < tam_y_-1); //Dejarlo asi para el debugger
 	return expr;
 }
 

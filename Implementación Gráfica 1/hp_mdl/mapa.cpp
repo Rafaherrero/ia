@@ -7,8 +7,8 @@
 mapa::mapa(void):
 	tamano_x_(0),
 	tamano_y_(0),
-	inicio_(0,0),
-	final_(0,0)
+	inicio_(1,1),
+	final_(1,1)
 {
 }
 
@@ -16,7 +16,9 @@ mapa::mapa(unsigned x, unsigned y):
 	tamano_x_(x),
 	tamano_y_(y),
 	setos_(x,y, ID_MAPA_OTROS_VACIO),
-	entidades_(x,y, ID_MAPA_OTROS_VACIO)
+	entidades_(x,y, ID_MAPA_OTROS_VACIO),
+	inicio_(1,1),
+	final_(1,1)
 {
 }
 

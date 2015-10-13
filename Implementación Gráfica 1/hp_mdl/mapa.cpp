@@ -137,9 +137,15 @@ unsigned& mapa::get_y(void)
 
 bool mapa::get_seto(QPoint celda)
 {
+	QPoint aux(0,0);
+	QPoint dos(1,0);
+	if(celda == aux || celda == dos)
+			return true;
+	return false;
+	/*
 	if(random()%10 > 5)
 		return true;
-	return false;
+	return false;*/
 	//FIXME
 
 //	if(setos_.at(celda).valor_ == ID_MAPA_SI_HAY_SETO)

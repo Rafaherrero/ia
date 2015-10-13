@@ -13,7 +13,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	el_mapa->generar_laberinto();
 
 	ui->setupUi(this);
-	this->setMaximumSize((TAMANO_X*18)+29,(TAMANO_Y*18)+84);
+	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100); //Esto lo cambié yo (dani) para unas pruebas mias, hay que restaurar el original
 	scene = new QGraphicsScene(this);
 	//scene->setSceneRect(0,0,64,64);
 	//ui->grafico_mapa->resize(67,67);

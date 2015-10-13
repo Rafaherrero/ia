@@ -40,8 +40,8 @@
 
 typedef unsigned id_t;
 
-#define TAMANO_X 400
-#define TAMANO_Y 400
+#define TAMANO_X 6
+#define TAMANO_Y 6
 
 #endif // COMMON
 

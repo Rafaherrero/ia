@@ -10,7 +10,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui(new Ui::VentanaPrincipal)
 {
 	mapa* el_mapa = new mapa(TAMANO_Y,TAMANO_X);
-	el_mapa->generar_laberinto();
+	el_mapa->generar_aleatorio(50);
 
 	ui->setupUi(this);
 	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100); //Esto lo cambié yo (dani) para unas pruebas mias, hay que restaurar el original

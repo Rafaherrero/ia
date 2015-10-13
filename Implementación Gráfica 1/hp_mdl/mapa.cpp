@@ -120,19 +120,6 @@ bool mapa::tienes_adyacentes(QPoint celda, unsigned origen) //FIXME
 		}
 	}
 	return false;
-	/*
-	unsigned cantidad_adyacentes = 0;
-	for(unsigned i = 0; i < 4; i++){ //por cada dirección (incluyendo las esquinas)
-		QPoint mirando = setos_.dir(celda, i);
-		if(setos_.alcanzable(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
-				cantidad_adyacentes++;
-			if(cantidad_adyacentes > 1)
-				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
-		}
-	}
-	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
-	*/
 }
 
 id_t mapa::convertir_reloj(unsigned i)
@@ -185,15 +172,19 @@ unsigned long mapa::random(void)
 
 void mapa::generar_aleatorio(unsigned porcentaje)
 {
+	setos_.clear(ID_GENERACION_MARCADO);
+
 	unsigned max = (tamano_x_*tamano_y_*porcentaje)/100;
-	unsigned cur = 0;
+	unsigned cur = tamano_x_+tamano_x_+tamano_y_+tamano_y_-4; //Contamos los bordes, restamos 4 porque repetimos celdas al sumar
 	QPoint punto_aleatorio;
 	while(cur < max){
-		punto_aleatorio.setX(rand()%tamano_x_);
-		punto_aleatorio.setY(rand()%tamano_y_);
-		setos_.at(punto_aleatorio) = ID_GENERACION_VISITADO;
+		punto_aleatorio.setX(rand()%(tamano_x_-1));
+		punto_aleatorio.setY(rand()%(tamano_y_-1));
+		setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
 		cur++;
 	}
+
+	terminar_generar();
 	corregir_posiciones();
 }
 

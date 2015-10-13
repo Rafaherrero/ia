@@ -1,6 +1,8 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
 
+#include "harry_potter.h"
+
 #include <iostream>
 
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :

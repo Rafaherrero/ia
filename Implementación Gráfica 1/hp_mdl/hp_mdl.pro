@@ -16,13 +16,15 @@ SOURCES += main.cpp\
         ventanaprincipal.cpp \
     mapa.cpp \
     harry_potter.cpp \
-    exceptions.cpp
+    exceptions.cpp \
+    tabla_t.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa.h \
     harry_potter.h \
     common.h \
-    exceptions.h
+    exceptions.h \
+    tabla_t.h
 
 FORMS    += ventanaprincipal.ui
 

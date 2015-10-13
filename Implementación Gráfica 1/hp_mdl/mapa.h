@@ -18,20 +18,11 @@
 
 #include "exceptions.h"
 #include "common.h"
+#include "tabla_t.h"
 
 //IDs para generación del laberinto
 #define ID_MAPA_SI_HAY_SETO 1
 #define ID_MAPA_NO_HAY_SETO 0
-
-//Direcciones
-#define ID_ORIENTACION_ARRIBA 0
-#define ID_ORIENTACION_ABAJO 1
-#define ID_ORIENTACION_DERECHA 2
-#define ID_ORIENTACION_IZQUIERDA 3
-#define ID_ORIENTACION_ABA_IZQ 4
-#define ID_ORIENTACION_ARR_IZQ 5
-#define ID_ORIENTACION_ARR_DER 6
-#define ID_ORIENTACION_ABA_DER 7
 
 //IDs para imágenes
 #define ID_MAPA_OTROS_COMPLETO 100
@@ -58,38 +49,6 @@
 #define ID_ENTIDADES_INICIO 351
 #define ID_ENTIDADES_MONSTRUO 352
 #define ID_ENTIDADES_GRAGEA 353
-
-//IDs para el algoritmo de generación
-#define ID_GENERACION_VISITADO 400
-#define ID_GENERACION_MARCADO 103
-#define ID_GENERACION_VACIO 100
-
-struct nodo_mapa{
-	QPoint coord_;
-	id_t valor_;
-};
-
-class tabla_t{
-private:
-	std::vector<std::vector<nodo_mapa> > tabla_;
-	unsigned tamano_x_;
-	unsigned tamano_y_;
-	void actualizar_puntos(void);
-	void desplazar_punto(QPoint& punto, id_t dir);
-public:
-	tabla_t(void);
-	tabla_t(unsigned x, unsigned y);
-	tabla_t(unsigned x, unsigned y, id_t val);
-	void resize(unsigned x, unsigned y);
-	nodo_mapa& at(QPoint coord);
-	nodo_mapa& at_dir(QPoint coord, id_t dir);
-	unsigned t_x(void);
-	unsigned t_y(void);
-	void clear(id_t val);
-	bool alcanzable(QPoint celda);
-	bool alcanzable(QPoint celda, id_t dir);
-	void imprime(std::ostream& os);
-};
 
 struct imagenes_t{
 	struct otros_t{

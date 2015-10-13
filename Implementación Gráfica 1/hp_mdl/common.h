@@ -4,10 +4,6 @@
 #include <QString>
 #include <QFileInfo>
 #include <QPoint>
-#include <mapa.h>
-#include <ventanaprincipal.h>
-#include <harry_potter.h>
-#include <unistd.h>
 
 #define ID_GLOBAL_NULO 0
 #define ID_GLOBAL_HARRY_POTTER 1
@@ -27,10 +23,25 @@
 #define ID_GLOBAL_ENTIDAD_GRAGEA 3
 #define ID_GLOBAL_ENTIDAD_MONSTRUO 4
 
+//Orientaciones
+#define ID_ORIENTACION_ARRIBA 0
+#define ID_ORIENTACION_ABAJO 1
+#define ID_ORIENTACION_DERECHA 2
+#define ID_ORIENTACION_IZQUIERDA 3
+#define ID_ORIENTACION_ABA_IZQ 4
+#define ID_ORIENTACION_ARR_IZQ 5
+#define ID_ORIENTACION_ARR_DER 6
+#define ID_ORIENTACION_ABA_DER 7
+
+//IDs para el algoritmo de generación
+#define ID_GENERACION_VISITADO 400
+#define ID_GENERACION_MARCADO 103
+#define ID_GENERACION_VACIO 100
+
 typedef unsigned id_t;
 
-#define TAMANO_X 10
-#define TAMANO_Y 10
+#define TAMANO_X 400
+#define TAMANO_Y 400
 
 #endif // COMMON
 

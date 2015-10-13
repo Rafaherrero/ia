@@ -56,7 +56,7 @@ void mapa::explora_vecinos_y_excava(QPoint celda) //TODO: Comprobar que funciona
 	setos_.at(celda) = ID_GENERACION_VISITADO;
 	while(existe_casilla_ocupable(celda))
 		explora_vecinos_y_excava(casilla_ocupable(celda));
-
+	setos_.at(celda) = ID_GENERACION_MARCADO;
 	return;
 }
 
@@ -75,9 +75,12 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
 		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			QPoint revisar = setos_.dir(celda, i_e);
-			if(setos_.at(revisar) == ID_GENERACION_VACIO && setos_.at(revisar) != ID_GENERACION_VISITADO)
+			id_t comp = setos_.at(revisar);
+			if(comp == ID_GENERACION_VACIO && (comp != ID_GENERACION_VISITADO) && (comp != ID_GENERACION_MARCADO)){
+				std::cout << "Vamos a revisar (" << celda.x() << ", " << celda.y() << ")" << std::endl;
 				if(!tienes_adyacentes(revisar))
 					return(revisar);
+			}
 			//Si tiene adyacentes, mirar en otra dirección
 		}
 	}
@@ -88,10 +91,13 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 bool mapa::tienes_adyacentes(QPoint celda) //FIXME
 {
 	unsigned cantidad_adyacentes = 0;
-	for(unsigned i = 0; i < 8; i++){ //por cada dirección (incluyendo las esquinas)
-		if(setos_.alcanzable(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			if(setos_.at(celda, i) == ID_GENERACION_VISITADO || setos_.at(celda, i) == ID_GENERACION_MARCADO)
+	for(unsigned i = 0; i < 4; i++){ //por cada dirección (incluyendo las esquinas)
+		QPoint mirando = setos_.dir(celda, i);
+		if(setos_.alcanzable(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO){
+				std::cout << "Tiene algo pegado" << std::endl;
 				cantidad_adyacentes++;
+			}
 			if(cantidad_adyacentes > 1){
 				std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") tiene otras adyacentes! >:(" << std::endl;
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
@@ -100,6 +106,10 @@ bool mapa::tienes_adyacentes(QPoint celda) //FIXME
 	}
 	std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") no tiene adyacentes! (:D" << std::endl;
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
+	/*
+	bool dummy;
+	dummy = true;
+	return dummy;*/
 }
 
 unsigned long mapa::mix(unsigned long a, unsigned long b, unsigned long c)
@@ -129,7 +139,6 @@ void mapa::generar_aleatorio(unsigned porcentaje)
 	while(cur < max){
 		punto_aleatorio.setX(rand()%tamano_x_);
 		punto_aleatorio.setY(rand()%tamano_y_);
-		std::cout << "El punto es: (" << punto_aleatorio.x() << ", " << punto_aleatorio.y() << ")" << std::endl;
 		setos_.at(punto_aleatorio) = ID_GENERACION_VISITADO;
 		cur++;
 	}
@@ -149,11 +158,11 @@ void mapa::corregir_posiciones(void)
 			celda.ry() = i;
 			celda.rx() = j;
 			switch (setos_.at(celda)) {
-			case ID_GENERACION_VISITADO:
-				setos_.at(celda) = ID_MAPA_SI_HAY_SETO;
+			case ID_GENERACION_MARCADO:
+				setos_.at(celda) = ID_MAPA_NO_HAY_SETO;
 				break;
 			case ID_GENERACION_VACIO:
-				setos_.at(celda) = ID_MAPA_NO_HAY_SETO;
+				setos_.at(celda) = ID_MAPA_SI_HAY_SETO;
 				break;
 			default:
 				break;

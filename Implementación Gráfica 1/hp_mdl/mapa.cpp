@@ -252,6 +252,10 @@ unsigned& mapa::get_y(void)
 
 bool mapa::get_seto(QPoint celda)
 {
+	if(random()%10 > 5)
+		return true;
+	return false;
+	//FIXME
 	if(setos_.at(celda).valor_ == ID_MAPA_SI_HAY_SETO)
 		return true;
 	return false;

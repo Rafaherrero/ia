@@ -85,7 +85,7 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 	return dummy;
 }
 
-bool mapa::tienes_adyacentes(QPoint celda)
+bool mapa::tienes_adyacentes(QPoint celda) //FIXME
 {
 	unsigned cantidad_adyacentes = 0;
 	for(unsigned i = 0; i < 8; i++){ //por cada dirección (incluyendo las esquinas)
@@ -123,7 +123,17 @@ unsigned long mapa::random(void)
 
 void mapa::generar_aleatorio(unsigned porcentaje)
 {
-	//TODO
+	unsigned max = (tamano_x_*tamano_y_*porcentaje)/100;
+	unsigned cur = 0;
+	QPoint punto_aleatorio;
+	while(cur < max){
+		punto_aleatorio.setX(rand()%tamano_x_);
+		punto_aleatorio.setY(rand()%tamano_y_);
+		std::cout << "El punto es: (" << punto_aleatorio.x() << ", " << punto_aleatorio.y() << ")" << std::endl;
+		setos_.at(punto_aleatorio) = ID_GENERACION_VISITADO;
+		cur++;
+	}
+	corregir_posiciones();
 }
 
 void mapa::colocar_monstruos(unsigned cantidad_mon)

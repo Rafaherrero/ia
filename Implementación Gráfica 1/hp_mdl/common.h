@@ -5,6 +5,14 @@
 #include <QFileInfo>
 #include <QPoint>
 
+/*
+	Premisas para no confundirnos:
+	numero de filas = n = y = i
+	numero columnas = m = x = j
+
+	Pongan mas si quieren
+*/
+
 //Cambien a estos defines de aquí abajo
 #define ID_GLOBAL_SETO_HAY 1
 #define ID_GLOBAL_SETO_NO_HAY 0

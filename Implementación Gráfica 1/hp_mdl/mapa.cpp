@@ -46,11 +46,14 @@ void mapa::generar_laberinto(void)
 
 	//TODO: Quitar el chivato este
 	setos_.imprime(std::cout);
+	std::cout << "Corrigiendo las posiciones" << std::endl;
+	corregir_posiciones();
+	setos_.imprime(std::cout);
 }
 
 void mapa::explora_vecinos_y_excava(QPoint celda) //TODO: Comprobar que funciona
 {
-	setos_.at(celda).valor_ = ID_GENERACION_VISITADO;
+	setos_.at(celda) = ID_GENERACION_VISITADO;
 	while(existe_casilla_ocupable(celda))
 		explora_vecinos_y_excava(casilla_ocupable(celda));
 
@@ -66,24 +69,24 @@ bool mapa::existe_casilla_ocupable(QPoint celda)
 }
 
 QPoint mapa::casilla_ocupable(QPoint celda)
-{
+{/* FIXME: adaptarse al nuevo formato de tabla
 	unsigned desplazamiento = random();
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
 		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
 		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			QPoint revisar = setos_.at_dir(celda, i_e).coord_;
-			if(setos_.at(revisar).valor_ == ID_GENERACION_VACIO)
+			QPoint revisar = setos_.dir(celda, i_e);
+			if(setos_.at(revisar) == ID_GENERACION_VACIO)
 				if(!tienes_adyacentes(revisar))
 					return(revisar);
 			//Si tiene adyacentes, mirar en otra dirección
 		}
-	}
+	}*/
 	QPoint dummy(-1,-1); //Si no tiene adyacentes, devolver un nulo (-1,-1)
 	return dummy;
 }
 
 bool mapa::tienes_adyacentes(QPoint celda)
-{
+{/* FIXME: adaptarse al nuevo formato de tabla
 	unsigned cantidad_adyacentes = 0;
 	for(unsigned i = 0; i < 8; i++){ //por cada dirección (incluyendo las esquinas)
 		if(setos_.alcanzable(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
@@ -92,7 +95,7 @@ bool mapa::tienes_adyacentes(QPoint celda)
 			if(cantidad_adyacentes > 1)
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
 		}
-	}
+	}*/
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
 }
 
@@ -125,6 +128,37 @@ void mapa::colocar_monstruos(unsigned cantidad_mon)
 	//TODO
 }
 
+void mapa::corregir_posiciones(void)
+{
+	QPoint celda(0,0);
+	std::cout << "La tabla es de tamaño: " << setos_.tam_x() << ", " << setos_.tam_y() << std::endl;
+	for(unsigned i = 0; i < setos_.tam_y(); i++){
+		for(unsigned j = 0; j < setos_.tam_x(); j++){
+			celda.ry() = i;
+			celda.rx() = j;
+			std::cout << "Voy al punto: " << celda.x() << ", " << celda.y() << std::endl;
+			switch (setos_.at(celda)) {
+			case ID_GENERACION_VISITADO:
+				setos_.at(celda) = ID_MAPA_SI_HAY_SETO;
+				break;
+			case ID_GENERACION_VACIO:
+				setos_.at(celda) = ID_MAPA_NO_HAY_SETO;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	/* Esto debería funcionar y no funciona
+	for(unsigned i = 0; celda.y() < setos_.t_y(); celda.ry()++){
+		for(unsigned j = 0; celda.x() < setos_.t_x(); celda.rx()++){
+			//celda.ry() = i;
+			//celda.rx() = j;
+			std::cout << "Voy al punto: " << celda.x() << ", " << celda.y() << std::endl;
+		}
+	}*/
+}
+
 unsigned& mapa::get_x(void)
 {
 	return tamano_x_;
@@ -137,25 +171,14 @@ unsigned& mapa::get_y(void)
 
 bool mapa::get_seto(QPoint celda)
 {
-	QPoint aux(0,0);
-	QPoint dos(1,0);
-	if(celda == aux || celda == dos)
-			return true;
-	return false;
-	/*
-	if(random()%10 > 5)
+	if(setos_.at(celda) == ID_MAPA_SI_HAY_SETO)
 		return true;
-	return false;*/
-	//FIXME
-
-//	if(setos_.at(celda).valor_ == ID_MAPA_SI_HAY_SETO)
-//		return true;
-//	return false;
+	return false;
 }
 
 id_t mapa::get_entidad(QPoint celda)
 {
-	return entidades_.at(celda).valor_;
+	return entidades_.at(celda);
 }
 
 id_t mapa::get(QPoint celda)
@@ -179,7 +202,7 @@ QImage mapa::get_tile_seto(QPoint celda)
 	return image;
 
 	FIXME: Esto es para cargar una imagen.*/
-	switch (setos_.at(celda).valor_) {
+	switch (setos_.at(celda)) {
 	case ID_MAPA_OTROS_COMPLETO: return imagenes_.otros_.completo_; break;
 	default: break;
 	}

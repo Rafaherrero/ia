@@ -94,7 +94,7 @@ private:
 	//Cargar las imágenes en la clase
 	imagenes_t imagenes_;
 private:
-	void corregir_posicion(void); //Usado para convertir de hay seto o no hay seto, a esquinas e intersecciones
+	void corregir_posiciones(void); //Usado para convertir de hay seto o no hay seto, a esquinas e intersecciones y id de tiles.
 	bool existe_imagen(QString ruta); //Comprobar si existe una determinada imagen en la ruta especificada
 	void importar_imagenes(void); //Importar todos los sprites a la clase.
 

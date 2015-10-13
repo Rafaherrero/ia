@@ -2,8 +2,8 @@
 
 harry_potter::harry_potter():
 	posicion_harry(1,1),
-	mana(3),
-	vidas(3)
+	vidas(3),
+	mana(3)
 {
 
 }

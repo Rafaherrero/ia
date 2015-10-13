@@ -8,14 +8,6 @@
 #ifndef HARRY_POTTER_H
 #define HARRY_POTTER_H
 
-#define RUTA_HARRY "img/Harry_Popotter_(definitivo).png"
-#define RUTA_CESPED "img/Cesped_(definitivo).png"
-#define RUTA_SETO "img/Seto_(definitivo).png"
-#define RUTA_GRAGEA "img/Gragea_(definitivo).png"
-#define RUTA_DEMENTOR "img/Dementor_(definitivo).png"
-#define RUTA_COPA "img/Copa_(definitivo).png"
-
-
 #include <common.h>
 
 class harry_potter

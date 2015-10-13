@@ -69,33 +69,36 @@ bool mapa::existe_casilla_ocupable(QPoint celda)
 }
 
 QPoint mapa::casilla_ocupable(QPoint celda)
-{/* FIXME: adaptarse al nuevo formato de tabla
+{
 	unsigned desplazamiento = random();
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
 		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
 		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			QPoint revisar = setos_.dir(celda, i_e);
-			if(setos_.at(revisar) == ID_GENERACION_VACIO)
+			if(setos_.at(revisar) == ID_GENERACION_VACIO && setos_.at(revisar) != ID_GENERACION_VISITADO)
 				if(!tienes_adyacentes(revisar))
 					return(revisar);
 			//Si tiene adyacentes, mirar en otra dirección
 		}
-	}*/
+	}
 	QPoint dummy(-1,-1); //Si no tiene adyacentes, devolver un nulo (-1,-1)
 	return dummy;
 }
 
 bool mapa::tienes_adyacentes(QPoint celda)
-{/* FIXME: adaptarse al nuevo formato de tabla
+{
 	unsigned cantidad_adyacentes = 0;
 	for(unsigned i = 0; i < 8; i++){ //por cada dirección (incluyendo las esquinas)
 		if(setos_.alcanzable(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			if(setos_.at_dir(celda, i).valor_ == ID_GENERACION_VISITADO)
+			if(setos_.at(celda, i) == ID_GENERACION_VISITADO || setos_.at(celda, i) == ID_GENERACION_MARCADO)
 				cantidad_adyacentes++;
-			if(cantidad_adyacentes > 1)
+			if(cantidad_adyacentes > 1){
+				std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") tiene otras adyacentes! >:(" << std::endl;
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
+			}
 		}
-	}*/
+	}
+	std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") no tiene adyacentes! (:D" << std::endl;
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
 }
 
@@ -131,12 +134,10 @@ void mapa::colocar_monstruos(unsigned cantidad_mon)
 void mapa::corregir_posiciones(void)
 {
 	QPoint celda(0,0);
-	std::cout << "La tabla es de tamaño: " << setos_.tam_x() << ", " << setos_.tam_y() << std::endl;
 	for(unsigned i = 0; i < setos_.tam_y(); i++){
 		for(unsigned j = 0; j < setos_.tam_x(); j++){
 			celda.ry() = i;
 			celda.rx() = j;
-			std::cout << "Voy al punto: " << celda.x() << ", " << celda.y() << std::endl;
 			switch (setos_.at(celda)) {
 			case ID_GENERACION_VISITADO:
 				setos_.at(celda) = ID_MAPA_SI_HAY_SETO;

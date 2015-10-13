@@ -21,7 +21,7 @@ tabla_t::tabla_t(unsigned x, unsigned y, id_t val):
 	def_(val)
 {
 	resize(x, y);
-	clear(val);
+	clear();
 }
 
 void tabla_t::resize(unsigned x, unsigned y)
@@ -67,6 +67,13 @@ unsigned tabla_t::tam_y(void)
 	return tam_y_;
 }
 
+void tabla_t::clear(void)
+{
+	for(auto &i : tabla_)
+		for(auto &j : i)
+			j = def_;
+}
+
 void tabla_t::clear(id_t val)
 {
 	for(auto &i : tabla_)
@@ -89,7 +96,7 @@ void tabla_t::imprime(std::ostream& os)
 {
 	for(unsigned i = 0; i < tam_x_; i++){
 		for(unsigned j = 0; j < tam_y_; j++){
-			os << tabla_[j][i];
+			os << tabla_[j][i] << " ";
 		}
 		os << std::endl;
 	}

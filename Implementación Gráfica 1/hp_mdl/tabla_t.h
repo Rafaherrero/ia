@@ -25,6 +25,7 @@ public:
 	bool alcanzable(QPoint celda, id_t sentido); //devuelve si un punto en una dirección está dentro del rango de la tabla
 	unsigned tam_x(void); //devuelve el tamaño de x
 	unsigned tam_y(void); //devuelve el tamaño de y
+	void clear(void); //convierte todas las celdas al valor por defecto
 	void clear(id_t val); //Convierte todas las celdas a un valor "val"
 	void imprime(std::ostream& os); //imprime la tabla por la salida.
 };

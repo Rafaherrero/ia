@@ -94,22 +94,13 @@ bool mapa::tienes_adyacentes(QPoint celda) //FIXME
 	for(unsigned i = 0; i < 4; i++){ //por cada dirección (incluyendo las esquinas)
 		QPoint mirando = setos_.dir(celda, i);
 		if(setos_.alcanzable(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO){
-				std::cout << "Tiene algo pegado" << std::endl;
+			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
 				cantidad_adyacentes++;
-			}
-			if(cantidad_adyacentes > 1){
-				std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") tiene otras adyacentes! >:(" << std::endl;
+			if(cantidad_adyacentes > 1)
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
-			}
 		}
 	}
-	std::cout << "La celda (" << celda.x() << ", " << celda.y() << ") no tiene adyacentes! (:D" << std::endl;
 	return false; //Si sólo tiene 1 pegado (por el que vinimos), no hay adyacentes.
-	/*
-	bool dummy;
-	dummy = true;
-	return dummy;*/
 }
 
 unsigned long mapa::mix(unsigned long a, unsigned long b, unsigned long c)

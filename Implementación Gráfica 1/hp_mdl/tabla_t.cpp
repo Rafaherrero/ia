@@ -94,8 +94,8 @@ bool tabla_t::alcanzable(QPoint celda, id_t sentido)
 
 void tabla_t::imprime(std::ostream& os)
 {
-	for(unsigned i = 0; i < tam_x_; i++){
-		for(unsigned j = 0; j < tam_y_; j++){
+	for(unsigned i = 0; i < tam_y_; i++){
+		for(unsigned j = 0; j < tam_x_; j++){
 			os << tabla_[j][i] << " ";
 		}
 		os << std::endl;

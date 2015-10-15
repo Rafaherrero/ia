@@ -191,6 +191,9 @@ public:
 
 	///@}
 
+	/// \name Modificación directas
+	///@{
+
 	/*!
 	 * \brief Se usa para saber conseguir la ID del seto de esa casilla.
 	 * \param celda La casilla en cuestión
@@ -204,6 +207,8 @@ public:
 	 * \return Devuelve el ID de la entidad
 	 */
 	id_t& get_ent(QPoint celda);
+
+	///@}
 };
 
 #endif // mapa_t_H

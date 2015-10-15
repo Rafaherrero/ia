@@ -23,6 +23,8 @@ public:
 	id_t& at(QPoint coord, id_t sentido); //Se obtiene el valor de un punto en una dirección
 	bool alcanzable(QPoint celda); //Devuelve si un punto está dentro del rango de la tabla
 	bool alcanzable(QPoint celda, id_t sentido); //devuelve si un punto en una dirección está dentro del rango de la tabla
+	bool alcanzable_bor(QPoint celda); //Devuelve si un punto está dentro del rango de la tabla contando con los bordes
+	bool alcanzable_bor(QPoint celda, id_t sentido); //devuelve si un punto en una dirección está dentro del rango de la tabla contando con los bordes
 	unsigned tam_x(void); //devuelve el tamaño de x
 	unsigned tam_y(void); //devuelve el tamaño de y
 	void clear(void); //convierte todas las celdas al valor por defecto

@@ -22,37 +22,35 @@
 #define ID_MAPA_NO_HAY_SETO 0
 
 //Revisar en forma de reloj
-#define ID_SENTIDO_RELOJ_ABAJO 0
-#define ID_SENTIDO_RELOJ_ABA_IZQ 1
-#define ID_SENTIDO_RELOJ_IZQUIERDA 2
-#define ID_SENTIDO_RELOJ_ARR_IZQ 3
-#define ID_SENTIDO_RELOJ_ARRIBA 4
-#define ID_SENTIDO_RELOJ_ARR_DER 5
-#define ID_SENTIDO_RELOJ_DERECHA 6
-#define ID_SENTIDO_RELOJ_ABA_DER 7
+#define ID_SENTIDO_RELOJ_DERECHA 0
+#define ID_SENTIDO_RELOJ_ABA_DER 1
+#define ID_SENTIDO_RELOJ_ABAJO 2
+#define ID_SENTIDO_RELOJ_ABA_IZQ 3
+#define ID_SENTIDO_RELOJ_IZQUIERDA 4
+#define ID_SENTIDO_RELOJ_ARR_IZQ 5
+#define ID_SENTIDO_RELOJ_ARRIBA 6
+#define ID_SENTIDO_RELOJ_ARR_DER 7
 
 class mapa_t
 {
 private:
-	unsigned tamano_x_;
-	unsigned tamano_y_;
+	unsigned tam_x_;
+	unsigned tam_y_;
 	tabla_t setos_;
 	tabla_t entidades_;
 
-	QPoint inicio_;
-	QPoint final_;
+	QPoint harry_pos_;
+	QPoint copa_pos_;
 private:
-	void corregir_posiciones(void); //Usado para convertir de hay seto o no hay seto, a esquinas e intersecciones y id de tiles.
-	bool existe_imagen(QString ruta); //Comprobar si existe una determinada imagen en la ruta especificada
-	void importar_imagenes(void); //Importar todos los sprites a la clase.
-
 	//Métodos para crear el laberinto
 	void explora_vecinos_y_excava(QPoint celda); //Método recursivo que crea el laberinto
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
 	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
 	bool tienes_adyacentes(QPoint celda, dir_t origen); //Devuelve verdadero si tiene adyacentes, falso si no.
-	id_t convertir_reloj(dir_t i); //Para iterar de forma circular sobre las direcciones, emepzando por las 9.
+	dir_t convertir_reloj(dir_t i); //Para iterar de forma circular sobre las direcciones, emepzando por las 9.
 	void terminar_generar(void); //Reemplaza los tipos de generación por el tipo global del laberinto
+
+	void corregir_posiciones(void); //Usado para convertir de hay seto o no hay seto, a esquinas e intersecciones y id de tiles.
 
 public:
 	/// \name Constructores
@@ -88,6 +86,18 @@ public:
 	unsigned get_y(void);
 
 	/*!
+	 * \brief Se usa para contar todas los setos
+	 * \return devuelve el número de setos
+	 */
+	unsigned contar_setos(void);
+
+	/*!
+	 * \brief Se usa para contar todas las entidades
+	 * \return devuelve el número de entidades
+	 */
+	unsigned contar_entidades(void);
+
+	/*!
 	 * \brief Se usa para contar una concreta especie de entidad
 	 * \param entidad la entidad en cuestión
 	 * \return devuelve el número de coincidencias
@@ -112,7 +122,7 @@ public:
 	void limpiar(void);
 
 	/*!
-	 * \brief Se usa para limpiar una casilla si hay un monstruo o una grajea
+	 * \brief Se usa para limpiar una casilla (en todas las capas)
 	 * \param Celda a limpiar
 	 */
 	void limpiar(QPoint celda);
@@ -145,22 +155,22 @@ public:
 	void colocar_monstruos(unsigned cantidad);
 
 	/*!
-	 * \brief Colocar la copa (la salida) en un punto determinado). Por defecto es la esquina inferior derecha.
+	 * \brief Mover la copa (la salida) en un punto determinado). Por defecto es la esquina inferior derecha.
 	 * \param celda Coordenadas de la copa
 	 */
 	void mover_copa(QPoint celda);
 
 	/*!
-	 * \brief Colocar a harry en un punto determinado. Por defecto es la esquina superior izquierda.
+	 * \brief Mover a harry en un punto determinado. Por defecto es la esquina superior izquierda.
 	 * \param celda Coordenadas de harry
 	 */
 	void mover_harry(QPoint celda);
 
 	/*!
-	 * \brief Colocar a harry en un punto determinado. Por defecto es la esquina superior izquierda.
-	 * \param celda Coordenadas de harry
+	 * \brief Mover a harry en una determinada dirección
+	 * \param sentido Dirección en la que se mueve (según los defines de common.h)
 	 */
-	void mover_harry(QPoint celda, dir_t sentido);
+	void mover_harry(dir_t sentido);
 
 	///@}
 

@@ -10,7 +10,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui(new Ui::VentanaPrincipal)
 {
 
-	mapa* el_mapa = new mapa(TAMANO_Y,TAMANO_X);
+	mapa_t* el_mapa = new mapa_t(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
 
 	ui->setupUi(this);

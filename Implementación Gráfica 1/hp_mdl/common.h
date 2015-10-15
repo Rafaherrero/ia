@@ -5,15 +5,12 @@
 #include <QFileInfo>
 #include <QPoint>
 
-/*
-	Premisas para no confundirnos:
-	numero de filas = n = y = i
-	numero columnas = m = x = j
+#include "aleatorio.h"
 
-	Pongan mas si quieren
-*/
+//IDs de entidades y setos
 
-//Cambien a estos defines de aquí abajo
+typedef unsigned id_t;
+
 #define ID_GLOBAL_SETO_HAY 1
 #define ID_GLOBAL_SETO_NO_HAY 0
 
@@ -23,7 +20,10 @@
 #define ID_GLOBAL_ENTIDAD_GRAGEA 3
 #define ID_GLOBAL_ENTIDAD_MONSTRUO 4
 
-//Orientaciones
+//Distintas direcciones en las que podemos ir
+
+typedef unsigned dir_t;
+
 #define ID_ORIENTACION_ABAJO 0
 #define ID_ORIENTACION_ARRIBA 1
 #define ID_ORIENTACION_DERECHA 2
@@ -38,12 +38,9 @@
 #define ID_GENERACION_MARCADO 103
 #define ID_GENERACION_VACIO 100
 
-typedef unsigned id_t;
-
 //TODO: Esto de aquí se debería pedir por pantalla
 
-#define TAMANO_X 16
-#define TAMANO_Y 9
+#define TAMANO_X 9
+#define TAMANO_Y 16
 
 #endif // COMMON
-

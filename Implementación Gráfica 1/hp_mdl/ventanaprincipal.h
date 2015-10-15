@@ -10,7 +10,7 @@
 #include <QFileInfo>
 
 #include "common.h"
-#include "mapa.h"
+#include "mapa_t.h"
 
 #define RUTA_HARRY "img/Harry_Popotter_(definitivo).png"
 #define RUTA_CESPED "img/Cesped_(definitivo).png"

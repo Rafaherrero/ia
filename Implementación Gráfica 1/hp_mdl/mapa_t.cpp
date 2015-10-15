@@ -1,10 +1,10 @@
-#include "mapa.h"
+#include "mapa_t.h"
 
 //========================================================
-//                   Clase mapa
+//                   Clase mapa_t
 //========================================================
 
-mapa::mapa(void):
+mapa_t::mapa_t(void):
 	tamano_x_(0),
 	tamano_y_(0),
 	inicio_(1,1),
@@ -12,7 +12,7 @@ mapa::mapa(void):
 {
 }
 
-mapa::mapa(unsigned x, unsigned y):
+mapa_t::mapa_t(unsigned x, unsigned y):
 	tamano_x_(x),
 	tamano_y_(y),
 	setos_(x,y, ID_MAPA_OTROS_VACIO),
@@ -22,7 +22,7 @@ mapa::mapa(unsigned x, unsigned y):
 {
 }
 
-bool mapa::existe_imagen(QString ruta)
+bool mapa_t::existe_imagen(QString ruta)
 {
 	QFileInfo checkFile(ruta);
 	//Hay que saber si el fichero existe y no es un directorio
@@ -34,28 +34,20 @@ bool mapa::existe_imagen(QString ruta)
 	}
 }
 
-void mapa::importar_imagenes(void)
+void mapa_t::importar_imagenes(void)
 {
 	//TODO
 }
 
-void mapa::generar_laberinto(void)
+void mapa_t::generar_laberinto(void)
 {
-	//Inicializar datos
-	setos_.clear(ID_GENERACION_VACIO);
-
-	explora_vecinos_y_excava(inicio_);
-
-	//TODO: Quitar el chivato este
-	setos_.imprime(std::cout);
-	std::cout << "Corrigiendo las posiciones" << std::endl;
-	terminar_generar();
-	corregir_posiciones();
-	std::cout << "Ya he corregido las posiciones" << std::endl;
-	setos_.imprime(std::cout);
+	setos_.clear(ID_GENERACION_VACIO); //Limpiar el mapa_t
+	explora_vecinos_y_excava(inicio_); //Generar el laberinto
+	terminar_generar(); //Añadir bordes y espacios para harry y la copa
+	corregir_posiciones(); //Cambiar de las ID de generación, a las ID del mapa_t globales
 }
 
-void mapa::explora_vecinos_y_excava(QPoint celda) //TODO: Comprobar que funciona
+void mapa_t::explora_vecinos_y_excava(QPoint celda)
 {
 	setos_.at(celda) = ID_GENERACION_VISITADO;
 	while(existe_casilla_ocupable(celda))
@@ -64,7 +56,7 @@ void mapa::explora_vecinos_y_excava(QPoint celda) //TODO: Comprobar que funciona
 	return;
 }
 
-bool mapa::existe_casilla_ocupable(QPoint celda)
+bool mapa_t::existe_casilla_ocupable(QPoint celda)
 {
 	QPoint error(-1, -1);
 	if(casilla_ocupable(celda) == error)
@@ -72,7 +64,7 @@ bool mapa::existe_casilla_ocupable(QPoint celda)
 	return true;
 }
 
-QPoint mapa::casilla_ocupable(QPoint celda)
+QPoint mapa_t::casilla_ocupable(QPoint celda)
 {
 	unsigned desplazamiento = random();
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
@@ -80,11 +72,9 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 		if(setos_.alcanzable(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			QPoint revisar = setos_.dir(celda, i_e);
 			id_t comp = setos_.at(revisar);
-			if(comp == ID_GENERACION_VACIO && (comp != ID_GENERACION_VISITADO) && (comp != ID_GENERACION_MARCADO)){
-				std::cout << "Vamos a revisar (" << celda.x() << ", " << celda.y() << ")" << std::endl;
+			if(comp == ID_GENERACION_VACIO && (comp != ID_GENERACION_VISITADO) && (comp != ID_GENERACION_MARCADO))
 				if(!tienes_adyacentes(revisar, i_e))
 					return(revisar);
-			}
 			//Si tiene adyacentes, mirar en otra dirección
 		}
 	}
@@ -92,7 +82,7 @@ QPoint mapa::casilla_ocupable(QPoint celda)
 	return dummy;
 }
 
-bool mapa::tienes_adyacentes(QPoint celda, unsigned origen) //FIXME
+bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen) //FIXME
 {
 	unsigned desplazamiento = 0;
 	switch (origen) {
@@ -111,7 +101,6 @@ bool mapa::tienes_adyacentes(QPoint celda, unsigned origen) //FIXME
 
 	unsigned cantidad_adyacentes = 0;
 	for(unsigned i = 0; i < 6; i++){ //por cada dirección (incluyendo las esquinas)
-		std::cout << "Vas a mirar a: " << convertir_reloj(i) << std::endl;
 		QPoint mirando = setos_.dir(celda, convertir_reloj(i+desplazamiento));
 		if(setos_.alcanzable(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
@@ -123,7 +112,7 @@ bool mapa::tienes_adyacentes(QPoint celda, unsigned origen) //FIXME
 	return false;
 }
 
-id_t mapa::convertir_reloj(unsigned i)
+id_t mapa_t::convertir_reloj(dir_t i)
 {
 	i = i % 8;
 	id_t final;
@@ -140,8 +129,9 @@ id_t mapa::convertir_reloj(unsigned i)
 	return final;
 }
 
-void mapa::terminar_generar(void)
+void mapa_t::terminar_generar(void)
 {
+	//TODO: Añadir espacios para harry y la copa.
 	for(unsigned i = 0; i < tamano_y_; i++){
 		for(unsigned j = 0; j < tamano_x_; j++){
 			if(i == 0 || j ==0 || i == tamano_y_-1 || j == tamano_x_-1){
@@ -152,26 +142,7 @@ void mapa::terminar_generar(void)
 	}
 }
 
-unsigned long mapa::mix(unsigned long a, unsigned long b, unsigned long c)
-{
-	a=a-b;  a=a-c;  a=a^(c >> 13);
-	b=b-c;  b=b-a;  b=b^(a << 8);
-	c=c-a;  c=c-b;  c=c^(b >> 13);
-	a=a-b;  a=a-c;  a=a^(c >> 12);
-	b=b-c;  b=b-a;  b=b^(a << 16);
-	c=c-a;  c=c-b;  c=c^(b >> 5);
-	a=a-b;  a=a-c;  a=a^(c >> 3);
-	b=b-c;  b=b-a;  b=b^(a << 10);
-	c=c-a;  c=c-b;  c=c^(b >> 15);
-	return c;
-}
-
-unsigned long mapa::random(void)
-{
-	return mix(clock(), time(NULL), getpid());
-}
-
-void mapa::generar_aleatorio(unsigned porcentaje)
+void mapa_t::generar_aleatorio(unsigned porcentaje)
 {
 	setos_.clear(ID_GENERACION_MARCADO);
 
@@ -179,8 +150,8 @@ void mapa::generar_aleatorio(unsigned porcentaje)
 	unsigned cur = tamano_x_+tamano_x_+tamano_y_+tamano_y_-4; //Contamos los bordes, restamos 4 porque repetimos celdas al sumar
 	QPoint punto_aleatorio;
 	while(cur < max){
-		punto_aleatorio.setX(rand()%(tamano_x_-1));
-		punto_aleatorio.setY(rand()%(tamano_y_-1));
+		punto_aleatorio.setX(aleatorio::random()%(tamano_x_-1));
+		punto_aleatorio.setY(aleatorio::random()%(tamano_y_-1));
 		setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
 		cur++;
 	}
@@ -189,20 +160,18 @@ void mapa::generar_aleatorio(unsigned porcentaje)
 	corregir_posiciones();
 }
 
-void mapa::colocar_monstruos(unsigned cantidad_mon)
+void mapa_t::colocar_monstruos(unsigned cantidad)
 {
 	//TODO
 }
 
-void mapa::corregir_posiciones(void)
+void mapa_t::corregir_posiciones(void)
 {
 	QPoint celda(0,0);
-	std::cout << "Vamos a empezar" << std::endl;
 	for(unsigned i = 0; i < setos_.tam_y(); i++){
 		for(unsigned j = 0; j < setos_.tam_x(); j++){
 			celda.ry() = i;
 			celda.rx() = j;
-			std::cout << "Entrando en " << i << ", " << j << std::endl;
 			switch (setos_.at(celda)) {
 			case ID_GENERACION_MARCADO:
 				setos_.at(celda) = ID_MAPA_NO_HAY_SETO;
@@ -215,62 +184,26 @@ void mapa::corregir_posiciones(void)
 			}
 		}
 	}
-	/* Esto debería funcionar y no funciona
-	for(unsigned i = 0; celda.y() < setos_.t_y(); celda.ry()++){
-		for(unsigned j = 0; celda.x() < setos_.t_x(); celda.rx()++){
-			//celda.ry() = i;
-			//celda.rx() = j;
-			std::cout << "Voy al punto: " << celda.x() << ", " << celda.y() << std::endl;
-		}
-	}*/
 }
 
-unsigned& mapa::get_x(void)
+unsigned mapa_t::get_x(void)
 {
 	return tamano_x_;
 }
 
-unsigned& mapa::get_y(void)
+unsigned mapa_t::get_y(void)
 {
 	return tamano_y_;
 }
 
-bool mapa::get_seto(QPoint celda)
+id_t& mapa_t::get_seto(QPoint celda)
 {
-	if(setos_.at(celda) == ID_MAPA_SI_HAY_SETO)
-		return true;
-	return false;
+	//TODO: tirar excepción si no es alcanzable
+	return setos_.at(celda);
 }
 
-id_t mapa::get_entidad(QPoint celda)
+id_t& mapa_t::get_ent(QPoint celda)
 {
+	//TODO: tirar excepción si no es alcanzable
 	return entidades_.at(celda);
-}
-
-id_t mapa::get(QPoint celda)
-{
-	if(get_seto(celda) == ID_MAPA_SI_HAY_SETO)
-		return ID_GLOBAL_SETO_HAY;
-	//En otro caso
-	return get_entidad(celda);
-}
-
-QImage mapa::get_tile_seto(QPoint celda)
-{
-	/*
-	QString tile = "img/grass_wall.png";
-
-	if (!existe_imagen(tile)){
-		std::cerr << "No existe esa ruta" << std::endl;
-	}
-
-	QImage image(tile);
-	return image;
-
-	FIXME: Esto es para cargar una imagen.*/
-	switch (setos_.at(celda)) {
-	case ID_MAPA_OTROS_COMPLETO: return imagenes_.otros_.completo_; break;
-	default: break;
-	}
-	return imagenes_.otros_.completo_;
 }

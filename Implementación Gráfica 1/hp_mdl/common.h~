@@ -40,9 +40,14 @@ typedef unsigned dir_t;
 
 //TODO: Esto de aquí se debería pedir por pantalla
 
+<<<<<<< HEAD
+#define TAMANO_X 9
+#define TAMANO_Y 16
+=======
 #define TAMANO_X 125
 #define TAMANO_Y 130
 
 #define TAMANO_ICONO 18
+>>>>>>> graf-dev-rafa
 
 #endif // COMMON

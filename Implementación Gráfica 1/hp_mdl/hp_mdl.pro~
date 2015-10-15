@@ -14,11 +14,25 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         ventanaprincipal.cpp \
+<<<<<<< HEAD
+    harry_potter.cpp \
+    exceptions.cpp \
+    tabla_t.cpp \
+    aleatorio.cpp \
+    mapa_t.cpp
+
+HEADERS  += ventanaprincipal.h \
+    harry_potter.h \
+    common.h \
+    exceptions.h \
+    tabla_t.h \
+    aleatorio.h \
+    mapa_t.h
+=======
     mapa.cpp \
     exceptions.cpp \
     tabla_t.cpp \
     harryPotter.cpp
-    aleatorio.cpp 
 
 HEADERS  += ventanaprincipal.h \
     mapa.h \
@@ -26,8 +40,7 @@ HEADERS  += ventanaprincipal.h \
     exceptions.h \
     tabla_t.h \
     harryPotter.h
-    aleatorio.h 
-
+>>>>>>> graf-dev-rafa
 
 FORMS    += ventanaprincipal.ui
 

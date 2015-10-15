@@ -1,7 +1,7 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
 
-#include "harry_potter.h"
+#include "harryPotter.h"
 
 #include <iostream>
 
@@ -13,15 +13,17 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	mapa_t* el_mapa = new mapa_t(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
 
+	harryPotter harry_potter(*el_mapa);
+
 	ui->setupUi(this);
-	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100);
+	this->setMaximumSize((TAMANO_X*TAMANO_ICONO)+40,(TAMANO_Y*TAMANO_ICONO)+100);
 	scene = new QGraphicsScene(this);
 	//scene->setSceneRect(0,0,64,64);
 	//ui->grafico_mapa->resize(67,67);
-	ui->grafico_mapa->resize(TAMANO_X*18,TAMANO_Y*18);
+	ui->grafico_mapa->resize(TAMANO_X*TAMANO_ICONO,TAMANO_Y*TAMANO_ICONO);
 	ui->grafico_mapa->setScene(scene);
-	scene->setSceneRect(0, 0, TAMANO_X*18, TAMANO_Y*18);
-	ui->grafico_mapa->setMaximumSize((TAMANO_X*18)+3,(TAMANO_Y*18)+3);
+	scene->setSceneRect(0, 0, TAMANO_X*TAMANO_ICONO, TAMANO_Y*TAMANO_ICONO);
+	ui->grafico_mapa->setMaximumSize((TAMANO_X*TAMANO_ICONO)+3,(TAMANO_Y*TAMANO_ICONO)+3);
 
 	QImage image_seto(RUTA_SETO);
 	QImage image_cesped(RUTA_CESPED);
@@ -31,14 +33,16 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QImage image_gragea(RUTA_GRAGEA);
 
 	QGraphicsPixmapItem* objeto[TAMANO_X][TAMANO_Y];
+	QGraphicsPixmapItem* harry_icono;
+	QGraphicsPixmapItem* copa;
 
 	unsigned conti=0;
 	unsigned contj=0;
 	QPoint posicion_objeto(0,0);
 
-	for (int j=0;(j<TAMANO_Y*18);j=j+18){
+	for (int j=0;(j<TAMANO_Y*TAMANO_ICONO);j=j+TAMANO_ICONO){
 		conti=0;
-		for (int i=0;(i<TAMANO_X*18);i=i+18){
+		for (int i=0;(i<TAMANO_X*TAMANO_ICONO);i=i+TAMANO_ICONO){
 			QPoint posicion_objeto(contj,conti);
 			if (el_mapa->get_seto(posicion_objeto)){
 				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
@@ -55,6 +59,14 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 		}
 		contj++;
 	}
+
+	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
+	harry_icono->setOffset(harry_potter.get_posicion_harry().x()*TAMANO_ICONO, harry_potter.get_posicion_harry().y()*TAMANO_ICONO);
+	scene->addItem(harry_icono);
+
+	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
+	copa ->setOffset(el_mapa->get_copa().x()*TAMANO_ICONO, el_mapa->get_copa().y()*TAMANO_ICONO);
+	scene->addItem(copa);
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();

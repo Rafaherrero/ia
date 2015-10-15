@@ -12,11 +12,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	mapa* el_mapa = new mapa(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
-//	harry_potter harry_popotter(el_mapa);
-
-//	while(){
-
-//	}
 
 	ui->setupUi(this);
 	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100);
@@ -44,7 +39,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	for (int j=0;(j<TAMANO_Y*18);j=j+18){
 		conti=0;
 		for (int i=0;(i<TAMANO_X*18);i=i+18){
-			QPoint posicion_objeto(conti,contj);
+			QPoint posicion_objeto(contj,conti);
 			if (el_mapa->get_seto(posicion_objeto)){
 				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
 				objeto[conti][contj]-> setOffset(i,j);

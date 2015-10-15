@@ -65,7 +65,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(harry_icono);
 
 	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
-	copa ->setOffset(el_mapa->get_copa().x()*TAMANO_ICONO, el_mapa->get_copa().y()*TAMANO_ICONO);
+	std::cout << "La copa está en: " << el_mapa->get_pos_copa().x() << ", " << el_mapa->get_pos_copa().y() << std::endl;
+	copa ->setOffset(el_mapa->get_pos_copa().x()*TAMANO_ICONO, el_mapa->get_pos_copa().y()*TAMANO_ICONO);
 	scene->addItem(copa);
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");

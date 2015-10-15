@@ -80,6 +80,9 @@ public:
 	 */
 	unsigned get_y(void);
 
+	QPoint get_pos_harry(void); //TODO: Comentar
+	QPoint get_pos_copa(void);
+
 	/*!
 	 * \brief Se usa para contar todas los setos
 	 * \return devuelve el número de setos

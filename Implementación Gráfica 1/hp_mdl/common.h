@@ -40,8 +40,8 @@ typedef unsigned dir_t;
 
 //TODO: Esto de aquí se debería pedir por pantalla
 
-#define TAMANO_X 125
-#define TAMANO_Y 130
+#define TAMANO_X 50
+#define TAMANO_Y 30
 
 #define TAMANO_ICONO 18
 

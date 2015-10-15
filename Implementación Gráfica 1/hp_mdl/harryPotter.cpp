@@ -1,6 +1,6 @@
 #include "harryPotter.h"
 
-harryPotter::harryPotter(mapa& lab):
+harryPotter::harryPotter(mapa_t& lab):
 	posicion_harry(1,1),
 	vidas(3),
 	mana(3),

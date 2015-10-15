@@ -27,6 +27,16 @@ unsigned mapa_t::get_y(void)
 	return tam_y_;
 }
 
+QPoint mapa_t::get_pos_harry(void)
+{
+	return harry_pos_;
+}
+
+QPoint mapa_t::get_pos_copa(void)
+{
+	return copa_pos_;
+}
+
 unsigned mapa_t::contar_setos(void)
 {
 	QPoint punto(0,0);

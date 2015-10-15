@@ -12,11 +12,11 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	mapa* el_mapa = new mapa(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
-	harry_potter harry_popotter(el_mapa);
+//	harry_potter harry_popotter(el_mapa);
 
-	while(){
+//	while(){
 
-	}
+//	}
 
 	ui->setupUi(this);
 	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100);

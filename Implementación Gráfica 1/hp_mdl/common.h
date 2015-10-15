@@ -42,8 +42,10 @@ typedef unsigned id_t;
 
 //TODO: Esto de aquí se debería pedir por pantalla
 
-#define TAMANO_X 16
-#define TAMANO_Y 9
+#define TAMANO_X 9
+#define TAMANO_Y 16
+
+#define TAMANO_ICONO 18
 
 #endif // COMMON
 

@@ -1,17 +1,17 @@
 /*!
- * \file harry_potter.h
- * \brief Contiene la definición de la clase "harry_potter"
+ * \file harryPotter.h
+ * \brief Contiene la definición de la clase "harryPotter"
  * \author Rafael Herrero Álvarez <alu0100812275@ull.edu.es>
  * \date 9 de Octubre
  */
 
-#ifndef HARRY_POTTER_H
-#define HARRY_POTTER_H
+#ifndef harryPotter_H
+#define harryPotter_H
 
 #include <common.h>
 #include <mapa.h>
 
-class harry_potter
+class harryPotter
 {
 	/*!
 	  * \brief Clase del muñeco de Harry Potter
@@ -24,11 +24,11 @@ private:
 	unsigned vidas;
 	unsigned mana;
 	mapa& laberinto;
-	harry_potter();  //Lo ponemos aqui porque Dani lo quiso así
+	harryPotter();  //Lo ponemos aqui porque Dani lo quiso así
 
 public:
 
-	harry_potter(mapa& lab);
+	harryPotter(mapa& lab);
 	QPoint get_posicion_harry();
 	void set_posicion_harry(QPoint ranas_de_chocolate);
 	void set_mana(unsigned mana_encontrado);
@@ -38,4 +38,4 @@ public:
 	unsigned get_vidas();
 };
 
-#endif // HARRY_POTTER_H
+#endif // harryPotter_H

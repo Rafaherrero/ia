@@ -57,11 +57,6 @@ public:
 	///@{
 
 	/*!
-	 * \brief Constructor vacío
-	 */
-	mapa_t(void);
-
-	/*!
 	 * \brief Constructor al que se le pasa el tamaño
 	 * \param x Tamaño en x del mapa
 	 * \param y Tamaño en y del mapa

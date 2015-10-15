@@ -53,7 +53,7 @@ id_t& tabla_t::at(QPoint coord)
 
 id_t& tabla_t::at(QPoint coord, id_t sentido)
 {
-	dir(coord, sentido);
+	coord = dir(coord, sentido);
 	return tabla_[coord.x()][coord.y()];
 }
 

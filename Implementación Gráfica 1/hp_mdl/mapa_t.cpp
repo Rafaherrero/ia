@@ -7,23 +7,13 @@
 
 #include "mapa_t.h"
 
-mapa_t::mapa_t(void):
-	tam_x_(0),
-	tam_y_(0),
-	setos_(),
-	entidades_(),
-	harry_pos_(1,1),
-	copa_pos_(1,1)
-{
-}
-
 mapa_t::mapa_t(unsigned x, unsigned y):
 	tam_x_(x),
 	tam_y_(y),
 	setos_(x,y, ID_MAPA_NO_HAY_SETO),
 	entidades_(x,y, ID_MAPA_NO_HAY_SETO),
 	harry_pos_(1,1),
-	copa_pos_(1,1)
+	copa_pos_(x-2,y-2)
 {
 }
 

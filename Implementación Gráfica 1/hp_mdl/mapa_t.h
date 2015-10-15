@@ -31,13 +31,6 @@
 #define ID_SENTIDO_RELOJ_DERECHA 6
 #define ID_SENTIDO_RELOJ_ABA_DER 7
 
-//Entidades
-#define ID_ENTIDADES_COPA 350 //Final del mapa
-#define ID_ENTIDADES_INICIO 351
-#define ID_ENTIDADES_MONSTRUO 352
-#define ID_ENTIDADES_GRAGEA 353
-
-
 class mapa_t
 {
 private:

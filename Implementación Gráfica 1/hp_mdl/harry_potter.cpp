@@ -1,9 +1,10 @@
 #include "harry_potter.h"
 
-harry_potter::harry_potter():
+harry_potter::harry_potter(mapa& lab):
 	posicion_harry(1,1),
 	vidas(3),
-	mana(3)
+	mana(3),
+	laberinto (lab)
 {
 
 }

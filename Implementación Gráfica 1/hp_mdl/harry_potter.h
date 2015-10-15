@@ -9,6 +9,7 @@
 #define HARRY_POTTER_H
 
 #include <common.h>
+#include <mapa.h>
 
 class harry_potter
 {
@@ -22,9 +23,12 @@ private:
 	QPoint posicion_harry;
 	unsigned vidas;
 	unsigned mana;
+	mapa& laberinto;
+	harry_potter();  //Lo ponemos aqui porque Dani lo quiso así
 
 public:
-    harry_potter();
+
+	harry_potter(mapa& lab);
 	QPoint get_posicion_harry();
 	void set_posicion_harry(QPoint ranas_de_chocolate);
 	void set_mana(unsigned mana_encontrado);

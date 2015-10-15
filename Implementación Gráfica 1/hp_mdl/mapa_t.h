@@ -1,6 +1,6 @@
 /*!
- * \file mapa.h
- * \brief Contiene la definición de la clase "mapa"
+ * \file mapa_t.h
+ * \brief Contiene la definición de la clase "mapa_t"
  * \author Daniel Ramos Acosta <alu0100843095@ull.edu.es>
  * \date 9 de Octubre
  */
@@ -20,26 +20,6 @@
 //IDs para generación del laberinto
 #define ID_MAPA_SI_HAY_SETO 1
 #define ID_MAPA_NO_HAY_SETO 0
-
-//IDs para imágenes
-#define ID_MAPA_OTROS_COMPLETO 100
-#define ID_MAPA_OTROS_CUATRO 101
-#define ID_MAPA_OTROS_UNICO 102
-#define ID_MAPA_OTROS_VACIO 103
-#define ID_MAPA_UNA_ABAJO 104
-#define ID_MAPA_UNA_ARRIBA 105
-#define ID_MAPA_UNA_DERECHA 106
-#define ID_MAPA_UNA_IZQUIERDA 107
-#define ID_MAPA_DOS_ABA_DER 108
-#define ID_MAPA_DOS_ABA_IZQ 109
-#define ID_MAPA_DOS_ARR_DER 110
-#define ID_MAPA_DOS_ARR_IZQ 111
-#define ID_MAPA_DOS_HORIZONTAL 112
-#define ID_MAPA_DOS_VERTICAL 113
-#define ID_MAPA_TRES_ABAJO 114
-#define ID_MAPA_TRES_ARRIBA 115
-#define ID_MAPA_TRES_DERECHA 116
-#define ID_MAPA_TRES_IZQUIERDA 117
 
 //Revisar en forma de reloj
 #define ID_SENTIDO_RELOJ_ABAJO 0
@@ -78,8 +58,8 @@ private:
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
 	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
 	bool tienes_adyacentes(QPoint celda, dir_t origen); //Devuelve verdadero si tiene adyacentes, falso si no.
-	id_t convertir_reloj(dir_t i);
-	void terminar_generar(void);
+	id_t convertir_reloj(dir_t i); //Para iterar de forma circular sobre las direcciones, emepzando por las 9.
+	void terminar_generar(void); //Reemplaza los tipos de generación por el tipo global del laberinto
 
 public:
 	/// \name Constructores
@@ -92,8 +72,8 @@ public:
 
 	/*!
 	 * \brief Constructor al que se le pasa el tamaño
-	 * \param x Tamaño en x del mapa_t
-	 * \param y Tamaño en y del mapa_t
+	 * \param x Tamaño en x del mapa
+	 * \param y Tamaño en y del mapa
 	 */
 	mapa_t(unsigned x ,unsigned y);
 
@@ -103,13 +83,13 @@ public:
 	///@{
 
 	/*!
-	 * \brief Devuelve el tamaño en x del mapa_t
+	 * \brief Devuelve el tamaño en x del mapa
 	 * \return La x
 	 */
 	unsigned get_x(void);
 
 	/*!
-	 * \brief Devuelve el tamaño en y del mapa_t
+	 * \brief Devuelve el tamaño en y del mapa
 	 * \return La y
 	 */
 	unsigned get_y(void);
@@ -127,14 +107,14 @@ public:
 	///@{
 
 	/*!
-	 * \brief Cambiar el tamaño del mapa_t
-	 * \param x Tamaño en x del mapa_t
-	 * \param y Tamaño en y del mapa_t
+	 * \brief Cambiar el tamaño del mapa
+	 * \param x Tamaño en x del mapa
+	 * \param y Tamaño en y del mapa
 	 */
 	void resize(unsigned x,unsigned y);
 
 	/*!
-	 * \brief Se usa para limpiar el mapa_t entero y ponerlo todo a vacío
+	 * \brief Se usa para limpiar el mapa entero y ponerlo todo a vacío
 	 */
 	void limpiar(void);
 
@@ -156,7 +136,7 @@ public:
 
 	/*!
 	 * \brief Colocar los setos aleatoriamente (sin forma de laberinto)
-	 * \param porcentaje Porcentaje de ocupación del mapa_t de los setos
+	 * \param porcentaje Porcentaje de ocupación del mapa de los setos
 	 */
 	void generar_aleatorio(unsigned porcentaje);
 
@@ -166,7 +146,7 @@ public:
 	///@{
 
 	/*!
-	 * \brief Colocar una cantidad de monstruos en el mapa_t
+	 * \brief Colocar una cantidad de monstruos en el mapa
 	 * \param cantidad_mon Cantidad de monstruos
 	 */
 	void colocar_monstruos(unsigned cantidad);
@@ -211,4 +191,4 @@ public:
 	///@}
 };
 
-#endif // mapa_t_H
+#endif // MAPA_H

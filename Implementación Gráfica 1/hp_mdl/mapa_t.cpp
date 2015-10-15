@@ -1,3 +1,10 @@
+/*!
+ * \file mapa_t.cpp
+ * \brief Contiene la definición de la clase "mapa"
+ * \author Daniel Ramos Acosta <alu0100843095@ull.edu.es>
+ * \date 9 de Octubre
+ */
+
 #include "mapa_t.h"
 
 mapa_t::mapa_t(void):
@@ -11,8 +18,8 @@ mapa_t::mapa_t(void):
 mapa_t::mapa_t(unsigned x, unsigned y):
 	tamano_x_(x),
 	tamano_y_(y),
-	setos_(x,y, ID_MAPA_OTROS_VACIO),
-	entidades_(x,y, ID_MAPA_OTROS_VACIO),
+	setos_(x,y, ID_MAPA_NO_HAY_SETO),
+	entidades_(x,y, ID_MAPA_NO_HAY_SETO),
 	inicio_(1,1),
 	final_(1,1)
 {

@@ -22,6 +22,7 @@ private:
 	QPoint posicion_harry;
 	unsigned vidas;
 	unsigned mana;
+
 public:
     harry_potter();
 	QPoint get_posicion_harry();

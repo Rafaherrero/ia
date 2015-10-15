@@ -8,32 +8,18 @@
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
-{	/*
-	unsigned x = 4, y = 8;
-	tabla_t test(x, y);
-	for(unsigned i = 0; i < x; i++){
-		for(unsigned j = 0; j < y; j++){
-			std::cout << "Voy a mirar  el punto " << i << ", " << j << std::endl;
-			QPoint punto(i,j);
-			if(i == 0 && j == 0)
-				test.at(punto) = 9;
-			else if(i == 1 && j == 0)
-				test.at(punto) = 8;
-			else if(i == 0 && j == 1)
-				test.at(punto) = 7;
-			else
-				test.at(punto) = 0;
-		}
-	}
-	std::cout << "Termine de poner la tabla" << std::endl;
-
-	test.imprime(std::cout);*/
+{
 
 	mapa* el_mapa = new mapa(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
+	harry_potter harry_popotter(el_mapa);
+
+	while(){
+
+	}
 
 	ui->setupUi(this);
-	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100); //Esto lo cambié yo (dani) para unas pruebas mias, hay que restaurar el original
+	this->setMaximumSize((TAMANO_X*18)+40,(TAMANO_Y*18)+100);
 	scene = new QGraphicsScene(this);
 	//scene->setSceneRect(0,0,64,64);
 	//ui->grafico_mapa->resize(67,67);
@@ -54,7 +40,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	unsigned conti=0;
 	unsigned contj=0;
 	QPoint posicion_objeto(0,0);
-	id_t tipo_celda;
 
 	for (int j=0;(j<TAMANO_Y*18);j=j+18){
 		conti=0;
@@ -75,32 +60,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 		}
 		contj++;
 	}
-
-//		//			if (cont>99&&cont<200){
-//		//				if (cont==100){
-//		//					cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
-//		//					cesped[cont]->setOffset(i,j);
-//		//					scene->addItem(cesped[cont]);
-//		//					harry->setOffset(i,j);
-//		//					scene->addItem(harry);
-//		//					cont++;
-//		//				}
-//		//				else{
-//		//				cesped[cont] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
-//		//				cesped[cont]->setOffset(i,j);
-//		//				scene->addItem(cesped[cont]);
-//		//				cont++;
-//		//				}
-//		//			}
-//		//			else{
-//		//			seto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
-//		//			seto[conti][contj]->setOffset(i,j);
-//		//			scene->addItem(seto[conti][contj]);
-//		//			cont++;
-//		//			}
-//		//			contj++;
-//		//		}
-//		//		conti++;
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();

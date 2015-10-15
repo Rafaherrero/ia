@@ -51,6 +51,7 @@ void mapa::generar_laberinto(void)
 	std::cout << "Corrigiendo las posiciones" << std::endl;
 	terminar_generar();
 	corregir_posiciones();
+	std::cout << "Ya he corregido las posiciones" << std::endl;
 	setos_.imprime(std::cout);
 }
 
@@ -144,7 +145,7 @@ void mapa::terminar_generar(void)
 	for(unsigned i = 0; i < tamano_y_; i++){
 		for(unsigned j = 0; j < tamano_x_; j++){
 			if(i == 0 || j ==0 || i == tamano_y_-1 || j == tamano_x_-1){
-				QPoint aux(i, j);
+				QPoint aux(j, i);
 				setos_.at(aux) = ID_GENERACION_VACIO;
 			}
 		}
@@ -196,10 +197,12 @@ void mapa::colocar_monstruos(unsigned cantidad_mon)
 void mapa::corregir_posiciones(void)
 {
 	QPoint celda(0,0);
+	std::cout << "Vamos a empezar" << std::endl;
 	for(unsigned i = 0; i < setos_.tam_y(); i++){
 		for(unsigned j = 0; j < setos_.tam_x(); j++){
 			celda.ry() = i;
 			celda.rx() = j;
+			std::cout << "Entrando en " << i << ", " << j << std::endl;
 			switch (setos_.at(celda)) {
 			case ID_GENERACION_MARCADO:
 				setos_.at(celda) = ID_MAPA_NO_HAY_SETO;

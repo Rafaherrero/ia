@@ -34,6 +34,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	QGraphicsPixmapItem* objeto[TAMANO_X][TAMANO_Y];
 	QGraphicsPixmapItem* harry_icono;
+	QGraphicsPixmapItem* copa;
 
 	unsigned conti=0;
 	unsigned contj=0;
@@ -62,6 +63,10 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
 	harry_icono->setOffset(harry_potter.get_posicion_harry().x()*TAMANO_ICONO, harry_potter.get_posicion_harry().y()*TAMANO_ICONO);
 	scene->addItem(harry_icono);
+
+	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
+	copa ->setOffset(el_mapa->get_copa().x()*TAMANO_ICONO, el_mapa->get_copa().y()*TAMANO_ICONO);
+	scene->addItem(copa);
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();

@@ -13,8 +13,19 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        ventanaprincipal.cpp
+        ventanaprincipal.cpp \
+    mapa.cpp \
+    harry_potter.cpp \
+    exceptions.cpp \
+    tabla_t.cpp
 
-HEADERS  += ventanaprincipal.h
+HEADERS  += ventanaprincipal.h \
+    mapa.h \
+    harry_potter.h \
+    common.h \
+    exceptions.h \
+    tabla_t.h
 
 FORMS    += ventanaprincipal.ui
+
+CONFIG += c++11

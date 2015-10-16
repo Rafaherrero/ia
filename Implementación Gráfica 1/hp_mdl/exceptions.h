@@ -1,0 +1,49 @@
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
+
+
+#include <exception>
+
+namespace exception{
+
+    /*
+    class nombre_de_error:public std::exception
+    {
+    private:
+        const char* what_;
+
+    public:
+        nombre_de_error(void);
+        nombre_de_error(const char*);
+
+        const char* what() const throw(){return what_;}
+    };
+    */
+
+    class out_of_range:public std::exception
+    {
+    private:
+        const char* what_;
+
+    public:
+        out_of_range(void);
+        out_of_range(const char*);
+
+        const char* what() const throw(){return what_;}
+    };
+
+    class mem_error:public std::exception
+    {
+    private:
+        const char* what_;
+
+    public:
+        mem_error(void);
+        mem_error(const char*);
+
+        const char* what() const throw(){return what_;}
+    };
+
+}
+
+#endif // EXCEPTIONS_H

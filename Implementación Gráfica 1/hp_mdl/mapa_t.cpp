@@ -208,6 +208,7 @@ void mapa_t::terminar_generar(void)
 		if(setos_.alcanzable(copa_pos_, i))
 			setos_.at(copa_pos_, i) = ID_GENERACION_MARCADO;
 	}
+	setos_.at(copa_pos_) = ID_GENERACION_MARCADO;
 
 	//Poner bordes
 	for(unsigned i = 0; i < tam_y_; i++){
@@ -279,6 +280,8 @@ void mapa_t::colocar_monstruos(unsigned cantidad)
 
 void mapa_t::mover_copa(QPoint celda)
 {
+	if(!setos_.alcanzable(celda))
+		throw exception::out_of_range("[MOVER_COPA] Esa celda no está dentro del rango!"); //TODO: cambiar excepción
 	if(setos_.at(celda) == ID_GLOBAL_SETO_HAY || entidades_.at(celda) != ID_GLOBAL_ENTIDAD_NULA)
 		throw exception::out_of_range("[MOVER_COPA] Esa celda ya estaba ocupada!"); //TODO: cambiar excepción
 	//En otro caso...

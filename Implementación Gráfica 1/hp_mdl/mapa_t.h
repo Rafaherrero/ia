@@ -192,11 +192,29 @@ public:
 	id_t& get_seto(QPoint celda);
 
 	/*!
+	 * \brief Se usa para saber conseguir la ID del seto de esa casilla.
+	 * \param celda La casilla en cuestión
+	 * \param dir Cirección en la que quieres mirar.
+	 * \return Verdadero si hay un seto, falso si no
+	 */
+	id_t& get_seto(QPoint celda, dir_t dir);
+
+	/*!
 	 * \brief Se usa para devolver la ID de la entidad de una casilla.
 	 * \param celda La casilla en cuestión
 	 * \return Devuelve el ID de la entidad
 	 */
 	id_t& get_ent(QPoint celda);
+
+	/*!
+	 * \brief Se usa para devolver la ID de la entidad de una casilla.
+	 * \param celda La casilla en cuestión7
+	 * \param dir Cirección en la que quieres mirar.
+	 * \return Devuelve el ID de la entidad
+	 */
+	id_t& get_ent(QPoint celda, dir_t dir);
+
+
 
 	///@}
 };

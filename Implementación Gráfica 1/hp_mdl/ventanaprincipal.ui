@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Harry Potter y los Monstruos del Laberinto (v0.0.0.0.3)</string>
+   <string>Harry Potter y los Monstruos del Laberinto (v0.0.0.0.4)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">

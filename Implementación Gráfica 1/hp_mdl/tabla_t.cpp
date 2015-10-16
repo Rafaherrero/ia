@@ -53,7 +53,7 @@ id_t& tabla_t::at(QPoint coord)
 
 id_t& tabla_t::at(QPoint coord, id_t sentido)
 {
-	dir(coord, sentido);
+	coord = dir(coord, sentido);
 	return tabla_[coord.x()][coord.y()];
 }
 
@@ -83,13 +83,24 @@ void tabla_t::clear(id_t val)
 
 bool tabla_t::alcanzable(QPoint celda)
 {
-	bool expr = (celda.x() >= 1 && celda.y() >= 1) && ((unsigned)celda.x() < tam_x_-1 && (unsigned)celda.y() < tam_y_-1); //Dejarlo asi para el debugger
+	bool expr = (celda.x() >= 0 && celda.y() >= 0) && ((unsigned)celda.x() < tam_x_ && (unsigned)celda.y() < tam_y_); //Dejarlo asi para el debugger
 	return expr;
 }
 
 bool tabla_t::alcanzable(QPoint celda, id_t sentido)
 {
 	return alcanzable(dir(celda, sentido));
+}
+
+bool tabla_t::alcanzable_bor(QPoint celda)
+{
+	bool expr = (celda.x() >= 1 && celda.y() >= 1) && ((unsigned)celda.x() < tam_x_-1 && (unsigned)celda.y() < tam_y_-1); //Dejarlo asi para el debugger
+	return expr;
+}
+
+bool tabla_t::alcanzable_bor(QPoint celda, id_t sentido)
+{
+	return alcanzable_bor(dir(celda, sentido));
 }
 
 void tabla_t::imprime(std::ostream& os)

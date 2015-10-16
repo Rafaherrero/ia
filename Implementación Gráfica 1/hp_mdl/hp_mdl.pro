@@ -14,17 +14,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         ventanaprincipal.cpp \
-    mapa.cpp \
-    harry_potter.cpp \
     exceptions.cpp \
-    tabla_t.cpp
+    tabla_t.cpp \
+    harryPotter.cpp \
+    mapa_t.cpp \
+    aleatorio.cpp
+    aleatorio.cpp 
 
 HEADERS  += ventanaprincipal.h \
-    mapa.h \
-    harry_potter.h \
+    mapa_t.h \
     common.h \
     exceptions.h \
-    tabla_t.h
+    tabla_t.h \
+    harryPotter.h \
+    aleatorio.h 
+
 
 FORMS    += ventanaprincipal.ui
 

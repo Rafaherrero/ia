@@ -218,8 +218,8 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 	unsigned cur = tam_x_+tam_x_+tam_y_+tam_y_-4; //Contamos los bordes, restamos 4 porque repetimos celdas al sumar
 	QPoint punto_aleatorio;
 	while(cur < max){
-		punto_aleatorio.setX(aleatorio::random()%(tam_x_-1));
-		punto_aleatorio.setY(aleatorio::random()%(tam_y_-1));
+//		punto_aleatorio.setX(aleatorio::random()%(tam_x_-1));
+//		punto_aleatorio.setY(aleatorio::random()%(tam_y_-1));
 		setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
 		cur++;
 	}
@@ -258,8 +258,8 @@ void mapa_t::colocar_monstruos(unsigned cantidad)
 	QPoint punto(0,0);
 	while(contador < cantidad)
 	{
-		punto.setX(aleatorio::random()%entidades_.tam_x());
-		punto.setY(aleatorio::random()%entidades_.tam_y());
+//		punto.setX(aleatorio.random()%entidades_.tam_x());
+//		punto.setY(aleatorio.random()%entidades_.tam_y());
 		if(setos_.at(punto) == ID_GLOBAL_SETO_NO_HAY && entidades_.at(punto) == ID_GLOBAL_ENTIDAD_NULA){
 			entidades_.at(punto) = ID_GLOBAL_ENTIDAD_MONSTRUO;
 			contador++;

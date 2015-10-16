@@ -1,7 +1,8 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
-
 #include "harryPotter.h"
+#include "infolaberinto.h"
+#include "ui_infolaberinto.h"
 
 #include <iostream>
 
@@ -9,6 +10,26 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
+	
+	int tamano_x=0;
+	int tamano_y=0;
+
+	QString text_lab = "Ingrese el tamaño del mapa. Solo acepta enteros.";
+//	QString text_copa = "Ingrese la posición de la Copa de los Tres Magos. Solo acepta enteros.";
+//	QString text_harry = "Ingrese la posición de Harry Potter. Solo acepta enteros.";
+
+	infolaberinto *cuadrodialogo = new infolaberinto;
+//	cuadrodialogo.set_texto_laberinto(text_lab);
+//	cuadrodialogo.set_texto_copa(text_copa);
+//	cuadrodialogo.set_texto_harry(text_harry);
+
+	cuadrodialogo->show();
+
+	sleep(5);
+
+
+//	ui->estado_harry->setText("Harry ha entrado al laberinto");
+//	ui->estado_harry->adjustSize();
 
 	mapa_t* el_mapa = new mapa_t(TAMANO_Y,TAMANO_X);
 	el_mapa->generar_laberinto();
@@ -16,7 +37,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	harryPotter harry_potter(*el_mapa);
 
 	ui->setupUi(this);
-	this->setMaximumSize((TAMANO_X*TAMANO_ICONO)+40,(TAMANO_Y*TAMANO_ICONO)+100);
+	this->setMaximumSize((TAMANO_X*TAMANO_ICONO)+40,(TAMANO_Y*TAMANO_ICONO)+140);
 	scene = new QGraphicsScene(this);
 	//scene->setSceneRect(0,0,64,64);
 	//ui->grafico_mapa->resize(67,67);

@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     mapa_t.cpp \
     exceptions.cpp \
     tabla_t.cpp \
-    harryPotter.cpp
+    harryPotter.cpp \
+    infolaberinto.cpp
     aleatorio.cpp 
 
 HEADERS  += ventanaprincipal.h \
@@ -25,10 +26,14 @@ HEADERS  += ventanaprincipal.h \
     common.h \
     exceptions.h \
     tabla_t.h \
-    harryPotter.h
+    harryPotter.h \
+    infolaberinto.h
     aleatorio.h 
 
 
-FORMS    += ventanaprincipal.ui
+FORMS    += ventanaprincipal.ui \
+    infolaberinto.ui
 
 CONFIG += c++11
+
+DISTFILES +=

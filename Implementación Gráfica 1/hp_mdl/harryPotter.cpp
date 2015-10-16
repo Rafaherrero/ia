@@ -4,7 +4,8 @@ harryPotter::harryPotter(mapa_t& lab):
 	posicion_harry(1,1),
 	vidas(3),
 	mana(3),
-	laberinto(lab)
+    laberinto(lab),
+    marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO)
 {
 
 }
@@ -34,8 +35,20 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 }
 
 void harryPotter::movimiento(){
-	//while (get_vidas()>0&&get_vidas()<=3){
-	//set_posicion_harry (clase_airam.movimiento_harry());
+
+
+    while (get_vidas()>0&&get_vidas()<=3&&get_posicion_harry()!=laberinto.get_pos_copa()){
+        QPoint punto(get_posicion_harry());
+        marcar.at(punto)=ID_GENERACION_VISITADO;
+
+        if(laberinto.get_seto(get_posicion_harry(), ID_ORIENTACION_ARRIBA) == ID_GLOBAL_SETO_HAY){
+
+        }
+    }
+
+
+//while (get_vidas()>0&&get_vidas()<=3){
+//set_posicion_harry (clase_airam.movimiento_harry());
 //}
 //	VentanaPrincipal harry;
 //	if (get_vidas()>0&&get_vidas()<=3){

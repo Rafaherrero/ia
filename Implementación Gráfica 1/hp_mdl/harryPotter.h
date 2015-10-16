@@ -10,6 +10,7 @@
 
 #include <common.h>
 #include <mapa_t.h>
+#include <QStack>
 
 class harryPotter
 {
@@ -26,6 +27,7 @@ private:
 	mapa_t& laberinto;
     tabla_t marcar;
 	harryPotter();  //Lo ponemos aqui porque Dani lo quiso así
+    QPoint get_next_dir();
 
 public:
 

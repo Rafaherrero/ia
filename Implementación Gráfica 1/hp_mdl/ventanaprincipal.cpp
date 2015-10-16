@@ -10,7 +10,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui(new Ui::VentanaPrincipal)
 {
 
-	mapa_t* el_mapa = new mapa_t(TAMANO_Y,TAMANO_X);
+	mapa_t* el_mapa = new mapa_t(TAMANO_X,TAMANO_Y);
 	el_mapa->generar_laberinto();
 
 	harryPotter harry_potter(*el_mapa);
@@ -43,7 +43,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	for (int j=0;(j<TAMANO_Y*TAMANO_ICONO);j=j+TAMANO_ICONO){
 		conti=0;
 		for (int i=0;(i<TAMANO_X*TAMANO_ICONO);i=i+TAMANO_ICONO){
-			QPoint posicion_objeto(contj,conti);
+			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
 				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
 				objeto[conti][contj]-> setOffset(i,j);

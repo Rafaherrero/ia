@@ -80,7 +80,16 @@ public:
 	 */
 	unsigned get_y(void);
 
-	QPoint get_pos_harry(void); //TODO: Comentar
+	/*!
+	 * \brief Devuelve el punto en el se encuentra harry
+	 * \return Punto en cuestión
+	 */
+	QPoint get_pos_harry(void);
+
+	/*!
+	 * \brief Devuelve el punto en el se encuentra la copa
+	 * \return Punto en cuestión
+	 */
 	QPoint get_pos_copa(void);
 
 	/*!

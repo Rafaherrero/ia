@@ -23,14 +23,14 @@ unsigned random(void)
 	return std::rand();
 }
 
-std::string imprdir(QPoint punto)
+std::string imprqp(QPoint punto)
 {
 	std::stringstream stream;
 	stream << "(" << punto.x() << ", " << punto.y() << ")";
 	return stream.str();
 }
 
-std::string imprqp(dir_t dir)
+std::string imprdir(dir_t dir)
 {
 	switch(dir){
 		case ID_ORIENTACION_ABAJO: return std::string("abajo"); break;
@@ -43,6 +43,26 @@ std::string imprqp(dir_t dir)
 		case ID_ORIENTACION_ABA_DER: return std::string("abajo a la derecha"); break;
 	}
 	return std::string("??????");
+}
+
+QPoint QP(unsigned x, unsigned y)
+{
+	return QPoint(x,y);
+}
+
+QPoint QP(QPoint punto, dir_t dir)
+{
+	switch(dir){
+	case ID_ORIENTACION_ARRIBA: punto.ry()--; break;
+	case ID_ORIENTACION_ABAJO: punto.ry()++; break;
+	case ID_ORIENTACION_DERECHA: punto.rx()++; break;
+	case ID_ORIENTACION_IZQUIERDA: punto.rx()--; break;
+	case ID_ORIENTACION_ABA_IZQ: punto.ry()++; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_IZQ: punto.ry()--; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_DER: punto.ry()--; punto.rx()++; break;
+	case ID_ORIENTACION_ABA_DER: punto.ry()++; punto.rx()++; break;
+	}
+	return punto;
 }
 
 }

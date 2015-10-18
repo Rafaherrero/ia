@@ -52,8 +52,10 @@ namespace common{
 	unsigned mix(unsigned long a, unsigned long b, unsigned long c);
 	unsigned random(void);
 	//TODO: Borrar después de depurar
-	std::string imprdir(QPoint punto);
-	std::string imprqp(dir_t dir);
+	std::string imprqp(QPoint punto);
+	std::string imprdir(dir_t dir);
+	QPoint QP(unsigned x, unsigned y);
+	QPoint QP(QPoint punto, dir_t dir);
 }
 
 #endif // COMMON

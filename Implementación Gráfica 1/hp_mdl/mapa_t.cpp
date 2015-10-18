@@ -125,7 +125,7 @@ bool mapa_t::existe_casilla_ocupable(QPoint celda)
 {
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
 		if(setos_.alcanzable_bor(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			QPoint revisar = setos_.dir(celda, i);
+			QPoint revisar = common::QP(celda, i);
 			id_t comp = setos_.at(revisar);
 			if(comp == ID_GENERACION_VACIO)
 				if(!tienes_adyacentes(revisar, i))
@@ -141,7 +141,7 @@ QPoint mapa_t::casilla_aleatoria_ocupable(QPoint celda)
 	while(existe_casilla_ocupable(celda)){
 		unsigned dir = common::random()%4;
 		if(setos_.alcanzable_bor(celda, dir)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			QPoint revisar = setos_.dir(celda, dir);
+			QPoint revisar = common::QP(celda, dir);
 			id_t comp = setos_.at(revisar);
 			if(comp == ID_GENERACION_VACIO){
 				if(!tienes_adyacentes(revisar, dir))
@@ -152,7 +152,7 @@ QPoint mapa_t::casilla_aleatoria_ocupable(QPoint celda)
 	return QPoint(-1,-1);
 }
 
-bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen) //FIXME
+bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen)
 {
 	unsigned desplazamiento = 0;
 	switch (origen) {
@@ -170,7 +170,7 @@ bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen) //FIXME
 	}
 
 	for(unsigned i = 0; i < 5; i++){ //por cada dirección (incluyendo las esquinas)
-		QPoint mirando = setos_.dir(celda, convertir_reloj(i+desplazamiento));
+		QPoint mirando = common::QP(celda, convertir_reloj(i+desplazamiento));
 		if(setos_.alcanzable_bor(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
@@ -264,7 +264,7 @@ void mapa_t::corregir_posiciones(void)
 void mapa_t::colocar_monstruos(unsigned cantidad)
 {
 	if(cantidad > (tam_x_*tam_y_)-contar_setos())
-		throw exception::out_of_range("[COLOCAR_MONSTRUOS] Excedido el numero de monstruos posibles"); //TODO: cambiar excepción
+		throw exception::out_of_range("Excedido el numero de monstruos posibles");
 
 	unsigned contador = 0;
 	QPoint punto(0,0);
@@ -281,10 +281,11 @@ void mapa_t::colocar_monstruos(unsigned cantidad)
 
 void mapa_t::mover_copa(QPoint celda)
 {
-	if(!setos_.alcanzable(celda))
-		throw exception::out_of_range("[MOVER_COPA] Esa celda no está dentro del rango!"); //TODO: cambiar excepción
+	if(!entidades_.alcanzable(celda))
+		throw exception::not_reachable(common::imprqp(celda).c_str());
 	if(setos_.at(celda) == ID_GLOBAL_SETO_HAY || entidades_.at(celda) != ID_GLOBAL_ENTIDAD_NULA)
-		throw exception::out_of_range("[MOVER_COPA] Esa celda ya estaba ocupada!"); //TODO: cambiar excepción
+		throw exception::overlapping(common::imprqp(celda).c_str());
+
 	//En otro caso...
 	entidades_.at(copa_pos_) = ID_GLOBAL_ENTIDAD_NULA;
 	copa_pos_ = celda;
@@ -293,8 +294,11 @@ void mapa_t::mover_copa(QPoint celda)
 
 void mapa_t::mover_harry(QPoint celda)
 {
+	if(!entidades_.alcanzable(celda))
+		throw exception::not_reachable(common::imprqp(celda).c_str());
 	if(setos_.at(celda) == ID_GLOBAL_SETO_HAY || entidades_.at(celda) != ID_GLOBAL_ENTIDAD_NULA)
-		throw exception::out_of_range("[MOVER_HARRY(CELDA)] Esa celda ya estaba ocupada!"); //TODO: cambiar excepción
+		throw exception::overlapping(common::imprqp(celda).c_str());
+
 	//En otro caso...
 	entidades_.at(harry_pos_) = ID_GLOBAL_ENTIDAD_NULA;
 	harry_pos_ = celda;
@@ -303,22 +307,20 @@ void mapa_t::mover_harry(QPoint celda)
 
 void mapa_t::mover_harry(dir_t sentido)
 {
-	try{
-		mover_harry(entidades_.dir(harry_pos_, sentido));
-	}
-	catch(...){
-		throw exception::out_of_range("[MOVER_HARRY(DIR)] Esa celda ya estaba ocupada!"); //TODO: cambiar excepción
-	}
+	QPoint celda = common::QP(harry_pos_, sentido);
+	return mover_harry(celda);
 }
 
 id_t& mapa_t::get_seto(QPoint celda)
 {
-	//TODO: tirar excepción si no es alcanzable
+	if(!setos_.alcanzable(celda))
+		throw exception::not_reachable(common::imprqp(celda).c_str());
 	return setos_.at(celda);
 }
 
 id_t& mapa_t::get_ent(QPoint celda)
 {
-	//TODO: tirar excepción si no es alcanzable
+	if(!entidades_.alcanzable(celda))
+		throw exception::not_reachable(common::imprqp(celda).c_str());
 	return entidades_.at(celda);
 }

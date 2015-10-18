@@ -318,9 +318,21 @@ id_t& mapa_t::get_seto(QPoint celda)
 	return setos_.at(celda);
 }
 
+id_t& mapa_t::get_seto(QPoint celda, dir_t dir)
+{
+	//TODO: tirar excepción si no es alcanzable
+	return setos_.at(celda, dir);
+}
+
 id_t& mapa_t::get_ent(QPoint celda)
 {
 	if(!entidades_.alcanzable(celda))
 		throw exception::not_reachable(common::imprqp(celda).c_str());
 	return entidades_.at(celda);
+}
+
+id_t& mapa_t::get_ent(QPoint celda, dir_t dir)
+{
+	//TODO: tirar excepción si no es alcanzable
+	return entidades_.at(celda, dir);
 }

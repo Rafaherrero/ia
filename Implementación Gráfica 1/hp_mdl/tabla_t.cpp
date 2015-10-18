@@ -34,14 +34,14 @@ void tabla_t::resize(unsigned x, unsigned y)
 QPoint tabla_t::dir(QPoint punto, id_t sentido)
 {
 	switch(sentido){
-	case ID_ORIENTACION_ARRIBA: punto.ry()++; break;
-	case ID_ORIENTACION_ABAJO: punto.ry()--; break;
+	case ID_ORIENTACION_ARRIBA: punto.ry()--; break;
+	case ID_ORIENTACION_ABAJO: punto.ry()++; break;
 	case ID_ORIENTACION_DERECHA: punto.rx()++; break;
 	case ID_ORIENTACION_IZQUIERDA: punto.rx()--; break;
-	case ID_ORIENTACION_ABA_IZQ: punto.ry()--; punto.rx()--; break;
-	case ID_ORIENTACION_ARR_IZQ: punto.ry()++; punto.rx()--; break;
-	case ID_ORIENTACION_ARR_DER: punto.ry()++; punto.rx()++; break;
-	case ID_ORIENTACION_ABA_DER: punto.ry()--; punto.rx()++; break;
+	case ID_ORIENTACION_ABA_IZQ: punto.ry()++; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_IZQ: punto.ry()--; punto.rx()--; break;
+	case ID_ORIENTACION_ARR_DER: punto.ry()--; punto.rx()++; break;
+	case ID_ORIENTACION_ABA_DER: punto.ry()++; punto.rx()++; break;
 	}
 	return punto;
 }

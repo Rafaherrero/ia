@@ -18,16 +18,14 @@ SOURCES += main.cpp\
     tabla_t.cpp \
     harryPotter.cpp \
     mapa_t.cpp \
-    aleatorio.cpp
-    aleatorio.cpp 
+    common.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa_t.h \
     common.h \
     exceptions.h \
     tabla_t.h \
-    harryPotter.h \
-    aleatorio.h 
+    harryPotter.h
 
 
 FORMS    += ventanaprincipal.ui

@@ -117,35 +117,39 @@ void mapa_t::explora_vecinos_y_excava(QPoint celda)
 {
 	setos_.at(celda) = ID_GENERACION_VISITADO;
 	while(existe_casilla_ocupable(celda))
-		explora_vecinos_y_excava(casilla_ocupable(celda));
+		explora_vecinos_y_excava(casilla_aleatoria_ocupable(celda));
 	setos_.at(celda) = ID_GENERACION_MARCADO;
-	return;
 }
 
 bool mapa_t::existe_casilla_ocupable(QPoint celda)
 {
-	QPoint error(-1, -1);
-	if(casilla_ocupable(celda) == error)
-		return false;
-	return true;
-}
-
-QPoint mapa_t::casilla_ocupable(QPoint celda)
-{
-	unsigned desplazamiento = random();
 	for(unsigned i = 0; i < 4; i++){ //Para cada dirección
-		unsigned i_e = (i+desplazamiento)%4; //Obtener un número aleatorio y a partir de ahí, rotar
-		if(setos_.alcanzable_bor(celda, i_e)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
-			QPoint revisar = setos_.dir(celda, i_e);
+		if(setos_.alcanzable_bor(celda, i)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			QPoint revisar = setos_.dir(celda, i);
 			id_t comp = setos_.at(revisar);
-			if(comp == ID_GENERACION_VACIO && (comp != ID_GENERACION_VISITADO) && (comp != ID_GENERACION_MARCADO))
-				if(!tienes_adyacentes(revisar, i_e))
-					return(revisar);
+			if(comp == ID_GENERACION_VACIO)
+				if(!tienes_adyacentes(revisar, i))
+					return(true);
 			//Si tiene adyacentes, mirar en otra dirección
 		}
 	}
-	QPoint dummy(-1,-1); //Si no tiene adyacentes, devolver un nulo (-1,-1)
-	return dummy;
+	return false;
+}
+
+QPoint mapa_t::casilla_aleatoria_ocupable(QPoint celda)
+{
+	while(existe_casilla_ocupable(celda)){
+		unsigned dir = common::random()%4;
+		if(setos_.alcanzable_bor(celda, dir)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
+			QPoint revisar = setos_.dir(celda, dir);
+			id_t comp = setos_.at(revisar);
+			if(comp == ID_GENERACION_VACIO){
+				if(!tienes_adyacentes(revisar, dir))
+					return(revisar);
+			}
+		}
+	}
+	return QPoint(-1,-1);
 }
 
 bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen) //FIXME
@@ -153,25 +157,22 @@ bool mapa_t::tienes_adyacentes(QPoint celda, dir_t origen) //FIXME
 	unsigned desplazamiento = 0;
 	switch (origen) {
 	case ID_ORIENTACION_ARRIBA:
-		desplazamiento+=4;
+		desplazamiento = 4;
 		break;
 	case ID_ORIENTACION_DERECHA:
-		desplazamiento+=6;
+		desplazamiento = 6;
 		break;
 	case ID_ORIENTACION_IZQUIERDA:
-		desplazamiento+=2;
+		desplazamiento = 2;
 		break;
 	default:
 		break;
 	}
 
-	unsigned cantidad_adyacentes = 0;
-	for(unsigned i = 0; i < 6; i++){ //por cada dirección (incluyendo las esquinas)
+	for(unsigned i = 0; i < 5; i++){ //por cada dirección (incluyendo las esquinas)
 		QPoint mirando = setos_.dir(celda, convertir_reloj(i+desplazamiento));
 		if(setos_.alcanzable_bor(mirando)){ //Sólo si es alcanzable (que queda dentro de los márgenes de la matriz)
 			if(setos_.at(mirando) == ID_GENERACION_VISITADO || setos_.at(mirando) == ID_GENERACION_MARCADO)
-				cantidad_adyacentes++;
-			if(cantidad_adyacentes > 1)
 				return true; //Si pasamos de 1 adyacentes (por el que vinimos), tiene adyacentes
 		}
 	}
@@ -229,8 +230,8 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 	unsigned cur = tam_x_+tam_x_+tam_y_+tam_y_-4; //Contamos los bordes, restamos 4 porque repetimos celdas al sumar
 	QPoint punto_aleatorio;
 	while(cur < max){
-		punto_aleatorio.setX(aleatorio::random()%(tam_x_-1));
-		punto_aleatorio.setY(aleatorio::random()%(tam_y_-1));
+		punto_aleatorio.setX(common::random()%(tam_x_-1));
+		punto_aleatorio.setY(common::random()%(tam_y_-1));
 		setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
 		cur++;
 	}
@@ -269,8 +270,8 @@ void mapa_t::colocar_monstruos(unsigned cantidad)
 	QPoint punto(0,0);
 	while(contador < cantidad)
 	{
-		punto.setX(aleatorio::random()%entidades_.tam_x());
-		punto.setY(aleatorio::random()%entidades_.tam_y());
+		punto.setX(common::random()%entidades_.tam_x());
+		punto.setY(common::random()%entidades_.tam_y());
 		if(setos_.at(punto) == ID_GLOBAL_SETO_NO_HAY && entidades_.at(punto) == ID_GLOBAL_ENTIDAD_NULA){
 			entidades_.at(punto) = ID_GLOBAL_ENTIDAD_MONSTRUO;
 			contador++;

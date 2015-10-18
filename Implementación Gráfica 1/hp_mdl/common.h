@@ -1,11 +1,14 @@
 #ifndef COMMON
 #define COMMON
 
+#include <unistd.h>
 #include <QString>
 #include <QFileInfo>
 #include <QPoint>
 
-#include "aleatorio.h"
+//TODO: Borrar después de depurar
+#include <sstream>
+#include <string>
 
 //IDs de entidades y setos
 
@@ -40,9 +43,17 @@ typedef unsigned dir_t;
 
 //TODO: Esto de aquí se debería pedir por pantalla
 
-#define TAMANO_X 50
-#define TAMANO_Y 30
+#define TAMANO_X 60
+#define TAMANO_Y 40
 
 #define TAMANO_ICONO 18
+
+namespace common{
+	unsigned mix(unsigned long a, unsigned long b, unsigned long c);
+	unsigned random(void);
+	//TODO: Borrar después de depurar
+	std::string imprdir(QPoint punto);
+	std::string imprqp(dir_t dir);
+}
 
 #endif // COMMON

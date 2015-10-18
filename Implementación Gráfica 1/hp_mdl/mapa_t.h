@@ -45,7 +45,7 @@ private:
 	//Métodos para crear el laberinto
 	void explora_vecinos_y_excava(QPoint celda); //Método recursivo que crea el laberinto
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
-	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
+	QPoint casilla_aleatoria_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
 	bool tienes_adyacentes(QPoint celda, dir_t origen); //Devuelve verdadero si tiene adyacentes, falso si no.
 	dir_t convertir_reloj(dir_t i); //Para iterar de forma circular sobre las direcciones, emepzando por las 9.
 	void terminar_generar(void); //Reemplaza los tipos de generación por el tipo global del laberinto

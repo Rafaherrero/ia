@@ -57,7 +57,7 @@ void harryPotter::movimiento(){
     bool copa_encontrada=false;
     QStack<QPoint> stack;
     stack.push(get_posicion_harry());
-    marcar.at(stack.top())=ID_GENERACION_VISITADO; //meter en while.
+	marcar.at(stack.top())=ID_GENERACION_VISITADO;
 
     while (get_vidas()>0 && get_vidas()<=3 && !stack.empty() && !copa_encontrada){
         if (get_posicion_harry()==laberinto.get_pos_copa()){

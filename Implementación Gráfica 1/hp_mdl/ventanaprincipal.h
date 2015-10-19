@@ -43,4 +43,6 @@ private:
 	QGraphicsEllipseItem *ellipse;
 };
 
+//SUPER IMPLEMENTACION DE AIRAM
+
 #endif // VENTANAPRINCIPAL_H

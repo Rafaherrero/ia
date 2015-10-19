@@ -18,6 +18,7 @@
 #define RUTA_GRAGEA "img/Gragea_(definitivo).png"
 #define RUTA_DEMENTOR "img/Dementor_(definitivo).png"
 #define RUTA_COPA "img/Copa_(definitivo).png"
+#define RUTA_CARGA "img/Loading_(definitivo).png"
 
 namespace Ui {
 class VentanaPrincipal;
@@ -34,6 +35,7 @@ public:
 
 private slots:
 	void on_boton_generar_clicked();
+	void gen_lab();
 
 private:
 	Ui::VentanaPrincipal *ui;

@@ -15,8 +15,42 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	int tamano_y=10;
 	int tamano_icono=18;
 
-//	ui->estado_harry->setText("Harry ha entrado al laberinto");
-//	ui->estado_harry->adjustSize();
+	QImage image_carga(RUTA_CARGA);
+	QGraphicsPixmapItem* carga = new QGraphicsPixmapItem(QPixmap::fromImage(image_carga));
+
+	ui->setupUi(this);
+	this->setMaximumSize((500)+50,(455)+140);
+	scene = new QGraphicsScene(this);
+	ui->grafico_mapa->resize(500,455);
+	ui->grafico_mapa->setScene(scene);
+	scene->setSceneRect(0, 0, 500, 455);
+	ui->grafico_mapa->setMaximumSize(500+3,455+3);
+	ui->estado_harry->setText("No se ha creado ningún laberinto");
+	scene->addItem(carga);
+
+}
+
+void VentanaPrincipal::set_texto_estado(QString estado_harry){
+	ui->estado_harry->setText(estado_harry);
+	ui->estado_harry->adjustSize();
+}
+
+VentanaPrincipal::~VentanaPrincipal()
+{
+	delete ui;
+}
+
+void VentanaPrincipal::on_boton_generar_clicked()
+{
+	//infolaberinto *cuadrodialogo = new infolaberinto;
+	//cuadrodialogo->show();
+}
+
+void VentanaPrincipal::gen_lab(){
+
+	int tamano_x=10;
+	int tamano_y=10;
+	int tamano_icono=18;
 
 	mapa_t* el_mapa = new mapa_t(tamano_x,tamano_y);
 	el_mapa->generar_laberinto();
@@ -26,8 +60,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->setupUi(this);
 	this->setMaximumSize((tamano_x*tamano_icono)+40,(tamano_y*tamano_icono)+140);
 	scene = new QGraphicsScene(this);
-	//scene->setSceneRect(0,0,64,64);
-	//ui->grafico_mapa->resize(67,67);
 	ui->grafico_mapa->resize(tamano_x*tamano_icono,tamano_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, tamano_x*tamano_icono, tamano_y*tamano_icono);
@@ -79,23 +111,4 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
-
-	infolaberinto *cuadrodialogo = new infolaberinto;
-	cuadrodialogo->show();
-
-}
-
-void VentanaPrincipal::set_texto_estado(QString estado_harry){
-	ui->estado_harry->setText(estado_harry);
-	ui->estado_harry->adjustSize();
-}
-
-VentanaPrincipal::~VentanaPrincipal()
-{
-	delete ui;
-}
-
-void VentanaPrincipal::on_boton_generar_clicked()
-{
-	std::cout << "no vamos a hacer nada" << std::endl;
 }

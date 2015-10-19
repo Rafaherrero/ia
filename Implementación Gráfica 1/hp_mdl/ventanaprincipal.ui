@@ -80,7 +80,7 @@
     <item>
      <widget class="QPushButton" name="boton_generar">
       <property name="text">
-       <string>PushButton</string>
+       <string>Generar laberinto</string>
       </property>
      </widget>
     </item>

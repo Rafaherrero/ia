@@ -30,6 +30,7 @@ HEADERS  += ventanaprincipal.h \
     infolaberinto.h
 
 
-FORMS    += ventanaprincipal.ui
+FORMS    += ventanaprincipal.ui \
+    infolaberinto.ui
 
 CONFIG += c++11

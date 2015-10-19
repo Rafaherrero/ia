@@ -15,20 +15,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	int tamano_y=10;
 	int tamano_icono=18;
 
-	QString text_lab = "Ingrese el tamaño del mapa. Solo acepta enteros.";
-//	QString text_copa = "Ingrese la posición de la Copa de los Tres Magos. Solo acepta enteros.";
-//	QString text_harry = "Ingrese la posición de Harry Potter. Solo acepta enteros.";
-
-	infolaberinto *cuadrodialogo = new infolaberinto;
-//	cuadrodialogo.set_texto_laberinto(text_lab);
-//	cuadrodialogo.set_texto_copa(text_copa);
-//	cuadrodialogo.set_texto_harry(text_harry);
-
-	cuadrodialogo->show();
-
-	//sleep(5);
-
-
 //	ui->estado_harry->setText("Harry ha entrado al laberinto");
 //	ui->estado_harry->adjustSize();
 
@@ -94,6 +80,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
 
+	infolaberinto *cuadrodialogo = new infolaberinto;
+	cuadrodialogo->show();
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -104,4 +93,9 @@ void VentanaPrincipal::set_texto_estado(QString estado_harry){
 VentanaPrincipal::~VentanaPrincipal()
 {
 	delete ui;
+}
+
+void VentanaPrincipal::on_boton_generar_clicked()
+{
+	std::cout << "no vamos a hacer nada" << std::endl;
 }

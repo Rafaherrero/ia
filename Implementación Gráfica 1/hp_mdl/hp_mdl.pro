@@ -14,26 +14,20 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         ventanaprincipal.cpp \
-    mapa_t.cpp \
     exceptions.cpp \
     tabla_t.cpp \
     harryPotter.cpp \
-    infolaberinto.cpp
-    aleatorio.cpp 
+    mapa_t.cpp \
+    common.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa_t.h \
     common.h \
     exceptions.h \
     tabla_t.h \
-    harryPotter.h \
-    infolaberinto.h
-    aleatorio.h 
+    harryPotter.h
 
 
-FORMS    += ventanaprincipal.ui \
-    infolaberinto.ui
+FORMS    += ventanaprincipal.ui
 
 CONFIG += c++11
-
-DISTFILES +=

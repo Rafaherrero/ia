@@ -31,21 +31,6 @@ void tabla_t::resize(unsigned x, unsigned y)
 		i.resize(y);
 }
 
-QPoint tabla_t::dir(QPoint punto, id_t sentido)
-{
-	switch(sentido){
-	case ID_ORIENTACION_ARRIBA: punto.ry()++; break;
-	case ID_ORIENTACION_ABAJO: punto.ry()--; break;
-	case ID_ORIENTACION_DERECHA: punto.rx()++; break;
-	case ID_ORIENTACION_IZQUIERDA: punto.rx()--; break;
-	case ID_ORIENTACION_ABA_IZQ: punto.ry()--; punto.rx()--; break;
-	case ID_ORIENTACION_ARR_IZQ: punto.ry()++; punto.rx()--; break;
-	case ID_ORIENTACION_ARR_DER: punto.ry()++; punto.rx()++; break;
-	case ID_ORIENTACION_ABA_DER: punto.ry()--; punto.rx()++; break;
-	}
-	return punto;
-}
-
 id_t& tabla_t::at(QPoint coord)
 {
 	return tabla_[coord.x()][coord.y()];
@@ -53,7 +38,7 @@ id_t& tabla_t::at(QPoint coord)
 
 id_t& tabla_t::at(QPoint coord, id_t sentido)
 {
-	coord = dir(coord, sentido);
+	coord = common::QP(coord, sentido);
 	return tabla_[coord.x()][coord.y()];
 }
 
@@ -83,24 +68,22 @@ void tabla_t::clear(id_t val)
 
 bool tabla_t::alcanzable(QPoint celda)
 {
-	bool expr = (celda.x() >= 0 && celda.y() >= 0) && ((unsigned)celda.x() < tam_x_ && (unsigned)celda.y() < tam_y_); //Dejarlo asi para el debugger
-	return expr;
+	return (celda.x() >= 0 && celda.y() >= 0) && ((unsigned)celda.x() < tam_x_ && (unsigned)celda.y() < tam_y_); //Dejarlo asi para el debugger;
 }
 
 bool tabla_t::alcanzable(QPoint celda, id_t sentido)
 {
-	return alcanzable(dir(celda, sentido));
+	return alcanzable(common::QP(celda, sentido));
 }
 
 bool tabla_t::alcanzable_bor(QPoint celda)
 {
-	bool expr = (celda.x() >= 1 && celda.y() >= 1) && ((unsigned)celda.x() < tam_x_-1 && (unsigned)celda.y() < tam_y_-1); //Dejarlo asi para el debugger
-	return expr;
+	return (celda.x() >= 1 && celda.y() >= 1) && ((unsigned)celda.x() < tam_x_-1 && (unsigned)celda.y() < tam_y_-1); //Dejarlo asi para el debugger
 }
 
 bool tabla_t::alcanzable_bor(QPoint celda, id_t sentido)
 {
-	return alcanzable_bor(dir(celda, sentido));
+	return alcanzable_bor(common::QP(celda, sentido));
 }
 
 void tabla_t::imprime(std::ostream& os)

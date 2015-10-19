@@ -33,7 +33,7 @@
 
 class mapa_t
 {
-private:
+public:
 	unsigned tam_x_;
 	unsigned tam_y_;
 	tabla_t setos_;
@@ -45,7 +45,7 @@ private:
 	//Métodos para crear el laberinto
 	void explora_vecinos_y_excava(QPoint celda); //Método recursivo que crea el laberinto
 	bool existe_casilla_ocupable(QPoint celda); //Devuelve si una celda tiene ocupables a su alrededor
-	QPoint casilla_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
+	QPoint casilla_aleatoria_ocupable(QPoint celda); //Devuelve una casilla que se pueda ocupar. Si no encuentra ninguna devuelve (-1,-1)
 	bool tienes_adyacentes(QPoint celda, dir_t origen); //Devuelve verdadero si tiene adyacentes, falso si no.
 	dir_t convertir_reloj(dir_t i); //Para iterar de forma circular sobre las direcciones, emepzando por las 9.
 	void terminar_generar(void); //Reemplaza los tipos de generación por el tipo global del laberinto
@@ -79,6 +79,18 @@ public:
 	 * \return La y
 	 */
 	unsigned get_y(void);
+
+	/*!
+	 * \brief Devuelve el punto en el se encuentra harry
+	 * \return Punto en cuestión
+	 */
+	QPoint get_pos_harry(void);
+
+	/*!
+	 * \brief Devuelve el punto en el se encuentra la copa
+	 * \return Punto en cuestión
+	 */
+	QPoint get_pos_copa(void);
 
 	/*!
 	 * \brief Se usa para contar todas los setos
@@ -180,11 +192,29 @@ public:
 	id_t& get_seto(QPoint celda);
 
 	/*!
+	 * \brief Se usa para saber conseguir la ID del seto de esa casilla.
+	 * \param celda La casilla en cuestión
+	 * \param dir Cirección en la que quieres mirar.
+	 * \return Verdadero si hay un seto, falso si no
+	 */
+	id_t& get_seto(QPoint celda, dir_t dir);
+
+	/*!
 	 * \brief Se usa para devolver la ID de la entidad de una casilla.
 	 * \param celda La casilla en cuestión
 	 * \return Devuelve el ID de la entidad
 	 */
 	id_t& get_ent(QPoint celda);
+
+	/*!
+	 * \brief Se usa para devolver la ID de la entidad de una casilla.
+	 * \param celda La casilla en cuestión7
+	 * \param dir Cirección en la que quieres mirar.
+	 * \return Devuelve el ID de la entidad
+	 */
+	id_t& get_ent(QPoint celda, dir_t dir);
+
+
 
 	///@}
 };

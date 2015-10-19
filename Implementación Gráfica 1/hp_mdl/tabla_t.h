@@ -16,7 +16,7 @@ private:
 public:
 	tabla_t(void); //Constructor vacío
 	tabla_t(unsigned x, unsigned y); //Se le pasa el tamaño de las x y las y
-	tabla_t(unsigned x, unsigned y, id_t def); //Se le pasa el tamaño y el valor por defecto
+    tabla_t(unsigned x, unsigned y, id_t def); //Se le pasa el tamaño y el valor por defecto
 	void resize(unsigned x, unsigned y); //Cambiar el tamaño
 	QPoint dir(QPoint punto, id_t sentido); //Se utiliza para conseguir las coordenadas de un punto en una determinada dirección/sentido
 	id_t& at(QPoint coord); //Se obtiene el valor de un punto concreto

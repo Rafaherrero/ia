@@ -36,6 +36,12 @@ typedef unsigned dir_t;
 #define ID_ORIENTACION_ARR_DER 6
 #define ID_ORIENTACION_ABA_DER 7
 
+const QPoint MOVER_ARRIBA(-1,0);
+const QPoint MOVER_DERECHA(0,+1);
+const QPoint MOVER_ABAJO(+1,0);
+const QPoint MOVER_IZQUIERDA(0,-1);
+
+
 //IDs para el algoritmo de generación
 #define ID_GENERACION_VISITADO 400
 #define ID_GENERACION_MARCADO 103

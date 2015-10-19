@@ -17,6 +17,9 @@ public:
 	void set_texto_laberinto(QString text_lab);
 	void set_texto_copa(QString text_copa);
 	void set_texto_harry(QString text_harry);
+	bool on_buttonBox_accepted();
+private slots:
+
 private:
 	Ui::infolaberinto *ui;
 };

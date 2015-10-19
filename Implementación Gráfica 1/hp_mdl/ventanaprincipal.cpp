@@ -19,12 +19,12 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QGraphicsPixmapItem* carga = new QGraphicsPixmapItem(QPixmap::fromImage(image_carga));
 
 	ui->setupUi(this);
-	this->setMaximumSize((500)+50,(455)+140);
+	this->setMaximumSize((400)+70,(364)+160);
 	scene = new QGraphicsScene(this);
-	ui->grafico_mapa->resize(500,455);
+	ui->grafico_mapa->resize(400,364);
 	ui->grafico_mapa->setScene(scene);
-	scene->setSceneRect(0, 0, 500, 455);
-	ui->grafico_mapa->setMaximumSize(500+3,455+3);
+	scene->setSceneRect(0, 0, 400, 364);
+	ui->grafico_mapa->setMaximumSize(500+30,455+30);
 	ui->estado_harry->setText("No se ha creado ningún laberinto");
 	scene->addItem(carga);
 
@@ -42,9 +42,17 @@ VentanaPrincipal::~VentanaPrincipal()
 
 void VentanaPrincipal::on_boton_generar_clicked()
 {
-	//infolaberinto *cuadrodialogo = new infolaberinto;
-	//cuadrodialogo->show();
+	infolaberinto *cuadrodialogo = new infolaberinto;
+	cuadrodialogo->show();
+
+	if (cuadrodialogo->on_buttonBox_accepted()){
+		std::cout << "true" << std::endl;
+	}
+	else{
+		std::cout << "Caca" << std::endl;
+	}
 }
+
 
 void VentanaPrincipal::gen_lab(){
 

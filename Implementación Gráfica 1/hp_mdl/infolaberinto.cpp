@@ -25,3 +25,8 @@ infolaberinto::~infolaberinto()
 {
 	delete ui;
 }
+
+bool infolaberinto::on_buttonBox_accepted()
+{
+
+}

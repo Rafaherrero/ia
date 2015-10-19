@@ -25,7 +25,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	cuadrodialogo->show();
 
-	sleep(5);
+	//sleep(5);
 
 
 //	ui->estado_harry->setText("Harry ha entrado al laberinto");

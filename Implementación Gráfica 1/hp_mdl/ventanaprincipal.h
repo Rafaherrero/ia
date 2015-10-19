@@ -32,10 +32,15 @@ public:
 	~VentanaPrincipal();
 	void set_texto_estado(QString estado_harry);
 
+private slots:
+	void on_boton_generar_clicked();
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;
 	QGraphicsEllipseItem *ellipse;
 };
+
+//SUPER IMPLEMENTACION DE AIRAM
 
 #endif // VENTANAPRINCIPAL_H

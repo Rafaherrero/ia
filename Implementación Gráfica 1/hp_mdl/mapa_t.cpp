@@ -320,8 +320,7 @@ id_t& mapa_t::get_seto(QPoint celda)
 
 id_t& mapa_t::get_seto(QPoint celda, dir_t dir)
 {
-	//TODO: tirar excepción si no es alcanzable
-	return setos_.at(celda, dir);
+	return setos_.at(common::QP(celda, dir));
 }
 
 id_t& mapa_t::get_ent(QPoint celda)
@@ -333,6 +332,5 @@ id_t& mapa_t::get_ent(QPoint celda)
 
 id_t& mapa_t::get_ent(QPoint celda, dir_t dir)
 {
-	//TODO: tirar excepción si no es alcanzable
-	return entidades_.at(celda, dir);
+	return entidades_.at(common::QP(celda, dir));
 }

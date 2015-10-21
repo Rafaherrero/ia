@@ -28,5 +28,9 @@ infolaberinto::~infolaberinto()
 
 bool infolaberinto::on_buttonBox_accepted()
 {
-
+	prueba = true;
+	if (prueba)
+		return true;
+	else
+		return false;
 }

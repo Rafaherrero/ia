@@ -21,6 +21,7 @@ public:
 private slots:
 
 private:
+	bool prueba =false;
 	Ui::infolaberinto *ui;
 };
 

@@ -19,7 +19,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QGraphicsPixmapItem* carga = new QGraphicsPixmapItem(QPixmap::fromImage(image_carga));
 
 	ui->setupUi(this);
-	this->setMaximumSize((400)+70,(364)+160);
+	this->setMaximumSize((400)+100,(364)+180);
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->resize(400,364);
 	ui->grafico_mapa->setScene(scene);
@@ -28,6 +28,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->setText("No se ha creado ningún laberinto");
 	scene->addItem(carga);
 
+		std::cout << "Valor cambiado" << std::endl;
+
+		connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -152,4 +155,9 @@ void VentanaPrincipal::on_play_lab_clicked()
 //	scene->
 //	}
 			gen_lab(10,10);
+}
+
+void VentanaPrincipal::sliderValueChanged(int value)
+{
+std::cout << "Ha cambiado el valor. Ahora es " << value << std::endl;
 }

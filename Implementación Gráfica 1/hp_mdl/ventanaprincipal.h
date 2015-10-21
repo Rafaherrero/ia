@@ -49,6 +49,8 @@ private slots:
 
 	void on_play_lab_clicked();
 
+	void sliderValueChanged(int value);
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;

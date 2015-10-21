@@ -96,6 +96,19 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="boton_aleatorio">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Generar aleatorio</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="play_lab">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -109,6 +122,29 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QSlider" name="horizontalSlider">
+      <property name="singleStep">
+       <number>5</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBelow</enum>
+      </property>
+      <property name="tickInterval">
+       <number>5</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Ajustar porcentaje de setos en laberinto aleatorio</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

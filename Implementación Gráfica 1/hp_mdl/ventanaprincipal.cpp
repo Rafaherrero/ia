@@ -28,9 +28,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->estado_harry->setText("No se ha creado ningún laberinto");
 	scene->addItem(carga);
 
-		std::cout << "Valor cambiado" << std::endl;
-
-		connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
+	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -53,7 +51,7 @@ void VentanaPrincipal::on_boton_generar_clicked()
 		gen_lab(10,10);
 	}
 	else{
-		std::cout << "Caca" << std::endl;
+		std::cout << "false" << std::endl;
 	}
 
 }
@@ -71,7 +69,7 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 	muneco_harry = new harryPotter (*el_mapa);
 
 	ui->setupUi(this);
-	this->setMaximumSize((tamano_x*tamano_icono)+40,(tamano_y*tamano_icono)+140);
+	this->setMaximumSize((tamano_x*tamano_icono)+100,(tamano_y*tamano_icono)+200);
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->resize(tamano_x*tamano_icono,tamano_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
@@ -159,5 +157,6 @@ void VentanaPrincipal::on_play_lab_clicked()
 
 void VentanaPrincipal::sliderValueChanged(int value)
 {
-std::cout << "Ha cambiado el valor. Ahora es " << value << std::endl;
+	QString valor = QString::number(value);
+	ui->porcentaje_seto->setText(valor+"%");
 }

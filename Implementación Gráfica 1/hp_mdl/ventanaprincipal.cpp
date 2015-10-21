@@ -47,7 +47,7 @@ void VentanaPrincipal::on_boton_generar_clicked()
 
 	if (cuadrodialogo->on_buttonBox_accepted()){
 		std::cout << "true" << std::endl;
-		gen_lab();
+		gen_lab(10,10);
 	}
 	else{
 		std::cout << "Caca" << std::endl;
@@ -56,10 +56,10 @@ void VentanaPrincipal::on_boton_generar_clicked()
 }
 
 
-void VentanaPrincipal::gen_lab(){
+void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 
-	int tamano_x=10;
-	int tamano_y=10;
+	int tamano_x=tam_x;
+	int tamano_y=tam_y;
 	int tamano_icono=18;
 
 	el_mapa = new mapa_t(tamano_x,tamano_y);
@@ -82,7 +82,7 @@ void VentanaPrincipal::gen_lab(){
 	QImage image_dementor(RUTA_DEMENTOR);
 	QImage image_gragea(RUTA_GRAGEA);
 
-	QGraphicsPixmapItem* objeto[tamano_x][tamano_y];
+	nodoMapa* objeto[tamano_x][tamano_y];
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
 
@@ -95,13 +95,13 @@ void VentanaPrincipal::gen_lab(){
 		for (int i=0;(i<tamano_x*tamano_icono);i=i+tamano_icono){
 			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
-				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_seto));
+				objeto[conti][contj] = new nodoMapa(true);
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
 			}
 			else{
-				objeto[conti][contj] = new QGraphicsPixmapItem(QPixmap::fromImage(image_cesped));
+				objeto[conti][contj] = new nodoMapa(false);
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
@@ -123,7 +123,33 @@ void VentanaPrincipal::gen_lab(){
 	ui->estado_harry->adjustSize();
 }
 
+nodoMapa::nodoMapa(bool hayseto):
+hayseto_(hayseto)
+{
+	if(hayseto_)
+		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
+	else
+		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
+}
+
+void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+	if(hayseto_)
+		hayseto_ = false;
+	else
+		hayseto_ = true;
+
+	if(hayseto_)
+		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
+	else
+		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
+}
+
 void VentanaPrincipal::on_play_lab_clicked()
 {
-
+//	while (muneco_harry->continuar()){
+//	muneco_harry->movimiento();
+//	scene->
+//	}
+			gen_lab(10,10);
 }

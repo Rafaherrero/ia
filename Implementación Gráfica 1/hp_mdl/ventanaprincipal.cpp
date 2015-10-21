@@ -47,10 +47,12 @@ void VentanaPrincipal::on_boton_generar_clicked()
 
 	if (cuadrodialogo->on_buttonBox_accepted()){
 		std::cout << "true" << std::endl;
+		gen_lab();
 	}
 	else{
 		std::cout << "Caca" << std::endl;
 	}
+
 }
 
 
@@ -60,10 +62,10 @@ void VentanaPrincipal::gen_lab(){
 	int tamano_y=10;
 	int tamano_icono=18;
 
-	mapa_t* el_mapa = new mapa_t(tamano_x,tamano_y);
+	el_mapa = new mapa_t(tamano_x,tamano_y);
 	el_mapa->generar_laberinto();
 
-	harryPotter harry_potter(*el_mapa);
+	muneco_harry = new harryPotter (*el_mapa);
 
 	ui->setupUi(this);
 	this->setMaximumSize((tamano_x*tamano_icono)+40,(tamano_y*tamano_icono)+140);
@@ -109,7 +111,7 @@ void VentanaPrincipal::gen_lab(){
 	}
 
 	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
-	harry_icono->setOffset(harry_potter.get_posicion_harry().x()*tamano_icono, harry_potter.get_posicion_harry().y()*tamano_icono);
+	harry_icono->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono, muneco_harry->get_posicion_harry().y()*tamano_icono);
 	scene->addItem(harry_icono);
 
 	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
@@ -119,4 +121,9 @@ void VentanaPrincipal::gen_lab(){
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
+}
+
+void VentanaPrincipal::on_play_lab_clicked()
+{
+
 }

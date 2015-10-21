@@ -11,6 +11,7 @@
 
 #include "common.h"
 #include "mapa_t.h"
+#include "harryPotter.h"
 
 #define RUTA_HARRY "img/Harry_Popotter_(definitivo).png"
 #define RUTA_CESPED "img/Cesped_(definitivo).png"
@@ -37,10 +38,15 @@ private slots:
 	void on_boton_generar_clicked();
 	void gen_lab();
 
+	void on_play_lab_clicked();
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;
 	QGraphicsEllipseItem *ellipse;
+
+	harryPotter* muneco_harry;
+	mapa_t* el_mapa;
 };
 
 //SUPER IMPLEMENTACION DE AIRAM

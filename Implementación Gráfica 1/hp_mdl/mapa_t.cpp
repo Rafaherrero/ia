@@ -238,13 +238,15 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 		punto_aleatorio.setX(common::random()%(tam_x_-1));
 		punto_aleatorio.setY(common::random()%(tam_y_-1));
 		if(setos_.alcanzable_bor(punto_aleatorio)){
-			if(punto_aleatorio != harry_pos_ && punto_aleatorio != copa_pos_)
-			setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
-			cur++;
+			if(setos_.at(punto_aleatorio) != ID_GENERACION_VACIO){
+				if(punto_aleatorio != harry_pos_ && punto_aleatorio != copa_pos_)
+					setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
+				cur++;
+			}
 		}
 		iter++;
 		if(iter == 65535) //Sería un error
-			throw exception::out_of_range("Bad densirty in aleatory method");
+			throw exception::out_of_range("Bad density in aleatory method");
 	}
 
 	terminar_generar();

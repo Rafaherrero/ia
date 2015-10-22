@@ -8,19 +8,6 @@ infolaberinto::infolaberinto(QWidget *parent) :
 	ui->setupUi(this);
 }
 
-void infolaberinto::set_texto_laberinto(QString text_lab){
-//	ui->
-}
-
-void infolaberinto::set_texto_harry(QString text_harry){
-
-}
-
-void infolaberinto::set_texto_copa(QString text_copa){
-
-}
-
-
 infolaberinto::~infolaberinto()
 {
 	delete ui;
@@ -33,4 +20,12 @@ bool infolaberinto::on_buttonBox_accepted()
 		return true;
 	else
 		return false;
+}
+
+unsigned infolaberinto::get_tam_x(){
+	return ui->tam_mapa_x->value();
+}
+
+unsigned infolaberinto::get_tam_y(){
+	return ui->tam_mapa_y->value();
 }

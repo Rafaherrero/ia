@@ -25,6 +25,15 @@ namespace Ui {
 class VentanaPrincipal;
 }
 
+class nodoMapa : public QGraphicsPixmapItem
+{
+public:
+	bool hayseto_;
+public:
+	nodoMapa(bool);
+	void mousePressEvent(QGraphicsSceneMouseEvent * event);
+};
+
 class VentanaPrincipal : public QMainWindow
 {
 	Q_OBJECT
@@ -36,9 +45,16 @@ public:
 
 private slots:
 	void on_boton_generar_clicked();
-	void gen_lab();
+	void gen_lab(int tam_x, int tam_y);
+	void gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje);
 
 	void on_play_lab_clicked();
+
+	void sliderValueChanged(int value);
+
+	void on_boton_aleatorio_clicked();
+
+	void on_boton_modificar_clicked();
 
 private:
 	Ui::VentanaPrincipal *ui;

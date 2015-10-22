@@ -115,6 +115,7 @@ void mapa_t::generar_laberinto(void)
 
 void mapa_t::explora_vecinos_y_excava(QPoint celda)
 {
+	//std::cout << "Dani bobo \n";
 	setos_.at(celda) = ID_GENERACION_VISITADO;
 	while(existe_casilla_ocupable(celda))
 		explora_vecinos_y_excava(casilla_aleatoria_ocupable(celda));

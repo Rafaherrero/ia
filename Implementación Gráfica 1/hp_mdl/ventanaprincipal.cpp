@@ -29,6 +29,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(carga);
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
+	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
+	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -67,6 +69,7 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 	el_mapa->generar_laberinto();
 
 	muneco_harry = new harryPotter (*el_mapa);
+	std::cout << ui->horizontalSlider->value() << std::endl;
 
 	ui->setupUi(this);
 	this->setMaximumSize((tamano_x*tamano_icono)+100,(tamano_y*tamano_icono)+200);
@@ -122,6 +125,84 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
+
+	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
+	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
+	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+}
+
+void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){
+
+	int tamano_x=tam_x;
+	int tamano_y=tam_y;
+	int tamano_icono=18;
+
+	el_mapa = new mapa_t(tamano_x,tamano_y);
+	el_mapa->generar_aleatorio(porcentaje);
+
+	muneco_harry = new harryPotter (*el_mapa);
+	std::cout << ui->horizontalSlider->value() << std::endl;
+
+	ui->setupUi(this);
+	this->setMaximumSize((tamano_x*tamano_icono)+100,(tamano_y*tamano_icono)+200);
+	scene = new QGraphicsScene(this);
+	ui->grafico_mapa->resize(tamano_x*tamano_icono,tamano_y*tamano_icono);
+	ui->grafico_mapa->setScene(scene);
+	scene->setSceneRect(0, 0, tamano_x*tamano_icono, tamano_y*tamano_icono);
+	ui->grafico_mapa->setMaximumSize((tamano_x*tamano_icono)+3,(tamano_y*tamano_icono)+3);
+
+	QImage image_seto(RUTA_SETO);
+	QImage image_cesped(RUTA_CESPED);
+	QImage image_harry(RUTA_HARRY);
+	QImage image_copa(RUTA_COPA);
+	QImage image_dementor(RUTA_DEMENTOR);
+	QImage image_gragea(RUTA_GRAGEA);
+
+	nodoMapa* objeto[tamano_x][tamano_y];
+	QGraphicsPixmapItem* harry_icono;
+	QGraphicsPixmapItem* copa;
+
+	unsigned conti=0;
+	unsigned contj=0;
+	QPoint posicion_objeto(0,0);
+
+	for (int j=0;(j<tamano_y*tamano_icono);j=j+tamano_icono){
+		conti=0;
+		for (int i=0;(i<tamano_x*tamano_icono);i=i+tamano_icono){
+			QPoint posicion_objeto(conti,contj);
+			if (el_mapa->get_seto(posicion_objeto)){
+				objeto[conti][contj] = new nodoMapa(true);
+				objeto[conti][contj]-> setOffset(i,j);
+				scene->addItem(objeto[conti][contj]);
+				conti++;
+			}
+			else{
+				objeto[conti][contj] = new nodoMapa(false);
+				objeto[conti][contj]-> setOffset(i,j);
+				scene->addItem(objeto[conti][contj]);
+				conti++;
+			}
+		}
+		contj++;
+	}
+
+	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
+	harry_icono->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono, muneco_harry->get_posicion_harry().y()*tamano_icono);
+	scene->addItem(harry_icono);
+
+	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
+
+	copa ->setOffset(el_mapa->get_pos_copa().x()*tamano_icono, el_mapa->get_pos_copa().y()*tamano_icono);
+	scene->addItem(copa);
+
+	ui->estado_harry->setText("Harry ha entrado al laberinto");
+	ui->estado_harry->adjustSize();
+
+	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
+	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
+	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+
+
 }
 
 nodoMapa::nodoMapa(bool hayseto):
@@ -152,11 +233,16 @@ void VentanaPrincipal::on_play_lab_clicked()
 //	muneco_harry->movimiento();
 //	scene->
 //	}
-			gen_lab(10,10);
+			gen_lab(100,100);
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
 {
 	QString valor = QString::number(value);
 	ui->porcentaje_seto->setText(valor+"%");
+}
+
+void VentanaPrincipal::on_boton_aleatorio_clicked()
+{
+	gen_lab_setos(22,22,ui->horizontalSlider->value());
 }

@@ -46,10 +46,13 @@ public:
 private slots:
 	void on_boton_generar_clicked();
 	void gen_lab(int tam_x, int tam_y);
+	void gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje);
 
 	void on_play_lab_clicked();
 
 	void sliderValueChanged(int value);
+
+	void on_boton_aleatorio_clicked();
 
 private:
 	Ui::VentanaPrincipal *ui;

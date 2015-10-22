@@ -231,6 +231,7 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 
 	unsigned max = ((tam_x_-1)*(tam_y_-1)*porcentaje)/100;
 	unsigned cur = 0;
+	unsigned iter = 0;
 	QPoint punto_aleatorio;
 	while(cur < max){
 		punto_aleatorio.setX(common::random()%(tam_x_-1));
@@ -240,6 +241,9 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 			setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
 			cur++;
 		}
+		iter++;
+		if(iter == 65535) //Sería un error
+			throw exception::out_of_range("Bad densirty in aleatory method");
 	}
 
 	terminar_generar();

@@ -199,12 +199,14 @@ dir_t mapa_t::convertir_reloj(dir_t i)
 void mapa_t::terminar_generar(void)
 {
 	//Poner espacios a harry
+	setos_.at(harry_pos_) = ID_GENERACION_MARCADO;
 	for(unsigned i = 0; i < 8; i++){
 		if(setos_.alcanzable(harry_pos_, i))
 			setos_.at(harry_pos_, i) = ID_GENERACION_MARCADO;
 	}
 
 	//Poner espacios a la copa
+	setos_.at(copa_pos_) = ID_GENERACION_MARCADO;
 	for(unsigned i = 0; i < 8; i++){
 		if(setos_.alcanzable(copa_pos_, i))
 			setos_.at(copa_pos_, i) = ID_GENERACION_MARCADO;
@@ -226,14 +228,18 @@ void mapa_t::generar_aleatorio(unsigned porcentaje)
 {
 	setos_.clear(ID_GENERACION_MARCADO);
 
-	unsigned max = (tam_x_*tam_y_*porcentaje)/100;
-	unsigned cur = tam_x_+tam_x_+tam_y_+tam_y_-4; //Contamos los bordes, restamos 4 porque repetimos celdas al sumar
+
+	unsigned max = ((tam_x_-1)*(tam_y_-1)*porcentaje)/100;
+	unsigned cur = 0;
 	QPoint punto_aleatorio;
 	while(cur < max){
 		punto_aleatorio.setX(common::random()%(tam_x_-1));
 		punto_aleatorio.setY(common::random()%(tam_y_-1));
-		setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
-		cur++;
+		if(setos_.alcanzable_bor(punto_aleatorio)){
+			if(punto_aleatorio != harry_pos_ && punto_aleatorio != copa_pos_)
+			setos_.at(punto_aleatorio) = ID_GENERACION_VACIO;
+			cur++;
+		}
 	}
 
 	terminar_generar();

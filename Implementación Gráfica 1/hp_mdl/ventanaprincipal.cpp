@@ -20,7 +20,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, 400, 364);
 	ui->grafico_mapa->setMaximumSize(500+30,455+80);
-	ui->estado_harry->setText("No se ha creado ningún laberinto");
+	set_texto_estado("No se ha creado ningún laberinto");
 	scene->addItem(carga);
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
@@ -55,29 +55,32 @@ void VentanaPrincipal::on_boton_generar_clicked()
 
 void VentanaPrincipal::gen_lab_visual(){
 
-	this->setMaximumSize((tam_x*tamano_icono)+100,(tam_y*tamano_icono)+200);
-	this->setMinimumSize(500,0);
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
 	if((((tam_x*tamano_icono)+20)>500)&&(((tam_y*tamano_icono)+20)<500)){
-		ui->grafico_mapa->setMaximumSize(500,(tam_y*tamano_icono)+20);
+		this->setMinimumSize(500,0);
+		this->setMaximumSize(730,(tam_y*tamano_icono)+100);
+		ui->grafico_mapa->setMaximumSize(700,(tam_y*tamano_icono)+5);
 	}
 		else if((((tam_x*tamano_icono)+20)<500)&&(((tam_y*tamano_icono)+20)>500)){
-			ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+20),500);
+			this->setMinimumSize(500,0);
+			this->setMaximumSize(((tam_x*tamano_icono)+20),600);
+			ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+5),500);
 	}
 			else if((((tam_x*tamano_icono)+20)<500)&&(((tam_y*tamano_icono)+20)<500)){
-				ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+20),((tam_y*tamano_icono)+20));
+				this->setMinimumSize(500,0);
+				this->setMaximumSize((tam_x*tamano_icono)+100,(tam_y*tamano_icono)+200);
+				ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+5),((tam_y*tamano_icono)+5));
 	}
 				else if ((((tam_x*tamano_icono)+20)>500)&&(((tam_y*tamano_icono)+20)>500)){
-					ui->grafico_mapa->setMaximumSize(500,500);
+					this->setMaximumSize(730,600);
+					ui->grafico_mapa->setMaximumSize(700,500);
 	}
 
-	//ui->grafico_mapa->setMaximumSize((tam_x*tamano_icono)+20,(tam_y*tamano_icono)+20);
-
-	QImage image_seto(RUTA_SETO);
-	QImage image_cesped(RUTA_CESPED);
+	QImage image_obstaculo(RUTA_SETO);
+	QImage image_fondo(RUTA_CESPED);
 	QImage image_harry(RUTA_HARRY);
 	QImage image_copa(RUTA_COPA);
 	QImage image_dementor(RUTA_DEMENTOR);
@@ -158,6 +161,8 @@ hayseto_(hayseto)
 
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+	bool prueba = VentanaPrincipal::get_estado_ejec(void);
+	if (!prueba){
 	if(hayseto_)
 		hayseto_ = false;
 	else
@@ -167,6 +172,7 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
 	else
 		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
+	}
 }
 
 void VentanaPrincipal::on_play_lab_clicked()
@@ -211,4 +217,8 @@ void VentanaPrincipal::prueba(){
 		set_tam_x(cuadrodialogo->get_tam_x());
 		set_tam_y(cuadrodialogo->get_tam_y());
 	}
+}
+
+bool VentanaPrincipal::get_estado_ejec(){
+	return ejecutando;
 }

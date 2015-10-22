@@ -46,6 +46,7 @@ public:
 	infolaberinto *cuadrodialogo = new infolaberinto;
 	void set_tam_x (unsigned tamano_x);
 	void set_tam_y (unsigned tamano_y);
+	bool get_estado_ejec();
 
 private slots:
 	void on_boton_generar_clicked();
@@ -74,7 +75,6 @@ private:
 	unsigned tam_y=4;
 	unsigned tamano_icono=18;
 	bool ejecutando;
-
 
 };
 

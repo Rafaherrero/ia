@@ -104,7 +104,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Aleatorio con setos</string>
+         <string>Aleatorio obstáculos</string>
         </property>
        </widget>
       </item>
@@ -126,7 +126,7 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Ajustar porcentaje de setos en laberinto aleatorio</string>
+       <string>Ajustar porcentaje de obstáculos en laberinto aleatorio</string>
       </property>
      </widget>
     </item>

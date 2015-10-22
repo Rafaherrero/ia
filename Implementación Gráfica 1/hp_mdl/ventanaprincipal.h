@@ -50,6 +50,7 @@ public:
 private slots:
 	void on_boton_generar_clicked();
 	void gen_lab();
+	void gen_lab_visual();
 	void gen_lab_setos(unsigned porcentaje);
 
 	void on_play_lab_clicked();
@@ -72,6 +73,7 @@ private:
 	unsigned tam_x=4;
 	unsigned tam_y=4;
 	unsigned tamano_icono=18;
+	bool ejecutando;
 
 
 };

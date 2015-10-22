@@ -66,7 +66,7 @@
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
       </property>
      </widget>
     </item>
@@ -137,6 +137,9 @@
       </property>
       <item>
        <widget class="QSlider" name="horizontalSlider">
+        <property name="maximum">
+         <number>90</number>
+        </property>
         <property name="singleStep">
          <number>5</number>
         </property>

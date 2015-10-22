@@ -5,6 +5,7 @@
 #include <QString>
 #include <QFileInfo>
 #include <QPoint>
+#include <iostream>
 
 //TODO: Borrar después de depurar
 #include <sstream>
@@ -48,11 +49,6 @@ const QPoint MOVER_IZQUIERDA(-1,0);
 #define ID_GENERACION_VACIO 100
 
 //TODO: Esto de aquí se debería pedir por pantalla
-
-#define TAMANO_X 60
-#define TAMANO_Y 40
-
-#define TAMANO_ICONO 18
 
 namespace common{
 	unsigned mix(unsigned long a, unsigned long b, unsigned long c);

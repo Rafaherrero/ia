@@ -2,6 +2,7 @@
 #define INFOLABERINTO_H
 
 #include <QDialog>
+#include "common.h"
 
 namespace Ui {
 class infolaberinto;
@@ -14,14 +15,19 @@ class infolaberinto : public QDialog
 public:
 	explicit infolaberinto(QWidget *parent = 0);
 	~infolaberinto();
-	bool on_buttonBox_accepted();
 	unsigned get_tam_x();
 	unsigned get_tam_y();
-private slots:
+public slots:
+
+	void on_boton_ok_accepted();
 
 private:
 	bool prueba =false;
 	Ui::infolaberinto *ui;
+
+signals:
+	void ok_clicked(void);
+
 };
 
 #endif // INFOLABERINTO_H

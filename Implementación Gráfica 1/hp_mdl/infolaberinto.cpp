@@ -6,20 +6,12 @@ infolaberinto::infolaberinto(QWidget *parent) :
 	ui(new Ui::infolaberinto)
 {
 	ui->setupUi(this);
+
 }
 
 infolaberinto::~infolaberinto()
 {
 	delete ui;
-}
-
-bool infolaberinto::on_buttonBox_accepted()
-{
-	prueba = true;
-	if (prueba)
-		return true;
-	else
-		return false;
 }
 
 unsigned infolaberinto::get_tam_x(){
@@ -29,3 +21,12 @@ unsigned infolaberinto::get_tam_x(){
 unsigned infolaberinto::get_tam_y(){
 	return ui->tam_mapa_y->value();
 }
+
+void infolaberinto::on_boton_ok_accepted()
+{
+ emit ok_clicked();
+}
+
+//void infolaberinto::ok_clicked(){
+//	emit ok_clicked();
+//}

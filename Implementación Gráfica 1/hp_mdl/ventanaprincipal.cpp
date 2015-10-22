@@ -1,6 +1,5 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
-#include "harryPotter.h"
 #include "infolaberinto.h"
 #include "ui_infolaberinto.h"
 
@@ -10,11 +9,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
 {
-	
-	int tamano_x=10;
-	int tamano_y=10;
-	int tamano_icono=18;
-
 	QImage image_carga(RUTA_CARGA);
 	QGraphicsPixmapItem* carga = new QGraphicsPixmapItem(QPixmap::fromImage(image_carga));
 
@@ -32,11 +26,18 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+	connect(ui->boton_generar,SIGNAL(clicked(bool)),this,SLOT(on_boton_generar_clicked()));
+
+	//infolaberinto connect(this);
+	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(prueba()));
 
 	ui->lista_temas->addItem("Tierra");
 	ui->lista_temas->addItem("Fuego");
 	ui->lista_temas->addItem("Aire");
 	ui->lista_temas->addItem("Agua");
+
+
+	std::cout << cuadrodialogo->get_tam_x() << std::endl;
 
 }
 
@@ -55,24 +56,20 @@ void VentanaPrincipal::on_boton_generar_clicked()
 
 }
 
+void VentanaPrincipal::gen_lab(){
 
-void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
-
-	int tamano_x=tam_x;
-	int tamano_y=tam_y;
-	int tamano_icono=18;
-
-	el_mapa = new mapa_t(tamano_x,tamano_y);
+	el_mapa = new mapa_t(tam_x,tam_y);
 	el_mapa->generar_laberinto();
 
 	muneco_harry = new harryPotter (*el_mapa);
 
-	this->setMaximumSize((tamano_x*tamano_icono)+100,(tamano_y*tamano_icono)+200);
+	this->setMaximumSize((tam_x*tamano_icono)+100,(tam_y*tamano_icono)+200);
+	this->setMinimumSize(500,0);
 	scene = new QGraphicsScene(this);
-	ui->grafico_mapa->resize(tamano_x*tamano_icono,tamano_y*tamano_icono);
+	ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
-	scene->setSceneRect(0, 0, tamano_x*tamano_icono, tamano_y*tamano_icono);
-	ui->grafico_mapa->setMaximumSize((tamano_x*tamano_icono)+3,(tamano_y*tamano_icono)+3);
+	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
+	ui->grafico_mapa->setMaximumSize((tam_x*tamano_icono)+3,(tam_y*tamano_icono)+3);
 
 	QImage image_seto(RUTA_SETO);
 	QImage image_cesped(RUTA_CESPED);
@@ -81,7 +78,7 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 	QImage image_dementor(RUTA_DEMENTOR);
 	QImage image_gragea(RUTA_GRAGEA);
 
-	nodoMapa* objeto[tamano_x][tamano_y];
+	nodoMapa* objeto[tam_x][tam_y];
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
 
@@ -89,9 +86,9 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 	unsigned contj=0;
 	QPoint posicion_objeto(0,0);
 
-	for (int j=0;(j<tamano_y*tamano_icono);j=j+tamano_icono){
+	for (unsigned j=0;(j<tam_y*tamano_icono);j=j+tamano_icono){
 		conti=0;
-		for (int i=0;(i<tamano_x*tamano_icono);i=i+tamano_icono){
+		for (unsigned i=0;(i<tam_x*tamano_icono);i=i+tamano_icono){
 			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
 				objeto[conti][contj] = new nodoMapa(true);
@@ -123,23 +120,20 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 
 }
 
-void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){
+void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
-	int tamano_x=tam_x;
-	int tamano_y=tam_y;
-	int tamano_icono=18;
-
-	el_mapa = new mapa_t(tamano_x,tamano_y);
+	el_mapa = new mapa_t(tam_x,tam_y);
 	el_mapa->generar_aleatorio(porcentaje);
 
 	muneco_harry = new harryPotter (*el_mapa);
 
-	this->setMaximumSize((tamano_x*tamano_icono)+110,(tamano_y*tamano_icono)+220);
+	this->setMaximumSize((tam_x*tamano_icono)+110,(tam_y*tamano_icono)+220);
+	this->setMinimumSize((400)+100,0);
 	scene = new QGraphicsScene(this);
-	ui->grafico_mapa->resize(tamano_x*tamano_icono,tamano_y*tamano_icono);
+	ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
-	scene->setSceneRect(0, 0, tamano_x*tamano_icono, tamano_y*tamano_icono);
-	ui->grafico_mapa->setMaximumSize((tamano_x*tamano_icono)+3,(tamano_y*tamano_icono)+3);
+	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
+	ui->grafico_mapa->setMaximumSize((tam_x*tamano_icono)+3,(tam_y*tamano_icono)+3);
 
 	QImage image_seto(RUTA_SETO);
 	QImage image_cesped(RUTA_CESPED);
@@ -148,7 +142,7 @@ void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){
 	QImage image_dementor(RUTA_DEMENTOR);
 	QImage image_gragea(RUTA_GRAGEA);
 
-	nodoMapa* objeto[tamano_x][tamano_y];
+	nodoMapa* objeto[tam_x][tam_y];
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
 
@@ -156,9 +150,9 @@ void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){
 	unsigned contj=0;
 	QPoint posicion_objeto(0,0);
 
-	for (int j=0;(j<tamano_y*tamano_icono);j=j+tamano_icono){
+	for (unsigned j=0;(j<tam_y*tamano_icono);j=j+tamano_icono){
 		conti=0;
-		for (int i=0;(i<tamano_x*tamano_icono);i=i+tamano_icono){
+		for (unsigned i=0;(i<tam_x*tamano_icono);i=i+tamano_icono){
 			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
 				objeto[conti][contj] = new nodoMapa(true);
@@ -229,11 +223,28 @@ void VentanaPrincipal::sliderValueChanged(int value)
 
 void VentanaPrincipal::on_boton_aleatorio_clicked()
 {
-	gen_lab_setos(22,22,ui->horizontalSlider->value());
+	gen_lab_setos(ui->horizontalSlider->value());
 }
 
 void VentanaPrincipal::on_boton_modificar_clicked()
 {
-	infolaberinto *cuadrodialogo = new infolaberinto;
 	cuadrodialogo->show();
+}
+
+void VentanaPrincipal::set_tam_x (unsigned tamano_x){
+	tam_x=tamano_x;
+}
+
+void VentanaPrincipal::set_tam_y (unsigned tamano_y){
+	tam_y=tamano_y;
+}
+
+void VentanaPrincipal::prueba(){
+	if (cuadrodialogo->get_tam_x()<4||cuadrodialogo->get_tam_y()<4){
+		std::cout << "Error en los valores \n" << std::endl;
+	}
+	else{
+		set_tam_x(cuadrodialogo->get_tam_x());
+		set_tam_y(cuadrodialogo->get_tam_y());
+	}
 }

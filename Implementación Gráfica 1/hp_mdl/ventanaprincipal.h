@@ -12,6 +12,7 @@
 #include "common.h"
 #include "mapa_t.h"
 #include "harryPotter.h"
+#include "infolaberinto.h"
 
 #define RUTA_HARRY "img/Harry_Popotter_(definitivo).png"
 #define RUTA_CESPED "img/Cesped_(definitivo).png"
@@ -42,11 +43,14 @@ public:
 	explicit VentanaPrincipal(QWidget *parent = 0);
 	~VentanaPrincipal();
 	void set_texto_estado(QString estado_harry);
+	infolaberinto *cuadrodialogo = new infolaberinto;
+	void set_tam_x (unsigned tamano_x);
+	void set_tam_y (unsigned tamano_y);
 
 private slots:
 	void on_boton_generar_clicked();
-	void gen_lab(int tam_x, int tam_y);
-	void gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje);
+	void gen_lab();
+	void gen_lab_setos(unsigned porcentaje);
 
 	void on_play_lab_clicked();
 
@@ -55,6 +59,8 @@ private slots:
 	void on_boton_aleatorio_clicked();
 
 	void on_boton_modificar_clicked();
+	void prueba();
+
 
 private:
 	Ui::VentanaPrincipal *ui;
@@ -63,6 +69,11 @@ private:
 
 	harryPotter* muneco_harry;
 	mapa_t* el_mapa;
+	unsigned tam_x=4;
+	unsigned tam_y=4;
+	unsigned tamano_icono=18;
+
+
 };
 
 //SUPER IMPLEMENTACION DE AIRAM

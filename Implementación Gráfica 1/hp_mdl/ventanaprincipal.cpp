@@ -19,12 +19,13 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QGraphicsPixmapItem* carga = new QGraphicsPixmapItem(QPixmap::fromImage(image_carga));
 
 	ui->setupUi(this);
-	this->setMaximumSize((400)+100,(364)+180);
+	this->setMaximumSize((400)+100,(364)+250);
+	this->setMinimumSize((400)+100,(364)+250);
 	scene = new QGraphicsScene(this);
 	ui->grafico_mapa->resize(400,364);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, 400, 364);
-	ui->grafico_mapa->setMaximumSize(500+30,455+30);
+	ui->grafico_mapa->setMaximumSize(500+30,455+80);
 	ui->estado_harry->setText("No se ha creado ningún laberinto");
 	scene->addItem(carga);
 
@@ -32,10 +33,16 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
 
-	ui->lista_temas->addItem("Agua");
-	ui->lista_temas->addItem("Fuego");
+
 	ui->lista_temas->addItem("Tierra");
+	ui->lista_temas->addItem("Fuego");
 	ui->lista_temas->addItem("Aire");
+	ui->lista_temas->addItem("Agua");
+
+	QString prueba = ui->lista_temas->currentText();
+
+	//std::cout << prueba;
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -124,6 +131,7 @@ void VentanaPrincipal::gen_lab(int tam_x, int tam_y){
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+	connect(ui->boton_modificar,SIGNAL(clicked(bool)),this,SLOT(on_boton_modificar_clicked()));
 }
 
 void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){

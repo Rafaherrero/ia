@@ -54,6 +54,8 @@ private slots:
 
 	void on_boton_aleatorio_clicked();
 
+	void on_boton_modificar_clicked();
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;

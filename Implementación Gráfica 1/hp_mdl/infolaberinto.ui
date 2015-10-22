@@ -47,7 +47,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_2"/>
+          <widget class="QSpinBox" name="tam_mapa_x"/>
          </item>
          <item>
           <widget class="QLabel" name="texto_tamano_3">
@@ -57,7 +57,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_4"/>
+          <widget class="QSpinBox" name="tam_mapa_y"/>
          </item>
         </layout>
        </item>

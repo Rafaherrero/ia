@@ -31,6 +31,11 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+
+	ui->lista_temas->addItem("Agua");
+	ui->lista_temas->addItem("Fuego");
+	ui->lista_temas->addItem("Tierra");
+	ui->lista_temas->addItem("Aire");
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -45,16 +50,6 @@ VentanaPrincipal::~VentanaPrincipal()
 
 void VentanaPrincipal::on_boton_generar_clicked()
 {
-	infolaberinto *cuadrodialogo = new infolaberinto;
-	cuadrodialogo->show();
-
-	if (cuadrodialogo->on_buttonBox_accepted()){
-		std::cout << "true" << std::endl;
-		gen_lab(10,10);
-	}
-	else{
-		std::cout << "false" << std::endl;
-	}
 
 }
 
@@ -201,6 +196,7 @@ void VentanaPrincipal::gen_lab_setos(int tam_x, int tam_y, unsigned porcentaje){
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
+	connect(ui->boton_modificar,SIGNAL(clicked(bool)),this,SLOT(on_boton_modificar_clicked()));
 
 
 }
@@ -233,7 +229,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 //	muneco_harry->movimiento();
 //	scene->
 //	}
-			gen_lab(100,100);
+
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
@@ -245,4 +241,10 @@ void VentanaPrincipal::sliderValueChanged(int value)
 void VentanaPrincipal::on_boton_aleatorio_clicked()
 {
 	gen_lab_setos(22,22,ui->horizontalSlider->value());
+}
+
+void VentanaPrincipal::on_boton_modificar_clicked()
+{
+	infolaberinto *cuadrodialogo = new infolaberinto;
+	cuadrodialogo->show();
 }

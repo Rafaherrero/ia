@@ -22,6 +22,22 @@ unsigned infolaberinto::get_tam_y(){
 	return ui->tam_mapa_y->value();
 }
 
+unsigned infolaberinto::get_pos_copa_x(){
+	return ui->pos_copa_x->value();
+}
+
+unsigned infolaberinto::get_pos_copa_y(){
+	return ui->pos_copa_y->value();
+}
+
+unsigned infolaberinto::get_pos_harry_x(){
+	return ui->pos_harry_x->value();
+}
+
+unsigned infolaberinto::get_pos_harry_y(){
+	return ui->pos_harry_y->value();
+}
+
 void infolaberinto::on_boton_ok_accepted()
 {
  emit ok_clicked();

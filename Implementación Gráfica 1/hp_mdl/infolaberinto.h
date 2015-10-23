@@ -17,6 +17,10 @@ public:
 	~infolaberinto();
 	unsigned get_tam_x();
 	unsigned get_tam_y();
+	unsigned get_pos_copa_x();
+	unsigned get_pos_copa_y();
+	unsigned get_pos_harry_x();
+	unsigned get_pos_harry_y();
 public slots:
 
 	void on_boton_ok_accepted();

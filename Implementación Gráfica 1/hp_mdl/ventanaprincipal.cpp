@@ -161,8 +161,8 @@ hayseto_(hayseto)
 
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-	bool prueba = VentanaPrincipal::get_estado_ejec(void);
-	if (!prueba){
+//	bool prueba = VentanaPrincipal::get_estado_ejec(void);
+	//if (!prueba){
 	if(hayseto_)
 		hayseto_ = false;
 	else
@@ -172,7 +172,7 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
 	else
 		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
-	}
+	//}
 }
 
 void VentanaPrincipal::on_play_lab_clicked()
@@ -211,9 +211,10 @@ void VentanaPrincipal::set_tam_y (unsigned tamano_y){
 
 void VentanaPrincipal::prueba(){
 	if (cuadrodialogo->get_tam_x()<4||cuadrodialogo->get_tam_y()<4){
-		std::cout << "Error en los valores \n" << std::endl;
+//		ventana_error();
 	}
 	else{
+		//error_valores=false;
 		set_tam_x(cuadrodialogo->get_tam_x());
 		set_tam_y(cuadrodialogo->get_tam_y());
 	}
@@ -221,4 +222,12 @@ void VentanaPrincipal::prueba(){
 
 bool VentanaPrincipal::get_estado_ejec(){
 	return ejecutando;
+}
+
+void VentanaPrincipal::ventana_error(QString texto_error){
+	QMessageBox probando;
+	probando.setWindowTitle("ERROR");
+	probando.setText(texto_error);
+	probando.exec();
+	//error_valores=true;
 }

@@ -8,6 +8,7 @@
 #include <QImage>
 #include <QGraphicsPixmapItem>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include "common.h"
 #include "mapa_t.h"
@@ -47,6 +48,7 @@ public:
 	void set_tam_x (unsigned tamano_x);
 	void set_tam_y (unsigned tamano_y);
 	bool get_estado_ejec();
+	void ventana_error(QString texto_error);
 
 private slots:
 	void on_boton_generar_clicked();
@@ -71,8 +73,8 @@ private:
 
 	harryPotter* muneco_harry;
 	mapa_t* el_mapa;
-	unsigned tam_x=4;
-	unsigned tam_y=4;
+	unsigned tam_x=5;
+	unsigned tam_y=5;
 	unsigned tamano_icono=18;
 	bool ejecutando;
 

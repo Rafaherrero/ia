@@ -15,24 +15,36 @@
 #include "harryPotter.h"
 #include "infolaberinto.h"
 
-#define RUTA_HARRY "img/Harry_Popotter_(definitivo).png"
-#define RUTA_CESPED "img/Cesped_(definitivo).png"
-#define RUTA_SETO "img/Seto_(definitivo).png"
-#define RUTA_GRAGEA "img/Gragea_(definitivo).png"
-#define RUTA_DEMENTOR "img/Dementor_(definitivo).png"
-#define RUTA_COPA "img/Copa_(definitivo).png"
-#define RUTA_CARGA "img/Loading_(definitivo).png"
+#define RUTA_HARRY "img/Comun/Harry_Popotter.png"
+#define RUTA_GRAGEA "img/Comun/Gragea.png"
+#define RUTA_DEMENTOR "img/Comun/Dementor.png"
+#define RUTA_COPA "img/Comun/Copa.png"
+#define RUTA_CARGA "img/Comun/Loading.png"
+
+#define RUTA_SUELO_TIERRA "img/Tierra/Suelo.png"
+#define RUTA_OBSTACULO_TIERRA "img/Tierra/Obstaculo.png"
+
+#define RUTA_SUELO_AGUA "img/Agua/Suelo.png"
+#define RUTA_OBSTACULO_AGUA "img/Agua/Obstaculo.png"
+
+#define RUTA_SUELO_AIRE "img/Aire/Suelo.png"
+#define RUTA_OBSTACULO_AIRE "img/Aire/Obstaculo.png"
+
+#define RUTA_SUELO_FUEGO "img/Fuego/Suelo.png"
+#define RUTA_OBSTACULO_FUEGO "img/Fuego/Obstaculo.png"
 
 namespace Ui {
 class VentanaPrincipal;
+class nodoMapa;
 }
 
 class nodoMapa : public QGraphicsPixmapItem
 {
 public:
 	bool hayseto_;
+
 public:
-	nodoMapa(bool);
+	nodoMapa(bool,QString path_obstaculo, QString path_suelo);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 };
 
@@ -49,22 +61,23 @@ public:
 	void set_tam_y (unsigned tamano_y);
 	bool get_estado_ejec();
 	void ventana_error(QString texto_error);
+	QString get_ruta_suelo();
+	QString get_ruta_obstaculo();
+	void set_ruta_suelo(QString path_suelo);
+	void set_ruta_obstaculo(QString path_obstaculo);
+
 
 private slots:
 	void on_boton_generar_clicked();
 	void gen_lab();
 	void gen_lab_visual();
 	void gen_lab_setos(unsigned porcentaje);
-
 	void on_play_lab_clicked();
-
 	void sliderValueChanged(int value);
-
 	void on_boton_aleatorio_clicked();
-
 	void on_boton_modificar_clicked();
 	void prueba();
-
+	void on_lista_temas_currentIndexChanged(int index);
 
 private:
 	Ui::VentanaPrincipal *ui;
@@ -77,6 +90,8 @@ private:
 	unsigned tam_y=5;
 	unsigned tamano_icono=18;
 	bool ejecutando;
+	QString ruta_suelo=RUTA_SUELO_TIERRA;
+	QString ruta_obstaculo=RUTA_OBSTACULO_TIERRA;
 
 };
 

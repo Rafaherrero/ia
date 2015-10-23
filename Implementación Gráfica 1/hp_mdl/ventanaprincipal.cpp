@@ -28,6 +28,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
 	connect(ui->boton_generar,SIGNAL(clicked(bool)),this,SLOT(on_boton_generar_clicked()));
 	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(prueba()));
+	connect(ui->lista_temas,SIGNAL(currentIndexChanged(int)),this,SLOT(on_lista_temas_currentIndexChanged(int)));
 
 	ui->lista_temas->addItem("Tierra");
 	ui->lista_temas->addItem("Fuego");
@@ -35,6 +36,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Agua");
 
 	ejecutando=false;
+
+	//ruta_suelo* VentanaPrincipal::
 
 }
 
@@ -79,8 +82,6 @@ void VentanaPrincipal::gen_lab_visual(){
 					ui->grafico_mapa->setMaximumSize(700,500);
 	}
 
-	QImage image_obstaculo(RUTA_SETO);
-	QImage image_fondo(RUTA_CESPED);
 	QImage image_harry(RUTA_HARRY);
 	QImage image_copa(RUTA_COPA);
 	QImage image_dementor(RUTA_DEMENTOR);
@@ -99,13 +100,13 @@ void VentanaPrincipal::gen_lab_visual(){
 		for (unsigned i=0;(i<tam_x*tamano_icono);i=i+tamano_icono){
 			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
-				objeto[conti][contj] = new nodoMapa(true);
+				objeto[conti][contj] = new nodoMapa(true,get_ruta_obstaculo(),get_ruta_suelo());
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
 			}
 			else{
-				objeto[conti][contj] = new nodoMapa(false);
+				objeto[conti][contj] = new nodoMapa(false,get_ruta_obstaculo(),get_ruta_suelo());
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
@@ -113,6 +114,7 @@ void VentanaPrincipal::gen_lab_visual(){
 		}
 		contj++;
 	}
+
 
 	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
 	harry_icono->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono, muneco_harry->get_posicion_harry().y()*tamano_icono);
@@ -150,13 +152,13 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 }
 
-nodoMapa::nodoMapa(bool hayseto):
+nodoMapa::nodoMapa(bool hayseto, QString path_obstaculo, QString path_suelo):
 hayseto_(hayseto)
 {
 	if(hayseto_)
-		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
+		setPixmap(QPixmap::fromImage(QImage(path_obstaculo)));
 	else
-		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
+		setPixmap(QPixmap::fromImage(QImage(path_suelo)));
 }
 
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -168,11 +170,11 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	else
 		hayseto_ = true;
 
-	if(hayseto_)
-		setPixmap(QPixmap::fromImage(QImage(RUTA_SETO)));
-	else
-		setPixmap(QPixmap::fromImage(QImage(RUTA_CESPED)));
-	//}
+//	if(hayseto_)
+//		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
+//	else
+//		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
+//	//}
 }
 
 void VentanaPrincipal::on_play_lab_clicked()
@@ -230,4 +232,40 @@ void VentanaPrincipal::ventana_error(QString texto_error){
 	probando.setText(texto_error);
 	probando.exec();
 	//error_valores=true;
+}
+
+QString VentanaPrincipal::get_ruta_suelo(){
+return ruta_suelo;
+}
+
+QString VentanaPrincipal::get_ruta_obstaculo(){
+return ruta_obstaculo;
+}
+
+void VentanaPrincipal::set_ruta_suelo(QString path_suelo){
+ruta_suelo=path_suelo;
+}
+
+void VentanaPrincipal::set_ruta_obstaculo(QString path_obstaculo){
+ruta_obstaculo=path_obstaculo;
+}
+
+void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
+{
+	if (index==0){
+		set_ruta_suelo(RUTA_SUELO_TIERRA);
+		set_ruta_obstaculo(RUTA_OBSTACULO_TIERRA);
+	}
+	else if (index==1){
+		set_ruta_suelo(RUTA_SUELO_FUEGO);
+		set_ruta_obstaculo(RUTA_OBSTACULO_FUEGO);
+	}
+	else if (index==2){
+		set_ruta_suelo(RUTA_SUELO_AIRE);
+		set_ruta_obstaculo(RUTA_OBSTACULO_AIRE);
+	}
+	else if (index==3){
+		set_ruta_suelo(RUTA_SUELO_AGUA);
+		set_ruta_obstaculo(RUTA_OBSTACULO_AGUA);
+	}
 }

@@ -79,7 +79,7 @@ public:
 
         tam_mapa_x = new QSpinBox(infolaberinto);
         tam_mapa_x->setObjectName(QStringLiteral("tam_mapa_x"));
-        tam_mapa_x->setMinimum(5);
+        tam_mapa_x->setMinimum(6);
         tam_mapa_x->setMaximum(150);
 
         horizontalLayout->addWidget(tam_mapa_x);
@@ -91,7 +91,7 @@ public:
 
         tam_mapa_y = new QSpinBox(infolaberinto);
         tam_mapa_y->setObjectName(QStringLiteral("tam_mapa_y"));
-        tam_mapa_y->setMinimum(5);
+        tam_mapa_y->setMinimum(6);
         tam_mapa_y->setMaximum(150);
 
         horizontalLayout->addWidget(tam_mapa_y);
@@ -118,7 +118,7 @@ public:
         pos_harry_x = new QSpinBox(infolaberinto);
         pos_harry_x->setObjectName(QStringLiteral("pos_harry_x"));
         pos_harry_x->setMinimum(1);
-        pos_harry_x->setMaximum(150);
+        pos_harry_x->setMaximum(4);
         pos_harry_x->setValue(1);
 
         horizontalLayout_4->addWidget(pos_harry_x);
@@ -131,7 +131,7 @@ public:
         pos_harry_y = new QSpinBox(infolaberinto);
         pos_harry_y->setObjectName(QStringLiteral("pos_harry_y"));
         pos_harry_y->setMinimum(1);
-        pos_harry_y->setMaximum(150);
+        pos_harry_y->setMaximum(4);
         pos_harry_y->setValue(1);
 
         horizontalLayout_4->addWidget(pos_harry_y);
@@ -160,7 +160,7 @@ public:
         pos_copa_x = new QSpinBox(infolaberinto);
         pos_copa_x->setObjectName(QStringLiteral("pos_copa_x"));
         pos_copa_x->setMinimum(1);
-        pos_copa_x->setMaximum(150);
+        pos_copa_x->setMaximum(4);
         pos_copa_x->setValue(1);
 
         horizontalLayout_2->addWidget(pos_copa_x);
@@ -173,7 +173,7 @@ public:
         pos_copa_y = new QSpinBox(infolaberinto);
         pos_copa_y->setObjectName(QStringLiteral("pos_copa_y"));
         pos_copa_y->setMinimum(1);
-        pos_copa_y->setMaximum(150);
+        pos_copa_y->setMaximum(4);
         pos_copa_y->setValue(1);
 
         horizontalLayout_2->addWidget(pos_copa_y);

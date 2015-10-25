@@ -35,6 +35,13 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 	vidas = vida_gastada;
 }
 
+bool harryPotter::puedo_continuar(){
+	if (get_posicion_harry()==laberinto.get_pos_copa())
+		return false;
+	else
+		return true;
+}
+
 QPoint harryPotter::get_next_dir(){
 	for (int i = 0; i < 4; i++){
 		if (i==ID_ORIENTACION_DERECHA && laberinto.get_seto(get_posicion_harry(), i) == ID_GLOBAL_SETO_NO_HAY && marcar.at(get_posicion_harry(), i) == ID_GENERACION_VACIO){
@@ -53,19 +60,12 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
-bool harryPotter::puedo_continuar(){
-	if (get_posicion_harry()==laberinto.get_pos_copa())
-		return false;
-	else
-		return true;
-}
-
 QPoint harryPotter::movimiento(){
 
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
 
-	if (/*get_vidas()>0 && get_vidas()<=3 &&*/ !stack.empty()){
+	//if (/*get_vidas()>0 && get_vidas()<=3 &&*/ !stack.empty()){
 			QPoint aux = get_next_dir();
 			if(aux != get_posicion_harry()){
 				set_posicion_harry(aux);
@@ -77,5 +77,5 @@ QPoint harryPotter::movimiento(){
 				set_posicion_harry(stack.top());
 			}
 			return get_posicion_harry();
-	}
+	//}
 }

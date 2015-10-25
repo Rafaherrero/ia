@@ -309,7 +309,7 @@ void mapa_t::mover_harry(QPoint celda)
 {
 	if(!entidades_.alcanzable(celda))
 		throw exception::not_reachable(common::imprqp(celda).c_str());
-	if(setos_.at(celda) == ID_GLOBAL_SETO_HAY || entidades_.at(celda) != ID_GLOBAL_ENTIDAD_NULA)
+	if(setos_.at(celda) == ID_GLOBAL_SETO_HAY)
 		throw exception::overlapping(common::imprqp(celda).c_str());
 
 	//En otro caso...

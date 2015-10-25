@@ -60,7 +60,12 @@ VentanaPrincipal::~VentanaPrincipal()
 
 void VentanaPrincipal::on_boton_generar_clicked()
 {
+	ejecutando=false;
+	el_mapa = new mapa_t(tam_x,tam_y);
+	el_mapa->generar_laberinto();
+	muneco_harry = new harryPotter (*el_mapa);
 
+	gen_lab_visual();
 }
 
 void VentanaPrincipal::gen_lab_visual(){
@@ -136,12 +141,7 @@ void VentanaPrincipal::gen_lab_visual(){
 
 void VentanaPrincipal::gen_lab(){
 
-	ejecutando=false;
-	el_mapa = new mapa_t(tam_x,tam_y);
-	el_mapa->generar_laberinto();
-	muneco_harry = new harryPotter (*el_mapa);
 
-	gen_lab_visual();
 
 }
 
@@ -185,7 +185,8 @@ void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
 	while (muneco_harry->puedo_continuar()){
-		harry_icono->setOffset(muneco_harry->movimiento());
+		harry_icono->setOffset(muneco_harry->movimiento().x()*tamano_icono,muneco_harry->movimiento().y()*tamano_icono);
+//		usleep(50);
 	}
 
 }

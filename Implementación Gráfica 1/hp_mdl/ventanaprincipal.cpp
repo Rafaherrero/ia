@@ -62,8 +62,10 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	ejecutando=false;
 	el_mapa = new mapa_t(tam_x,tam_y);
-	el_mapa->generar_laberinto();
 	muneco_harry = new harryPotter (*el_mapa);
+	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
+	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+	el_mapa->generar_laberinto();
 
 	gen_lab_visual();
 }
@@ -139,18 +141,14 @@ void VentanaPrincipal::gen_lab_visual(){
 
 }
 
-void VentanaPrincipal::gen_lab(){
-
-
-
-}
-
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	ejecutando=false;
 	el_mapa = new mapa_t(tam_x,tam_y);
-	el_mapa->generar_aleatorio(porcentaje);
 	muneco_harry = new harryPotter (*el_mapa);
+	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+	el_mapa->generar_aleatorio(porcentaje);
+
 
 	gen_lab_visual();
 

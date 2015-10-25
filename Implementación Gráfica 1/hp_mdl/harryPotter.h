@@ -29,7 +29,6 @@ private:
 	harryPotter();  //Lo ponemos aqui porque Dani lo quiso así
     QPoint get_next_dir();
     QStack<QPoint> stack;
-    bool copa_encontrada;
 
 public:
 

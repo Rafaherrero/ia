@@ -5,8 +5,7 @@ harryPotter::harryPotter(mapa_t& lab):
 	vidas(3),
 	mana(3),
 	laberinto(lab),
-	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO),
-	copa_encontrada(false)
+	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO)
 {
 
 }
@@ -25,7 +24,7 @@ unsigned harryPotter::get_vidas(){
 
 void harryPotter::set_posicion_harry (QPoint ranas_de_chocolate){
 	posicion_harry = ranas_de_chocolate;
-	laberinto.mover_harry(posicion_harry);
+	laberinto.mover_harry(ranas_de_chocolate);
 }
 
 void harryPotter::set_mana (unsigned mana_encontrado){
@@ -34,6 +33,13 @@ void harryPotter::set_mana (unsigned mana_encontrado){
 
 void harryPotter::set_vidas (unsigned vida_gastada){
 	vidas = vida_gastada;
+}
+
+bool harryPotter::puedo_continuar(){
+	if (get_posicion_harry()==laberinto.get_pos_copa())
+		return false;
+	else
+		return true;
 }
 
 QPoint harryPotter::get_next_dir(){
@@ -54,31 +60,12 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
-bool harryPotter::puedo_continuar(){
-	if (get_next_dir()!=get_posicion_harry())
-		return true;
-	else
-		return false;
-}
-
-bool harryPotter::estoy_en_la_copa(){
-	if (copa_encontrada==true)
-		return true;
-	else
-		return false;
-}
-
 QPoint harryPotter::movimiento(){
 
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
 
-	if (/*get_vidas()>0 && get_vidas()<=3 &&*/ !stack.empty() && !copa_encontrada){
-		if (get_posicion_harry()==laberinto.get_pos_copa()){
-			copa_encontrada = true;
-			return get_posicion_harry();
-		}
-		else{
+	//if (/*get_vidas()>0 && get_vidas()<=3 &&*/ !stack.empty()){
 			QPoint aux = get_next_dir();
 			if(aux != get_posicion_harry()){
 				set_posicion_harry(aux);
@@ -89,7 +76,6 @@ QPoint harryPotter::movimiento(){
 				stack.pop();
 				set_posicion_harry(stack.top());
 			}
-			return aux;
-		}
-	}
+			return get_posicion_harry();
+	//}
 }

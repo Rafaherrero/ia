@@ -46,6 +46,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	obstaculo_aire = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AIRE));
 	obstaculo_agua = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AGUA));
 
+	tam_x = cuadrodialogo->get_tam_x();
+	tam_y = cuadrodialogo->get_tam_y();
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){

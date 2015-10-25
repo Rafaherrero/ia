@@ -32,6 +32,9 @@ private:
 signals:
 	void ok_clicked(void);
 
+private slots:
+	void on_tam_mapa_x_valueChanged(int arg1);
+	void on_tam_mapa_y_valueChanged(int arg1);
 };
 
 #endif // INFOLABERINTO_H

@@ -192,12 +192,20 @@ void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
 	QPoint madre;
-		while (muneco_harry->puedo_continuar()){
-		madre = muneco_harry->movimiento();
-		harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
-		sleep(1);
-	}
+//		while (muneco_harry->puedo_continuar()){
+//		//madre = muneco_harry->movimiento();
+//		harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
+//		sleep(1);
+//		ui->grafico_mapa->setScene(scene);
+//	}
 
+		for (int i=1;i<=4;i++){
+			muneco_harry->set_posicion_harry(common::QP(1,i));
+			madre=muneco_harry->get_posicion_harry();
+			harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
+			sleep(1);
+			this->update();
+		}
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)

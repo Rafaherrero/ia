@@ -195,7 +195,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 		while (muneco_harry->puedo_continuar()){
 		madre = muneco_harry->movimiento();
 		harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
-		//sleep(1);
+		sleep(1);
 	}
 
 }

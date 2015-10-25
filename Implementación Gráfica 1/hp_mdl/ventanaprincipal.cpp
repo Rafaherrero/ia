@@ -130,14 +130,13 @@ void VentanaPrincipal::gen_lab_visual(){
 		contj++;
 	}
 
+	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
+	copa ->setOffset(el_mapa->get_pos_copa().x()*tamano_icono, el_mapa->get_pos_copa().y()*tamano_icono);
+	scene->addItem(copa);
+
 	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
 	harry_icono->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono, muneco_harry->get_posicion_harry().y()*tamano_icono);
 	scene->addItem(harry_icono);
-
-	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
-
-	copa ->setOffset(el_mapa->get_pos_copa().x()*tamano_icono, el_mapa->get_pos_copa().y()*tamano_icono);
-	scene->addItem(copa);
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
@@ -192,9 +191,11 @@ else
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
-	while (muneco_harry->puedo_continuar()){
-		harry_icono->setOffset(muneco_harry->movimiento().x()*tamano_icono,muneco_harry->movimiento().y()*tamano_icono);
-//		usleep(50);
+	QPoint madre;
+		while (muneco_harry->puedo_continuar()){
+		madre = muneco_harry->movimiento();
+		harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
+		sleep(1);
 	}
 
 }

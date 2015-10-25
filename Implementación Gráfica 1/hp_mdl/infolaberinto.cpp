@@ -46,3 +46,15 @@ void infolaberinto::on_boton_ok_accepted()
 //void infolaberinto::ok_clicked(){
 //	emit ok_clicked();
 //}
+
+void infolaberinto::on_tam_mapa_x_valueChanged(int arg1)
+{
+	ui->pos_harry_x->setMaximum(get_tam_x()-2);
+	ui->pos_copa_x->setMaximum(get_tam_x()-2);
+}
+
+void infolaberinto::on_tam_mapa_y_valueChanged(int arg1)
+{
+	ui->pos_harry_y->setMaximum(get_tam_y()-2);
+	ui->pos_copa_y->setMaximum(get_tam_y()-2);
+}

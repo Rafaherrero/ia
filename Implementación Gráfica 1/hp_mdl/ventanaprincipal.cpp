@@ -46,6 +46,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	obstaculo_aire = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AIRE));
 	obstaculo_agua = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AGUA));
 
+	tam_x = cuadrodialogo->get_tam_x();
+	tam_y = cuadrodialogo->get_tam_y();
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -62,8 +65,10 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	ejecutando=false;
 	el_mapa = new mapa_t(tam_x,tam_y);
-	el_mapa->generar_laberinto();
 	muneco_harry = new harryPotter (*el_mapa);
+	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
+	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+	el_mapa->generar_laberinto();
 
 	gen_lab_visual();
 }
@@ -139,18 +144,14 @@ void VentanaPrincipal::gen_lab_visual(){
 
 }
 
-void VentanaPrincipal::gen_lab(){
-
-
-
-}
-
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	ejecutando=false;
 	el_mapa = new mapa_t(tam_x,tam_y);
-	el_mapa->generar_aleatorio(porcentaje);
 	muneco_harry = new harryPotter (*el_mapa);
+	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+	el_mapa->generar_aleatorio(porcentaje);
+
 
 	gen_lab_visual();
 
@@ -165,21 +166,28 @@ hayseto_(hayseto)
 		setPixmap(path_suelo);
 }
 
-void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-//	bool prueba = VentanaPrincipal::get_estado_ejec(void);
-	//if (!prueba){
-	if(hayseto_)
-		hayseto_ = false;
-	else
-		hayseto_ = true;
-
-//	if(hayseto_)
-//		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
-//	else
-//		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
-//	//}
+void nodoMapa::mousePressEvent(){
+if(hayseto_)
+	hayseto_ = false;
+else
+	hayseto_ = true;
 }
+
+//void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
+//{
+////	bool prueba = VentanaPrincipal::get_estado_ejec(void);
+//	//if (!prueba){
+//	if(hayseto_)
+//		hayseto_ = false;
+//	else
+//		hayseto_ = true;
+
+////	if(hayseto_)
+////		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
+////	else
+////		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
+////	//}
+//}
 
 void VentanaPrincipal::on_play_lab_clicked()
 {
@@ -293,6 +301,7 @@ QPixmap& VentanaPrincipal::get_suelo_actual(){
 		return suelo_agua;
 	break;
 	}
+	return suelo_tierra;
 }
 
 QPixmap& VentanaPrincipal::get_obstaculo_actual(){
@@ -310,4 +319,5 @@ QPixmap& VentanaPrincipal::get_obstaculo_actual(){
 		return obstaculo_agua;
 	break;
 	}
+	return obstaculo_tierra;
 }

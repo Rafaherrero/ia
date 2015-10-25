@@ -45,7 +45,8 @@ public:
 
 public:
 	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
-	void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	//void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	void mousePressEvent();
 };
 
 class VentanaPrincipal : public QMainWindow
@@ -70,7 +71,6 @@ public:
 
 private slots:
 	void on_boton_generar_clicked();
-	void gen_lab();
 	void gen_lab_visual();
 	void gen_lab_setos(unsigned porcentaje);
 	void on_play_lab_clicked();

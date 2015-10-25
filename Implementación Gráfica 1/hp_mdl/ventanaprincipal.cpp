@@ -37,7 +37,14 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	ejecutando=false;
 
-	//ruta_suelo* VentanaPrincipal::
+	suelo_tierra = QPixmap::fromImage(QImage(RUTA_SUELO_TIERRA));
+	suelo_fuego = QPixmap::fromImage(QImage(RUTA_SUELO_FUEGO));
+	suelo_aire = QPixmap::fromImage(QImage(RUTA_SUELO_AIRE));
+	suelo_agua = QPixmap::fromImage(QImage(RUTA_SUELO_AGUA));
+	obstaculo_tierra = QPixmap::fromImage(QImage(RUTA_OBSTACULO_TIERRA));
+	obstaculo_fuego = QPixmap::fromImage(QImage(RUTA_OBSTACULO_FUEGO));
+	obstaculo_aire = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AIRE));
+	obstaculo_agua = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AGUA));
 
 }
 
@@ -88,8 +95,6 @@ void VentanaPrincipal::gen_lab_visual(){
 	QImage image_gragea(RUTA_GRAGEA);
 
 	nodoMapa* objeto[tam_x][tam_y];
-	QGraphicsPixmapItem* harry_icono;
-	QGraphicsPixmapItem* copa;
 
 	unsigned conti=0;
 	unsigned contj=0;
@@ -100,13 +105,13 @@ void VentanaPrincipal::gen_lab_visual(){
 		for (unsigned i=0;(i<tam_x*tamano_icono);i=i+tamano_icono){
 			QPoint posicion_objeto(conti,contj);
 			if (el_mapa->get_seto(posicion_objeto)){
-				objeto[conti][contj] = new nodoMapa(true,get_ruta_obstaculo(),get_ruta_suelo());
+				objeto[conti][contj] = new nodoMapa(true,get_obstaculo_actual(),get_suelo_actual());
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
 			}
 			else{
-				objeto[conti][contj] = new nodoMapa(false,get_ruta_obstaculo(),get_ruta_suelo());
+				objeto[conti][contj] = new nodoMapa(false,get_obstaculo_actual(),get_suelo_actual());
 				objeto[conti][contj]-> setOffset(i,j);
 				scene->addItem(objeto[conti][contj]);
 				conti++;
@@ -114,7 +119,6 @@ void VentanaPrincipal::gen_lab_visual(){
 		}
 		contj++;
 	}
-
 
 	harry_icono = new QGraphicsPixmapItem(QPixmap::fromImage(image_harry));
 	harry_icono->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono, muneco_harry->get_posicion_harry().y()*tamano_icono);
@@ -152,13 +156,13 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 }
 
-nodoMapa::nodoMapa(bool hayseto, QString path_obstaculo, QString path_suelo):
+nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):
 hayseto_(hayseto)
 {
 	if(hayseto_)
-		setPixmap(QPixmap::fromImage(QImage(path_obstaculo)));
+		setPixmap(path_obstaculo);
 	else
-		setPixmap(QPixmap::fromImage(QImage(path_suelo)));
+		setPixmap(path_suelo);
 }
 
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -180,10 +184,9 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
-//	while (muneco_harry->continuar()){
-//	muneco_harry->movimiento();
-//	scene->
-//	}
+	while (muneco_harry->puedo_continuar()){
+		harry_icono->setOffset(muneco_harry->movimiento());
+	}
 
 }
 
@@ -253,19 +256,57 @@ ruta_obstaculo=path_obstaculo;
 void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 {
 	if (index==0){
-		set_ruta_suelo(RUTA_SUELO_TIERRA);
-		set_ruta_obstaculo(RUTA_OBSTACULO_TIERRA);
+//		set_ruta_suelo(RUTA_SUELO_TIERRA);
+//		set_ruta_obstaculo(RUTA_OBSTACULO_TIERRA);
+		tema_actual=0;
 	}
 	else if (index==1){
-		set_ruta_suelo(RUTA_SUELO_FUEGO);
-		set_ruta_obstaculo(RUTA_OBSTACULO_FUEGO);
+//		set_ruta_suelo(RUTA_SUELO_FUEGO);
+//		set_ruta_obstaculo(RUTA_OBSTACULO_FUEGO);
+		tema_actual=1;
 	}
 	else if (index==2){
-		set_ruta_suelo(RUTA_SUELO_AIRE);
-		set_ruta_obstaculo(RUTA_OBSTACULO_AIRE);
+//		set_ruta_suelo(RUTA_SUELO_AIRE);
+//		set_ruta_obstaculo(RUTA_OBSTACULO_AIRE);
+		tema_actual=2;
 	}
 	else if (index==3){
-		set_ruta_suelo(RUTA_SUELO_AGUA);
-		set_ruta_obstaculo(RUTA_OBSTACULO_AGUA);
+//		set_ruta_suelo(RUTA_SUELO_AGUA);
+//		set_ruta_obstaculo(RUTA_OBSTACULO_AGUA);
+		tema_actual=3;
+	}
+}
+
+QPixmap& VentanaPrincipal::get_suelo_actual(){
+	switch (tema_actual) {
+	case 0:
+		return suelo_tierra;
+	break;
+	case 1:
+		return suelo_fuego;
+	break;
+	case 2:
+		return suelo_aire;
+	break;
+	case 3:
+		return suelo_agua;
+	break;
+	}
+}
+
+QPixmap& VentanaPrincipal::get_obstaculo_actual(){
+	switch (tema_actual) {
+	case 0:
+		return obstaculo_tierra;
+	break;
+	case 1:
+		return obstaculo_fuego;
+	break;
+	case 2:
+		return obstaculo_aire;
+	break;
+	case 3:
+		return obstaculo_agua;
+	break;
 	}
 }

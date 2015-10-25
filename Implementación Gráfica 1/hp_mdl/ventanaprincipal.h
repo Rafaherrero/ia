@@ -44,7 +44,7 @@ public:
 	bool hayseto_;
 
 public:
-	nodoMapa(bool,QString path_obstaculo, QString path_suelo);
+	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 };
 
@@ -65,7 +65,8 @@ public:
 	QString get_ruta_obstaculo();
 	void set_ruta_suelo(QString path_suelo);
 	void set_ruta_obstaculo(QString path_obstaculo);
-
+	QPixmap& get_suelo_actual();
+	QPixmap& get_obstaculo_actual();
 
 private slots:
 	void on_boton_generar_clicked();
@@ -86,12 +87,23 @@ private:
 
 	harryPotter* muneco_harry;
 	mapa_t* el_mapa;
-	unsigned tam_x=5;
-	unsigned tam_y=5;
+	unsigned tam_x;
+	unsigned tam_y;
 	unsigned tamano_icono=18;
 	bool ejecutando;
+	unsigned tema_actual=0;
 	QString ruta_suelo=RUTA_SUELO_TIERRA;
 	QString ruta_obstaculo=RUTA_OBSTACULO_TIERRA;
+	QPixmap suelo_tierra;
+	QPixmap suelo_fuego;
+	QPixmap suelo_aire;
+	QPixmap suelo_agua;
+	QPixmap obstaculo_tierra;
+	QPixmap obstaculo_fuego;
+	QPixmap obstaculo_aire;
+	QPixmap obstaculo_agua;
+	QGraphicsPixmapItem* harry_icono;
+	QGraphicsPixmapItem* copa;
 
 };
 

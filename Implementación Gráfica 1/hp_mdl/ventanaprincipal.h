@@ -45,7 +45,7 @@ public:
 
 public:
 	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
-	//void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	void mousePressEvent();
 };
 
@@ -61,7 +61,7 @@ public:
 	void set_tam_x (unsigned tamano_x);
 	void set_tam_y (unsigned tamano_y);
 	bool get_estado_ejec();
-	void ventana_error(QString texto_error);
+	void ventana_aviso(QString nombre_ventana, QString texto_ventana);
 	QString get_ruta_suelo();
 	QString get_ruta_obstaculo();
 	void set_ruta_suelo(QString path_suelo);
@@ -77,8 +77,9 @@ private slots:
 	void sliderValueChanged(int value);
 	void on_boton_aleatorio_clicked();
 	void on_boton_modificar_clicked();
-	void prueba();
+	void modificar_tamano();
 	void on_lista_temas_currentIndexChanged(int index);
+	void on_checkBox_clicked();
 
 private:
 	Ui::VentanaPrincipal *ui;
@@ -91,6 +92,7 @@ private:
 	unsigned tam_y;
 	unsigned tamano_icono=18;
 	bool ejecutando;
+	bool redimensionado;
 	unsigned tema_actual=0;
 	QString ruta_suelo=RUTA_SUELO_TIERRA;
 	QString ruta_obstaculo=RUTA_OBSTACULO_TIERRA;

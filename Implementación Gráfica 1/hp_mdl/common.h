@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QPoint>
 #include <iostream>
+#include <QApplication>
 
 //TODO: Borrar después de depurar
 #include <sstream>

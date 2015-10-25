@@ -165,21 +165,28 @@ hayseto_(hayseto)
 		setPixmap(path_suelo);
 }
 
-void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-//	bool prueba = VentanaPrincipal::get_estado_ejec(void);
-	//if (!prueba){
-	if(hayseto_)
-		hayseto_ = false;
-	else
-		hayseto_ = true;
-
-//	if(hayseto_)
-//		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
-//	else
-//		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
-//	//}
+void nodoMapa::mousePressEvent(){
+if(hayseto_)
+	hayseto_ = false;
+else
+	hayseto_ = true;
 }
+
+//void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
+//{
+////	bool prueba = VentanaPrincipal::get_estado_ejec(void);
+//	//if (!prueba){
+//	if(hayseto_)
+//		hayseto_ = false;
+//	else
+//		hayseto_ = true;
+
+////	if(hayseto_)
+////		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
+////	else
+////		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
+////	//}
+//}
 
 void VentanaPrincipal::on_play_lab_clicked()
 {
@@ -293,6 +300,7 @@ QPixmap& VentanaPrincipal::get_suelo_actual(){
 		return suelo_agua;
 	break;
 	}
+	return suelo_tierra;
 }
 
 QPixmap& VentanaPrincipal::get_obstaculo_actual(){
@@ -310,4 +318,5 @@ QPixmap& VentanaPrincipal::get_obstaculo_actual(){
 		return obstaculo_agua;
 	break;
 	}
+	return obstaculo_tierra;
 }

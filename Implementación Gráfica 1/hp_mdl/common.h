@@ -42,13 +42,10 @@ const QPoint MOVER_DERECHA(+1,0);
 const QPoint MOVER_ABAJO(0,+1);
 const QPoint MOVER_IZQUIERDA(-1,0);
 
-
 //IDs para el algoritmo de generación
 #define ID_GENERACION_VISITADO 400
 #define ID_GENERACION_MARCADO 103
 #define ID_GENERACION_VACIO 100
-
-//TODO: Esto de aquí se debería pedir por pantalla
 
 namespace common{
 	unsigned mix(unsigned long a, unsigned long b, unsigned long c);

@@ -45,7 +45,8 @@ public:
 
 public:
 	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
-	void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	//void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	void mousePressEvent();
 };
 
 class VentanaPrincipal : public QMainWindow

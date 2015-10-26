@@ -43,11 +43,12 @@ class nodoMapa : public QGraphicsPixmapItem
 {
 public:
 	bool hayseto_;
-
+	QPixmap* obstaculo_;
+	QPixmap* suelo_;
 public:
 	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
+	void cambiar_tema(unsigned tm);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
-	void mousePressEvent();
 };
 
 class VentanaPrincipal : public QMainWindow
@@ -82,6 +83,8 @@ private slots:
 	void on_lista_temas_currentIndexChanged(int index);
 	void on_checkBox_clicked();
 
+	void on_horizontalSlider_2_valueChanged(int value);
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;
@@ -95,6 +98,7 @@ private:
 	bool ejecutando;
 	bool redimensionado;
 	unsigned tema_actual=0;
+	unsigned velocidad=0;
 	QString ruta_suelo=RUTA_SUELO_TIERRA;
 	QString ruta_obstaculo=RUTA_OBSTACULO_TIERRA;
 	QPixmap suelo_tierra;

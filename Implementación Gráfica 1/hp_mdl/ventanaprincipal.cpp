@@ -167,13 +167,6 @@ hayseto_(hayseto)
 		setPixmap(path_suelo);
 }
 
-void nodoMapa::mousePressEvent(){
-if(hayseto_)
-	hayseto_ = false;
-else
-	hayseto_ = true;
-}
-
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 //	bool prueba = VentanaPrincipal::get_estado_ejec(void);
@@ -190,6 +183,11 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 //	//}
 }
 
+//void nodoMapa::cambiar_tema(QPixmap& path_obstaculo, QPixmap& path_suelo){
+
+
+//}
+
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
@@ -205,7 +203,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 		scene->addItem(camino);
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
-		usleep(50000);
+		usleep(velocidad*100);
 		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
 		set_texto_estado(texto);
 		qApp->processEvents();
@@ -334,4 +332,10 @@ void VentanaPrincipal::on_checkBox_clicked()
 {
 	if(ui->checkBox->checkState())
 	redimensionado=true;
+}
+
+void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
+{
+	ui->texto_velocidad->setText(QString::number(value));
+	velocidad = ui->horizontalSlider_2->value();
 }

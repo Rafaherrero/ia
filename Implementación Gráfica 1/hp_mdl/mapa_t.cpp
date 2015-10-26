@@ -45,7 +45,7 @@ unsigned mapa_t::contar_setos(void)
 		for(unsigned j = 0; j < setos_.tam_y(); j++){
 			punto.setX(i);
 			punto.setY(j);
-			if(entidades_.at(punto) == ID_GLOBAL_SETO_HAY)
+			if(setos_.at(punto) == ID_GLOBAL_SETO_HAY)
 				cantidad++;
 		}
 	}

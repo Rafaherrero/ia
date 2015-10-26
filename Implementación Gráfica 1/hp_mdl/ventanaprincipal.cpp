@@ -24,11 +24,12 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(carga);
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
-	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
+//	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
 	connect(ui->boton_generar,SIGNAL(clicked(bool)),this,SLOT(on_boton_generar_clicked()));
-	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(prueba()));
+	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(modificar_tamano()));
 	connect(ui->lista_temas,SIGNAL(currentIndexChanged(int)),this,SLOT(on_lista_temas_currentIndexChanged(int)));
+	connect(ui->checkBox,SIGNAL(clicked(bool)),this,SLOT(on_checkBox_clicked()));
 
 	ui->lista_temas->addItem("Tierra");
 	ui->lista_temas->addItem("Fuego");
@@ -49,6 +50,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	tam_x = cuadrodialogo->get_tam_x();
 	tam_y = cuadrodialogo->get_tam_y();
 
+	redimensionado=false;
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -140,6 +142,8 @@ void VentanaPrincipal::gen_lab_visual(){
 
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
+	qApp->processEvents();
+
 
 }
 
@@ -151,9 +155,7 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
 	el_mapa->generar_aleatorio(porcentaje);
 
-
 	gen_lab_visual();
-
 }
 
 nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):
@@ -172,32 +174,46 @@ else
 	hayseto_ = true;
 }
 
-//void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
-//{
-////	bool prueba = VentanaPrincipal::get_estado_ejec(void);
-//	//if (!prueba){
-//	if(hayseto_)
-//		hayseto_ = false;
-//	else
-//		hayseto_ = true;
+void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+//	bool prueba = VentanaPrincipal::get_estado_ejec(void);
+	//if (!prueba){
+	if(hayseto_)
+		hayseto_ = false;
+	else
+		hayseto_ = true;
 
-////	if(hayseto_)
-////		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
-////	else
-////		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
-////	//}
-//}
+//	if(hayseto_)
+//		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
+//	else
+//		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
+//	//}
+}
 
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
-	QPoint madre;
-		while (muneco_harry->puedo_continuar()){
-		madre = muneco_harry->movimiento();
-		harry_icono->setOffset(madre.x()*tamano_icono,madre.y()*tamano_icono);
-		sleep(1);
+	QPoint pos;
+	QString texto;
+	//QGraphicsPixmapItem camino[(tam_x*tam_y)-(el_mapa->contar_setos())] QGraphicsPixmapItem(QPixmap::fromImage(image_copa))
+
+	while (muneco_harry->puedo_continuar()){
+		pos = muneco_harry->movimiento();
+		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+		usleep(100000);
+		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
+		set_texto_estado(texto);
+		qApp->processEvents();
 	}
 
+	if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
+	set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+	ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+	}
+	else{
+	set_texto_estado("Harry no ha encontrado la salida");
+	ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
+	}
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
@@ -224,27 +240,20 @@ void VentanaPrincipal::set_tam_y (unsigned tamano_y){
 	tam_y=tamano_y;
 }
 
-void VentanaPrincipal::prueba(){
-	if (cuadrodialogo->get_tam_x()<4||cuadrodialogo->get_tam_y()<4){
-//		ventana_error();
-	}
-	else{
-		//error_valores=false;
-		set_tam_x(cuadrodialogo->get_tam_x());
-		set_tam_y(cuadrodialogo->get_tam_y());
-	}
+void VentanaPrincipal::modificar_tamano(){
+	set_tam_x(cuadrodialogo->get_tam_x());
+	set_tam_y(cuadrodialogo->get_tam_y());
 }
 
 bool VentanaPrincipal::get_estado_ejec(){
 	return ejecutando;
 }
 
-void VentanaPrincipal::ventana_error(QString texto_error){
+void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_ventana){
 	QMessageBox probando;
-	probando.setWindowTitle("ERROR");
-	probando.setText(texto_error);
+	probando.setWindowTitle(nombre_ventana);
+	probando.setText(texto_ventana);
 	probando.exec();
-	//error_valores=true;
 }
 
 QString VentanaPrincipal::get_ruta_suelo(){
@@ -266,23 +275,15 @@ ruta_obstaculo=path_obstaculo;
 void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 {
 	if (index==0){
-//		set_ruta_suelo(RUTA_SUELO_TIERRA);
-//		set_ruta_obstaculo(RUTA_OBSTACULO_TIERRA);
 		tema_actual=0;
 	}
 	else if (index==1){
-//		set_ruta_suelo(RUTA_SUELO_FUEGO);
-//		set_ruta_obstaculo(RUTA_OBSTACULO_FUEGO);
 		tema_actual=1;
 	}
 	else if (index==2){
-//		set_ruta_suelo(RUTA_SUELO_AIRE);
-//		set_ruta_obstaculo(RUTA_OBSTACULO_AIRE);
 		tema_actual=2;
 	}
 	else if (index==3){
-//		set_ruta_suelo(RUTA_SUELO_AGUA);
-//		set_ruta_obstaculo(RUTA_OBSTACULO_AGUA);
 		tema_actual=3;
 	}
 }
@@ -321,4 +322,10 @@ QPixmap& VentanaPrincipal::get_obstaculo_actual(){
 	break;
 	}
 	return obstaculo_tierra;
+}
+
+void VentanaPrincipal::on_checkBox_clicked()
+{
+	if(ui->checkBox->checkState())
+	redimensionado=true;
 }

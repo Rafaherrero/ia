@@ -93,10 +93,16 @@ public:
 	QPoint get_pos_copa(void);
 
 	/*!
-	 * \brief Se usa para contar todas los setos
+	 * \brief Se usa para contar todos los setos
 	 * \return devuelve el número de setos
 	 */
 	unsigned contar_setos(void);
+
+	/*!
+	 * \brief Se usa para contar todo el césped
+	 * \return devuelve el número de césped
+	 */
+	unsigned contar_cesped(void);
 
 	/*!
 	 * \brief Se usa para contar todas las entidades

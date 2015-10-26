@@ -52,6 +52,11 @@ unsigned mapa_t::contar_setos(void)
 	return cantidad;
 }
 
+unsigned mapa_t::contar_cesped(void)
+{
+	return (tam_x_*tam_y_)-contar_setos();
+}
+
 unsigned mapa_t::contar_entidades(void)
 {
 	QPoint punto(0,0);

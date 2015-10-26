@@ -7,7 +7,8 @@ harryPotter::harryPotter(mapa_t& lab):
 	laberinto(lab),
 	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO)
 {
-
+	stack.push(get_posicion_harry());
+	marcar.at(stack.top())=ID_GENERACION_VISITADO;
 }
 
 QPoint harryPotter::get_posicion_harry(){
@@ -36,7 +37,7 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 }
 
 bool harryPotter::puedo_continuar(){
-	if (get_posicion_harry()==laberinto.get_pos_copa())
+	if (get_posicion_harry()==laberinto.get_pos_copa()&&!stack.empty())
 		return false;
 	else
 		return true;
@@ -62,20 +63,16 @@ QPoint harryPotter::get_next_dir(){
 
 QPoint harryPotter::movimiento(){
 
-	stack.push(get_posicion_harry());
-	marcar.at(stack.top())=ID_GENERACION_VISITADO;
-
-	//if (/*get_vidas()>0 && get_vidas()<=3 &&*/ !stack.empty()){
-			QPoint aux = get_next_dir();
-			if(aux != get_posicion_harry()){
-				set_posicion_harry(aux);
-				marcar.at(get_posicion_harry())=ID_GENERACION_VISITADO;
-			}
-			else{
-				marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
-				stack.pop();
-				set_posicion_harry(stack.top());
-			}
-			return get_posicion_harry();
-	//}
+	QPoint aux = get_next_dir();
+	if(aux != get_posicion_harry()){
+		set_posicion_harry(aux);
+		stack.push(get_posicion_harry());
+		marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	}
+	else{
+		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
+		stack.pop();
+		set_posicion_harry(stack.top());
+	}
+	return get_posicion_harry();
 }

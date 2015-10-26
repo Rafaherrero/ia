@@ -195,6 +195,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 	ejecutando=true;
 	QPoint pos;
 	QString texto;
+	//QGraphicsPixmapItem camino[(tam_x*tam_y)-(el_mapa->contar_setos())] QGraphicsPixmapItem(QPixmap::fromImage(image_copa))
 
 	while (muneco_harry->puedo_continuar()){
 		pos = muneco_harry->movimiento();

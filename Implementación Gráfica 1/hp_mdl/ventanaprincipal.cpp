@@ -197,13 +197,14 @@ void VentanaPrincipal::on_play_lab_clicked()
 	QGraphicsPixmapItem* camino;
 	QImage image_camino(RUTA_CAMINO);
 
+	if (ejecutando){
 	while (muneco_harry->puedo_continuar()){
 		camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 		camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 		scene->addItem(camino);
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
-		usleep(velocidad*100);
+		usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
 		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
 		set_texto_estado(texto);
 		qApp->processEvents();
@@ -218,6 +219,9 @@ void VentanaPrincipal::on_play_lab_clicked()
 	set_texto_estado("Harry no ha encontrado la salida");
 	ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
 	}
+}
+	ejecutando=false;
+
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
@@ -337,5 +341,5 @@ void VentanaPrincipal::on_checkBox_clicked()
 void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
 {
 	ui->texto_velocidad->setText(QString::number(value));
-	velocidad = ui->horizontalSlider_2->value();
+//	velocidad = ui->horizontalSlider_2->value();
 }

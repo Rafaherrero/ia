@@ -205,7 +205,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 		scene->addItem(camino);
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
-		usleep(100000);
+		usleep(50000);
 		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
 		set_texto_estado(texto);
 		qApp->processEvents();

@@ -37,7 +37,7 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 }
 
 bool harryPotter::puedo_continuar(){
-	if (get_posicion_harry()==laberinto.get_pos_copa()&&!stack.empty())
+	if (get_posicion_harry()==laberinto.get_pos_copa()||stack.empty())
 		return false;
 	else
 		return true;
@@ -72,6 +72,7 @@ QPoint harryPotter::movimiento(){
 	else{
 		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
 		stack.pop();
+		if (!stack.empty())
 		set_posicion_harry(stack.top());
 	}
 	return get_posicion_harry();

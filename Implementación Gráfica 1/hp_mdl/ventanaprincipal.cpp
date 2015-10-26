@@ -193,17 +193,23 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
+	unsigned i=0;
 	QPoint pos;
 	QString texto;
-	//QGraphicsPixmapItem camino[(tam_x*tam_y)-(el_mapa->contar_setos())] QGraphicsPixmapItem(QPixmap::fromImage(image_copa))
+	QGraphicsPixmapItem* camino[el_mapa->contar_cesped()];
+	QImage image_camino(RUTA_CAMINO);
 
 	while (muneco_harry->puedo_continuar()){
+		camino[i] = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+		camino[i]->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+		scene->addItem(camino[i]);
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
 		usleep(100000);
 		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
 		set_texto_estado(texto);
 		qApp->processEvents();
+		i++;
 	}
 
 	if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){

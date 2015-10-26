@@ -20,6 +20,7 @@
 #define RUTA_DEMENTOR "img/Comun/Dementor.png"
 #define RUTA_COPA "img/Comun/Copa.png"
 #define RUTA_CARGA "img/Comun/Loading.png"
+#define RUTA_CAMINO "img/Comun/Camino.png"
 
 #define RUTA_SUELO_TIERRA "img/Tierra/Suelo.png"
 #define RUTA_OBSTACULO_TIERRA "img/Tierra/Obstaculo.png"

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>495</width>
+    <width>523</width>
     <height>540</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Harry Potter y los Monstruos del Laberinto (v2.0.0.1.0)</string>
+   <string>Harry Potter y los Monstruos del Laberinto (v2.0.0.2.0)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">
@@ -136,6 +136,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
              <string>Generar aleatorio</string>
             </property>
@@ -158,17 +164,55 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="play_lab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="rightMargin">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string>Ejecutar búsqueda</string>
-            </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="play_lab">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>16</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Ejecutar búsqueda</string>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="stop_lab">
+              <property name="sizeIncrement">
+               <size>
+                <width>16</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Detener búsqueda</string>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>

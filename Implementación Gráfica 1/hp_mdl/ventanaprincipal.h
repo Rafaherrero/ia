@@ -34,6 +34,9 @@
 #define RUTA_SUELO_FUEGO "img/Fuego/Suelo.png"
 #define RUTA_OBSTACULO_FUEGO "img/Fuego/Obstaculo.png"
 
+#define RUTA_PLAY "img/Icono_play.png"
+#define RUTA_STOP "img/Icono_stop.png"
+
 namespace Ui {
 class VentanaPrincipal;
 class nodoMapa;
@@ -86,6 +89,8 @@ private slots:
 	void on_horizontalSlider_2_valueChanged(int value);
 
 	void on_tabWidget_tabBarClicked(int index);
+
+	void on_stop_lab_clicked();
 
 private:
 	Ui::VentanaPrincipal *ui;

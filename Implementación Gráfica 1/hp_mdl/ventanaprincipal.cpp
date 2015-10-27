@@ -52,6 +52,13 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	redimensionado=false;
 
+	QPixmap icon_play(RUTA_PLAY);
+	QIcon icon_play_button(icon_play);
+	ui->play_lab->setIcon(icon_play_button);
+	QPixmap icon_stop(RUTA_STOP);
+	QIcon icon_stop_button(icon_stop);
+	ui->stop_lab->setIcon(icon_stop_button);
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -66,14 +73,14 @@ VentanaPrincipal::~VentanaPrincipal()
 
 void VentanaPrincipal::on_boton_generar_clicked()
 {
-	ejecutando=false;
+	if(!ejecutando){
 	el_mapa = new mapa_t(tam_x,tam_y);
 	muneco_harry = new harryPotter (*el_mapa);
 	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
 	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
 	el_mapa->generar_laberinto();
-
 	gen_lab_visual();
+	}
 }
 
 void VentanaPrincipal::gen_lab_visual(){
@@ -150,13 +157,13 @@ void VentanaPrincipal::gen_lab_visual(){
 
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
-	ejecutando=false;
+	if(!ejecutando){
 	el_mapa = new mapa_t(tam_x,tam_y);
 	muneco_harry = new harryPotter (*el_mapa);
 	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
 	el_mapa->generar_aleatorio(porcentaje);
-
 	gen_lab_visual();
+	}
 }
 
 nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):
@@ -198,8 +205,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 	QGraphicsPixmapItem* camino;
 	QImage image_camino(RUTA_CAMINO);
 
-	if (ejecutando){
-	while (muneco_harry->puedo_continuar()){
+	while (muneco_harry->puedo_continuar()&&ejecutando){
 		camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 		camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 		scene->addItem(camino);
@@ -210,8 +216,10 @@ void VentanaPrincipal::on_play_lab_clicked()
 		set_texto_estado(texto);
 		qApp->processEvents();
 		i++;
+
 	}
 
+	if (ejecutando){
 	if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 	set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
 	ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
@@ -350,3 +358,8 @@ void VentanaPrincipal::on_tabWidget_tabBarClicked(int index)
 
 }
 
+
+void VentanaPrincipal::on_stop_lab_clicked()
+{
+	ejecutando=false;
+}

@@ -29,6 +29,8 @@ void tabla_t::resize(unsigned x, unsigned y)
 	tabla_.resize(x);
 	for(auto &i : tabla_)
 		i.resize(y);
+	tam_x_ = x;
+	tam_y_ = y;
 }
 
 id_t& tabla_t::at(QPoint coord)

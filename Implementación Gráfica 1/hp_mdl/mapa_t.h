@@ -33,7 +33,7 @@
 
 class mapa_t
 {
-public:
+private:
 	unsigned tam_x_;
 	unsigned tam_y_;
 	tabla_t setos_;

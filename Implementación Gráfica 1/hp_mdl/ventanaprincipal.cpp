@@ -58,6 +58,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QPixmap icon_stop(RUTA_STOP);
 	QIcon icon_stop_button(icon_stop);
 	ui->stop_lab->setIcon(icon_stop_button);
+	el_mapa = new mapa_t(tam_x,tam_y);
 
 }
 
@@ -74,13 +75,21 @@ VentanaPrincipal::~VentanaPrincipal()
 void VentanaPrincipal::on_boton_generar_clicked()
 {
 	if(!ejecutando){
-	el_mapa = new mapa_t(tam_x,tam_y);
-	muneco_harry = new harryPotter (*el_mapa);
-	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
-	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
-	el_mapa->generar_laberinto();
-	gen_lab_visual();
+		el_mapa->resize(tam_x,tam_y);
+		muneco_harry = new harryPotter (*el_mapa);
+		el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
+		muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		el_mapa->generar_laberinto();
+		gen_lab_visual();
 	}
+//	if(!ejecutando){
+//	el_mapa = new mapa_t(tam_x,tam_y);
+//	muneco_harry = new harryPotter (*el_mapa);
+//	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
+//	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+//	el_mapa->generar_laberinto();
+//	gen_lab_visual();
+//	}
 }
 
 void VentanaPrincipal::gen_lab_visual(){
@@ -158,12 +167,18 @@ void VentanaPrincipal::gen_lab_visual(){
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	if(!ejecutando){
-	el_mapa = new mapa_t(tam_x,tam_y);
-	muneco_harry = new harryPotter (*el_mapa);
-	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
-	el_mapa->generar_aleatorio(porcentaje);
-	gen_lab_visual();
+		el_mapa->resize(tam_x,tam_y);
+		muneco_harry = new harryPotter (*el_mapa);
+		muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		el_mapa->generar_aleatorio(porcentaje);
+		gen_lab_visual();
 	}
+//	el_mapa = new mapa_t(tam_x,tam_y);
+//	muneco_harry = new harryPotter (*el_mapa);
+//	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+//	el_mapa->generar_aleatorio(porcentaje);
+//	gen_lab_visual();
+
 }
 
 nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):

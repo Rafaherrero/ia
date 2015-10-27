@@ -85,6 +85,8 @@ private slots:
 
 	void on_horizontalSlider_2_valueChanged(int value);
 
+	void on_tabWidget_tabBarClicked(int index);
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;

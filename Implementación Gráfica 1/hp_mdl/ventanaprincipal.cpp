@@ -51,6 +51,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	tam_y = cuadrodialogo->get_tam_y();
 
 	redimensionado=false;
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -343,3 +344,9 @@ void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
 	ui->texto_velocidad->setText(QString::number(value));
 //	velocidad = ui->horizontalSlider_2->value();
 }
+
+void VentanaPrincipal::on_tabWidget_tabBarClicked(int index)
+{
+
+}
+

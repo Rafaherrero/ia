@@ -26,7 +26,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Harry Potter y los Monstruos del Laberinto (v2.0.0.2.0)</string>
+   <string>Harry Potter y los Monstruos del Laberinto (v2.1.0.0.2)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">
@@ -64,12 +64,6 @@
       </property>
       <property name="elideMode">
        <enum>Qt::ElideLeft</enum>
-      </property>
-      <property name="usesScrollButtons">
-       <bool>false</bool>
-      </property>
-      <property name="movable">
-       <bool>false</bool>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -217,11 +211,44 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Ajustar velocidad de búsqueda</string>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="topMargin">
+           <number>0</number>
           </property>
-         </widget>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Ajustar velocidad</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Redimensionar</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Seguimiento</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -380,19 +407,6 @@
             </property>
             <property name="insertPolicy">
              <enum>QComboBox::InsertAlphabetically</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox">
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="text">
-             <string>Redimensionar</string>
-            </property>
-            <property name="tristate">
-             <bool>false</bool>
             </property>
            </widget>
           </item>

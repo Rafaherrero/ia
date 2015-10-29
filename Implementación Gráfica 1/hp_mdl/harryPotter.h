@@ -25,10 +25,11 @@ private:
 	unsigned vidas;
 	unsigned mana;
 	mapa_t& laberinto;
-    tabla_t marcar;
+	tabla_t marcar;
 	harryPotter();  //Lo ponemos aqui porque Dani lo quiso así
     QPoint get_next_dir();
     QStack<QPoint> stack;
+	QPoint aux;
 
 public:
 

@@ -32,8 +32,11 @@ void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
 	posicion_harry = nueva_posicion;
 	stack.clear();
 	stack.push(get_posicion_harry());
-	marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	marcar.resize(laberinto.get_x(),laberinto.get_y());
+	marcar.clear();
 	laberinto.mover_harry(nueva_posicion);
+	marcar.at(stack.top())=ID_GENERACION_VISITADO;
+
 }
 
 void harryPotter::set_mana (unsigned mana_encontrado){
@@ -71,10 +74,11 @@ QPoint harryPotter::get_next_dir(){
 
 QPoint harryPotter::movimiento(){
 
-	QPoint aux = get_next_dir();
+	aux = get_next_dir();
 	if(aux != get_posicion_harry()){
 		set_posicion_harry(aux);
 		stack.push(get_posicion_harry());
+		if (!stack.empty())
 		marcar.at(stack.top())=ID_GENERACION_VISITADO;
 	}
 	else{

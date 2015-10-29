@@ -39,6 +39,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_algoritmos->addItem("Otro");
 
 	ejecutando=false;
+	redimensionado=false;
+	seguimiento_harry=false;
 
 	suelo_tierra = QPixmap::fromImage(QImage(RUTA_SUELO_TIERRA));
 	suelo_fuego = QPixmap::fromImage(QImage(RUTA_SUELO_FUEGO));
@@ -51,8 +53,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	tam_x = cuadrodialogo->get_tam_x();
 	tam_y = cuadrodialogo->get_tam_y();
-
-	redimensionado=false;
 
 	QPixmap icon_play(RUTA_PLAY);
 	QIcon icon_play_button(icon_play);
@@ -91,28 +91,10 @@ void VentanaPrincipal::gen_lab_visual(){
 	objetos_mapa.clear();
 	objetos_mapa.resize(tam_x*tam_y);
 	scene->clear();
-	ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
+	//ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
-	if((((tam_x*tamano_icono)+20)>500)&&(((tam_y*tamano_icono)+20)<500)){
-		this->setMinimumSize(500,0);
-		this->setMaximumSize(730,(tam_y*tamano_icono)+100);
-		ui->grafico_mapa->setMaximumSize(700,(tam_y*tamano_icono)+5);
-	}
-		else if((((tam_x*tamano_icono)+20)<500)&&(((tam_y*tamano_icono)+20)>500)){
-			this->setMinimumSize(500,0);
-			this->setMaximumSize(((tam_x*tamano_icono)+20),600);
-			ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+5),500);
-	}
-			else if((((tam_x*tamano_icono)+20)<500)&&(((tam_y*tamano_icono)+20)<500)){
-				this->setMinimumSize(500,0);
-				this->setMaximumSize((tam_x*tamano_icono)+100,(tam_y*tamano_icono)+200);
-				ui->grafico_mapa->setMaximumSize(((tam_x*tamano_icono)+5),((tam_y*tamano_icono)+5));
-	}
-				else if ((((tam_x*tamano_icono)+20)>500)&&(((tam_y*tamano_icono)+20)>500)){
-					this->setMaximumSize(730,600);
-					ui->grafico_mapa->setMaximumSize(700,500);
-	}
+	on_checkBox_clicked();
 
 	QImage image_harry(RUTA_HARRY);
 	QImage image_copa(RUTA_COPA);
@@ -155,6 +137,7 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
 		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		std::cout << cuadrodialogo->get_pos_harry_x() << ", " << cuadrodialogo->get_pos_harry_y() << std::endl;
 		el_mapa->generar_aleatorio(porcentaje);
 		gen_lab_visual();
 	}
@@ -205,13 +188,11 @@ void VentanaPrincipal::on_play_lab_clicked()
 		for (unsigned i=0;(i<tam_x);i++){
 			if(el_mapa->get_seto(common::QP(i,j))!=objetos_mapa[contador_objeto]->hay_seto()){
 				el_mapa->get_seto(common::QP(i,j))=objetos_mapa[contador_objeto]->hay_seto();
-				//Aquí iría el_mapa.set_seto()
-				//
-				//
 			}
 			contador_objeto++;
 		}
 	}
+	contador_objeto=0;
 
 	while (muneco_harry->puedo_continuar()&&ejecutando){
 		camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
@@ -219,6 +200,8 @@ void VentanaPrincipal::on_play_lab_clicked()
 		scene->addItem(camino);
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+		if(!redimensionado&&seguimiento_harry)
+				ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 		usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
 		set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
 		qApp->processEvents();
@@ -271,7 +254,6 @@ bool VentanaPrincipal::get_estado_ejec(){
 }
 
 void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_ventana){
-	//ventana_error.setAttribute(Qt::WA_DeleteOnClose, true);
 	ventana_error.setWindowTitle(nombre_ventana);
 	ventana_error.setText(texto_ventana);
 	ventana_error.exec();
@@ -347,8 +329,16 @@ QPixmap& VentanaPrincipal::get_obstaculo_actual(){
 
 void VentanaPrincipal::on_checkBox_clicked()
 {
-	if(ui->checkBox->checkState())
+	if(ui->checkBox->checkState()){
+	ui->grafico_mapa->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 	redimensionado=true;
+	ui->checkBox_2->setChecked(false);
+	}
+	else{
+	ui->grafico_mapa->setTransform(QTransform());
+	ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+	redimensionado=false;
+	}
 }
 
 void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
@@ -366,4 +356,12 @@ void VentanaPrincipal::on_tabWidget_tabBarClicked(int index)
 void VentanaPrincipal::on_stop_lab_clicked()
 {
 	ejecutando=false;
+}
+
+void VentanaPrincipal::on_checkBox_2_clicked()
+{
+	if(ui->checkBox_2->checkState())
+		seguimiento_harry=true;
+	else
+		seguimiento_harry=false;
 }

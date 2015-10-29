@@ -93,6 +93,8 @@ private slots:
 
 	void on_stop_lab_clicked();
 
+	void on_checkBox_2_clicked();
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;
@@ -105,6 +107,7 @@ private:
 	unsigned tamano_icono=18;
 	bool ejecutando;
 	bool redimensionado;
+	bool seguimiento_harry;
 	unsigned tema_actual=0;
 	unsigned velocidad=0;
 	QString ruta_suelo=RUTA_SUELO_TIERRA;

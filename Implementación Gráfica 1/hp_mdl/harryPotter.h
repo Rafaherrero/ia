@@ -35,6 +35,7 @@ public:
 	harryPotter(mapa_t& lab);
 	QPoint get_posicion_harry();
 	void set_posicion_harry(QPoint ranas_de_chocolate);
+	void set_posicion_harry_nuevo (QPoint nueva_posicion);
 	void set_mana(unsigned mana_encontrado);
 	void set_vidas(unsigned vida_gastada);
     bool puedo_continuar();

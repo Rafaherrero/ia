@@ -24,9 +24,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	scene->addItem(carga);
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
-//	connect(ui->play_lab,SIGNAL(clicked(bool)),this,SLOT(on_play_lab_clicked()));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
-	connect(ui->boton_generar,SIGNAL(clicked(bool)),this,SLOT(on_boton_generar_clicked()));
 	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(modificar_tamano()));
 	connect(ui->lista_temas,SIGNAL(currentIndexChanged(int)),this,SLOT(on_lista_temas_currentIndexChanged(int)));
 	connect(ui->checkBox,SIGNAL(clicked(bool)),this,SLOT(on_checkBox_clicked()));
@@ -35,6 +33,10 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Fuego");
 	ui->lista_temas->addItem("Aire");
 	ui->lista_temas->addItem("Agua");
+
+	ui->lista_algoritmos->addItem("DFS");
+	ui->lista_algoritmos->addItem("Estrella");
+	ui->lista_algoritmos->addItem("Otro");
 
 	ejecutando=false;
 
@@ -59,6 +61,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QIcon icon_stop_button(icon_stop);
 	ui->stop_lab->setIcon(icon_stop_button);
 	el_mapa = new mapa_t(tam_x,tam_y);
+	muneco_harry = new harryPotter(*el_mapa);
 
 }
 
@@ -76,25 +79,18 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
-		muneco_harry = new harryPotter (*el_mapa);
 		el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
-		muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
 		el_mapa->generar_laberinto();
 		gen_lab_visual();
 	}
-//	if(!ejecutando){
-//	el_mapa = new mapa_t(tam_x,tam_y);
-//	muneco_harry = new harryPotter (*el_mapa);
-//	el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
-//	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
-//	el_mapa->generar_laberinto();
-//	gen_lab_visual();
-//	}
 }
 
 void VentanaPrincipal::gen_lab_visual(){
 
-	scene = new QGraphicsScene(this);
+	objetos_mapa.clear();
+	objetos_mapa.resize(tam_x*tam_y);
+	scene->clear();
 	ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
@@ -120,33 +116,24 @@ void VentanaPrincipal::gen_lab_visual(){
 
 	QImage image_harry(RUTA_HARRY);
 	QImage image_copa(RUTA_COPA);
-	QImage image_dementor(RUTA_DEMENTOR);
-	QImage image_gragea(RUTA_GRAGEA);
+//	QImage image_dementor(RUTA_DEMENTOR);
+//	QImage image_gragea(RUTA_GRAGEA);
 
-	nodoMapa* objeto[tam_x][tam_y];
-
-	unsigned conti=0;
-	unsigned contj=0;
-	QPoint posicion_objeto(0,0);
-
-	for (unsigned j=0;(j<tam_y*tamano_icono);j=j+tamano_icono){
-		conti=0;
-		for (unsigned i=0;(i<tam_x*tamano_icono);i=i+tamano_icono){
-			QPoint posicion_objeto(conti,contj);
-			if (el_mapa->get_seto(posicion_objeto)){
-				objeto[conti][contj] = new nodoMapa(true,get_obstaculo_actual(),get_suelo_actual());
-				objeto[conti][contj]-> setOffset(i,j);
-				scene->addItem(objeto[conti][contj]);
-				conti++;
+	for (unsigned j=0;(j<tam_y);j++){
+		for (unsigned i=0;(i<tam_x);i++){
+			if (el_mapa->get_seto(common::QP(i,j))){
+				objetos_mapa[contador_objeto] = (new nodoMapa(true,get_obstaculo_actual(),get_suelo_actual()));
+				objetos_mapa[contador_objeto] -> setOffset(i*tamano_icono,j*tamano_icono);
+				scene->addItem(objetos_mapa[contador_objeto]);
+				contador_objeto++;
 			}
 			else{
-				objeto[conti][contj] = new nodoMapa(false,get_obstaculo_actual(),get_suelo_actual());
-				objeto[conti][contj]-> setOffset(i,j);
-				scene->addItem(objeto[conti][contj]);
-				conti++;
+				objetos_mapa[contador_objeto] = (new nodoMapa(false,get_obstaculo_actual(),get_suelo_actual()));
+				objetos_mapa[contador_objeto] -> setOffset(i*tamano_icono,j*tamano_icono);
+				scene->addItem(objetos_mapa[contador_objeto]);
+				contador_objeto++;
 			}
 		}
-		contj++;
 	}
 
 	copa = new QGraphicsPixmapItem(QPixmap::fromImage(image_copa));
@@ -160,25 +147,17 @@ void VentanaPrincipal::gen_lab_visual(){
 	ui->estado_harry->setText("Harry ha entrado al laberinto");
 	ui->estado_harry->adjustSize();
 	qApp->processEvents();
-
-
+	contador_objeto=0;
 }
 
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
-		muneco_harry = new harryPotter (*el_mapa);
-		muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
 		el_mapa->generar_aleatorio(porcentaje);
 		gen_lab_visual();
 	}
-//	el_mapa = new mapa_t(tam_x,tam_y);
-//	muneco_harry = new harryPotter (*el_mapa);
-//	muneco_harry->set_posicion_harry(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
-//	el_mapa->generar_aleatorio(porcentaje);
-//	gen_lab_visual();
-
 }
 
 nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):
@@ -199,11 +178,15 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	else
 		hayseto_ = true;
 
-//	if(hayseto_)
-//		setPixmap(QPixmap::fromImage(QImage(ruta_obstaculo)));
-//	else
-//		setPixmap(QPixmap::fromImage(QImage(ruta_suelo)));
-//	//}
+	if(hayseto_)
+		setPixmap(QPixmap::fromImage(QImage(RUTA_OBSTACULO_TIERRA)));
+	else
+		setPixmap(QPixmap::fromImage(QImage(RUTA_SUELO_TIERRA)));
+	//}
+}
+
+bool nodoMapa::hay_seto(){
+	return hayseto_;
 }
 
 //void nodoMapa::cambiar_tema(QPixmap& path_obstaculo, QPixmap& path_suelo){
@@ -214,11 +197,21 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	ejecutando=true;
-	unsigned i=0;
 	QPoint pos;
-	QString texto;
 	QGraphicsPixmapItem* camino;
 	QImage image_camino(RUTA_CAMINO);
+
+	for (unsigned j=0;(j<tam_y);j++){
+		for (unsigned i=0;(i<tam_x);i++){
+			if(el_mapa->get_seto(common::QP(i,j))!=objetos_mapa[contador_objeto]->hay_seto()){
+				el_mapa->get_seto(common::QP(i,j))=objetos_mapa[contador_objeto]->hay_seto();
+				//Aquí iría el_mapa.set_seto()
+				//
+				//
+			}
+			contador_objeto++;
+		}
+	}
 
 	while (muneco_harry->puedo_continuar()&&ejecutando){
 		camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
@@ -227,11 +220,8 @@ void VentanaPrincipal::on_play_lab_clicked()
 		pos = muneco_harry->movimiento();
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
 		usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
-		texto="Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")";
-		set_texto_estado(texto);
+		set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
 		qApp->processEvents();
-		i++;
-
 	}
 
 	if (ejecutando){
@@ -245,12 +235,11 @@ void VentanaPrincipal::on_play_lab_clicked()
 	}
 }
 	ejecutando=false;
-
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
 {
-	QString valor = QString::number(value);
+	valor = QString::number(value);
 	ui->porcentaje_seto->setText(valor+"%");
 }
 
@@ -282,10 +271,10 @@ bool VentanaPrincipal::get_estado_ejec(){
 }
 
 void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_ventana){
-	QMessageBox probando;
-	probando.setWindowTitle(nombre_ventana);
-	probando.setText(texto_ventana);
-	probando.exec();
+	//ventana_error.setAttribute(Qt::WA_DeleteOnClose, true);
+	ventana_error.setWindowTitle(nombre_ventana);
+	ventana_error.setText(texto_ventana);
+	ventana_error.exec();
 }
 
 QString VentanaPrincipal::get_ruta_suelo(){

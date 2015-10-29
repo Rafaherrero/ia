@@ -28,6 +28,14 @@ void harryPotter::set_posicion_harry (QPoint ranas_de_chocolate){
 	laberinto.mover_harry(ranas_de_chocolate);
 }
 
+void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
+	posicion_harry = nueva_posicion;
+	stack.clear();
+	stack.push(get_posicion_harry());
+	marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	laberinto.mover_harry(nueva_posicion);
+}
+
 void harryPotter::set_mana (unsigned mana_encontrado){
 	mana = mana_encontrado;
 }

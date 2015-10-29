@@ -52,6 +52,7 @@ public:
 	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
 	void cambiar_tema(unsigned tm);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
+	bool hay_seto();
 };
 
 class VentanaPrincipal : public QMainWindow
@@ -118,6 +119,10 @@ private:
 	QPixmap obstaculo_agua;
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
+	std::vector<nodoMapa*> objetos_mapa;
+	QString valor;
+	QMessageBox ventana_error;
+	unsigned contador_objeto=0;
 
 };
 

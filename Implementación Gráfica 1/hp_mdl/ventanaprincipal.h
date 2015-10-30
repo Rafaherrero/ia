@@ -49,7 +49,7 @@ public:
 	QPixmap* obstaculo_;
 	QPixmap* suelo_;
 public:
-	nodoMapa(bool,QPixmap& path_obstaculo, QPixmap& path_suelo);
+	nodoMapa(bool);
 	void cambiar_tema(unsigned tm);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	bool hay_seto();
@@ -68,12 +68,6 @@ public:
 	void set_tam_y (unsigned tamano_y);
 	bool get_estado_ejec();
 	void ventana_aviso(QString nombre_ventana, QString texto_ventana);
-	QString get_ruta_suelo();
-	QString get_ruta_obstaculo();
-	void set_ruta_suelo(QString path_suelo);
-	void set_ruta_obstaculo(QString path_obstaculo);
-	QPixmap& get_suelo_actual();
-	QPixmap& get_obstaculo_actual();
 
 private slots:
 	void on_boton_generar_clicked();
@@ -105,7 +99,6 @@ private:
 	unsigned tam_x;
 	unsigned tam_y;
 	unsigned tamano_icono=18;
-	bool ejecutando;
 	bool redimensionado;
 	bool seguimiento_harry;
 	unsigned tema_actual=0;

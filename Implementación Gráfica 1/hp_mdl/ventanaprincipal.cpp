@@ -5,6 +5,10 @@
 
 #include <iostream>
 
+QPixmap* path_obstaculo=NULL;
+QPixmap* path_suelo=NULL;
+bool ejecutando=false;
+
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::VentanaPrincipal)
@@ -63,6 +67,9 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	el_mapa = new mapa_t(tam_x,tam_y);
 	muneco_harry = new harryPotter(*el_mapa);
 
+	path_obstaculo=&obstaculo_tierra;
+	path_suelo=&suelo_tierra;
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -91,7 +98,6 @@ void VentanaPrincipal::gen_lab_visual(){
 	objetos_mapa.clear();
 	objetos_mapa.resize(tam_x*tam_y);
 	scene->clear();
-	//ui->grafico_mapa->resize(tam_x*tamano_icono,tam_y*tamano_icono);
 	ui->grafico_mapa->setScene(scene);
 	scene->setSceneRect(0, 0, tam_x*tamano_icono, tam_y*tamano_icono);
 	on_checkBox_clicked();
@@ -104,13 +110,13 @@ void VentanaPrincipal::gen_lab_visual(){
 	for (unsigned j=0;(j<tam_y);j++){
 		for (unsigned i=0;(i<tam_x);i++){
 			if (el_mapa->get_seto(common::QP(i,j))){
-				objetos_mapa[contador_objeto] = (new nodoMapa(true,get_obstaculo_actual(),get_suelo_actual()));
+				objetos_mapa[contador_objeto] = (new nodoMapa(true));
 				objetos_mapa[contador_objeto] -> setOffset(i*tamano_icono,j*tamano_icono);
 				scene->addItem(objetos_mapa[contador_objeto]);
 				contador_objeto++;
 			}
 			else{
-				objetos_mapa[contador_objeto] = (new nodoMapa(false,get_obstaculo_actual(),get_suelo_actual()));
+				objetos_mapa[contador_objeto] = (new nodoMapa(false));
 				objetos_mapa[contador_objeto] -> setOffset(i*tamano_icono,j*tamano_icono);
 				scene->addItem(objetos_mapa[contador_objeto]);
 				contador_objeto++;
@@ -136,36 +142,35 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
+		el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
 		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
-		std::cout << cuadrodialogo->get_pos_harry_x() << ", " << cuadrodialogo->get_pos_harry_y() << std::endl;
 		el_mapa->generar_aleatorio(porcentaje);
 		gen_lab_visual();
 	}
 }
 
-nodoMapa::nodoMapa(bool hayseto, QPixmap& path_obstaculo, QPixmap& path_suelo):
+nodoMapa::nodoMapa(bool hayseto):
 hayseto_(hayseto)
 {
 	if(hayseto_)
-		setPixmap(path_obstaculo);
+		setPixmap(*path_obstaculo);
 	else
-		setPixmap(path_suelo);
+		setPixmap(*path_suelo);
 }
 
 void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-//	bool prueba = VentanaPrincipal::get_estado_ejec(void);
-	//if (!prueba){
+	if(!ejecutando){
 	if(hayseto_)
 		hayseto_ = false;
 	else
 		hayseto_ = true;
 
 	if(hayseto_)
-		setPixmap(QPixmap::fromImage(QImage(RUTA_OBSTACULO_TIERRA)));
+		setPixmap(*path_obstaculo);
 	else
-		setPixmap(QPixmap::fromImage(QImage(RUTA_SUELO_TIERRA)));
-	//}
+		setPixmap(*path_suelo);
+	}
 }
 
 bool nodoMapa::hay_seto(){
@@ -259,72 +264,24 @@ void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_venta
 	ventana_error.exec();
 }
 
-QString VentanaPrincipal::get_ruta_suelo(){
-return ruta_suelo;
-}
-
-QString VentanaPrincipal::get_ruta_obstaculo(){
-return ruta_obstaculo;
-}
-
-void VentanaPrincipal::set_ruta_suelo(QString path_suelo){
-ruta_suelo=path_suelo;
-}
-
-void VentanaPrincipal::set_ruta_obstaculo(QString path_obstaculo){
-ruta_obstaculo=path_obstaculo;
-}
-
 void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 {
 	if (index==0){
-		tema_actual=0;
+		path_obstaculo=&obstaculo_tierra;
+		path_suelo=&suelo_tierra;
 	}
 	else if (index==1){
-		tema_actual=1;
+		path_obstaculo=&obstaculo_fuego;
+		path_suelo=&suelo_fuego;
 	}
 	else if (index==2){
-		tema_actual=2;
+		path_obstaculo=&obstaculo_aire;
+		path_suelo=&suelo_aire;
 	}
 	else if (index==3){
-		tema_actual=3;
+		path_obstaculo=&obstaculo_agua;
+		path_suelo=&suelo_agua;
 	}
-}
-
-QPixmap& VentanaPrincipal::get_suelo_actual(){
-	switch (tema_actual) {
-	case 0:
-		return suelo_tierra;
-	break;
-	case 1:
-		return suelo_fuego;
-	break;
-	case 2:
-		return suelo_aire;
-	break;
-	case 3:
-		return suelo_agua;
-	break;
-	}
-	return suelo_tierra;
-}
-
-QPixmap& VentanaPrincipal::get_obstaculo_actual(){
-	switch (tema_actual) {
-	case 0:
-		return obstaculo_tierra;
-	break;
-	case 1:
-		return obstaculo_fuego;
-	break;
-	case 2:
-		return obstaculo_aire;
-	break;
-	case 3:
-		return obstaculo_agua;
-	break;
-	}
-	return obstaculo_tierra;
 }
 
 void VentanaPrincipal::on_checkBox_clicked()

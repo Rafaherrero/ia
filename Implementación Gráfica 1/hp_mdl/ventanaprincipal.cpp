@@ -1,7 +1,5 @@
 #include "ventanaprincipal.h"
 #include "ui_ventanaprincipal.h"
-#include "infolaberinto.h"
-#include "ui_infolaberinto.h"
 
 #include <iostream>
 

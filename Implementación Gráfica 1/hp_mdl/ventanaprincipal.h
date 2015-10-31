@@ -13,7 +13,6 @@
 #include "common.h"
 #include "mapa_t.h"
 #include "harryPotter.h"
-#include "infolaberinto.h"
 
 #define RUTA_HARRY "img/Comun/Harry_Popotter.png"
 #define RUTA_GRAGEA "img/Comun/Gragea.png"
@@ -63,7 +62,6 @@ public:
 	explicit VentanaPrincipal(QWidget *parent = 0);
 	~VentanaPrincipal();
 	void set_texto_estado(QString estado_harry);
-	infolaberinto *cuadrodialogo = new infolaberinto;
 	void set_tam_x (unsigned tamano_x);
 	void set_tam_y (unsigned tamano_y);
 	bool get_estado_ejec();

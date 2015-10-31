@@ -112,7 +112,9 @@ private:
 	QPixmap obstaculo_agua;
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
+	QGraphicsPixmapItem* camino=NULL;
 	std::vector<nodoMapa*> objetos_mapa;
+	std::vector<QGraphicsPixmapItem*> camino_amarillo;
 	QString valor;
 	QMessageBox ventana_error;
 	unsigned contador_objeto=0;

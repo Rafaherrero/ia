@@ -39,9 +39,11 @@ public:
 	void set_posicion_harry_nuevo (QPoint nueva_posicion);
 	void set_mana(unsigned mana_encontrado);
 	void set_vidas(unsigned vida_gastada);
-    bool puedo_continuar();
+	bool puedo_continuar_DFS();
     bool estoy_en_la_copa();
-    QPoint movimiento();
+	QPoint movimiento_DFS();
+	bool puedo_continuar_estrella();
+	QPoint movimiento_estrella();
 	unsigned get_mana();
 	unsigned get_vidas();
 };

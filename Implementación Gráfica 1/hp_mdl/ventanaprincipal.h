@@ -76,18 +76,16 @@ private slots:
 	void on_play_lab_clicked();
 	void sliderValueChanged(int value);
 	void on_boton_aleatorio_clicked();
-	void on_boton_modificar_clicked();
 	void modificar_tamano();
 	void on_lista_temas_currentIndexChanged(int index);
 	void on_checkBox_clicked();
-
 	void on_horizontalSlider_2_valueChanged(int value);
-
-	void on_tabWidget_tabBarClicked(int index);
-
 	void on_stop_lab_clicked();
-
 	void on_checkBox_2_clicked();
+	void on_tam_mapa_x_valueChanged(int arg1);
+	void on_tam_mapa_y_valueChanged(int arg1);
+
+	void on_lista_algoritmos_currentIndexChanged(int index);
 
 private:
 	Ui::VentanaPrincipal *ui;
@@ -99,6 +97,7 @@ private:
 	unsigned tam_x;
 	unsigned tam_y;
 	unsigned tamano_icono=18;
+	unsigned algoritmo;
 	bool redimensionado;
 	bool seguimiento_harry;
 	unsigned tema_actual=0;

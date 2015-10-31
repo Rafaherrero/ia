@@ -29,7 +29,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
-	connect(cuadrodialogo,SIGNAL(ok_clicked(void)),this,SLOT(modificar_tamano()));
 	connect(ui->lista_temas,SIGNAL(currentIndexChanged(int)),this,SLOT(on_lista_temas_currentIndexChanged(int)));
 	connect(ui->checkBox,SIGNAL(clicked(bool)),this,SLOT(on_checkBox_clicked()));
 
@@ -55,8 +54,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	obstaculo_aire = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AIRE));
 	obstaculo_agua = QPixmap::fromImage(QImage(RUTA_OBSTACULO_AGUA));
 
-	tam_x = cuadrodialogo->get_tam_x();
-	tam_y = cuadrodialogo->get_tam_y();
+	tam_x = ui->tam_mapa_x->value();
+	tam_y = ui->tam_mapa_y->value();
 
 	QPixmap icon_play(RUTA_PLAY);
 	QIcon icon_play_button(icon_play);
@@ -86,8 +85,8 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
-		el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
-		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		el_mapa->mover_copa(common::QP(ui->pos_copa_x->value(),ui->pos_copa_y->value()));
+		muneco_harry->set_posicion_harry_nuevo(common::QP(ui->pos_harry_x->value(),ui->pos_harry_y->value()));
 		el_mapa->generar_laberinto();
 		gen_lab_visual();
 	}
@@ -142,8 +141,8 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	if(!ejecutando){
 		el_mapa->resize(tam_x,tam_y);
-		el_mapa->mover_copa(common::QP(cuadrodialogo->get_pos_copa_x(),cuadrodialogo->get_pos_copa_y()));
-		muneco_harry->set_posicion_harry_nuevo(common::QP(cuadrodialogo->get_pos_harry_x(),cuadrodialogo->get_pos_harry_y()));
+		el_mapa->mover_copa(common::QP(ui->pos_copa_x->value(),ui->pos_copa_y->value()));
+		muneco_harry->set_posicion_harry_nuevo(common::QP(ui->pos_harry_x->value(),ui->pos_harry_y->value()));
 		el_mapa->generar_aleatorio(porcentaje);
 		gen_lab_visual();
 	}
@@ -176,11 +175,6 @@ void nodoMapa::mousePressEvent(QGraphicsSceneMouseEvent *event)
 bool nodoMapa::hay_seto(){
 	return hayseto_;
 }
-
-//void nodoMapa::cambiar_tema(QPixmap& path_obstaculo, QPixmap& path_suelo){
-
-
-//}
 
 void VentanaPrincipal::on_play_lab_clicked()
 {
@@ -236,11 +230,6 @@ void VentanaPrincipal::on_boton_aleatorio_clicked()
 	gen_lab_setos(ui->horizontalSlider->value());
 }
 
-void VentanaPrincipal::on_boton_modificar_clicked()
-{
-	cuadrodialogo->show();
-}
-
 void VentanaPrincipal::set_tam_x (unsigned tamano_x){
 	tam_x=tamano_x;
 }
@@ -250,8 +239,8 @@ void VentanaPrincipal::set_tam_y (unsigned tamano_y){
 }
 
 void VentanaPrincipal::modificar_tamano(){
-	set_tam_x(cuadrodialogo->get_tam_x());
-	set_tam_y(cuadrodialogo->get_tam_y());
+	set_tam_x(ui->tam_mapa_x->value());
+	set_tam_y(ui->tam_mapa_y->value());
 }
 
 bool VentanaPrincipal::get_estado_ejec(){
@@ -301,14 +290,7 @@ void VentanaPrincipal::on_checkBox_clicked()
 void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
 {
 	ui->texto_velocidad->setText(QString::number(value));
-//	velocidad = ui->horizontalSlider_2->value();
 }
-
-void VentanaPrincipal::on_tabWidget_tabBarClicked(int index)
-{
-
-}
-
 
 void VentanaPrincipal::on_stop_lab_clicked()
 {
@@ -321,4 +303,31 @@ void VentanaPrincipal::on_checkBox_2_clicked()
 		seguimiento_harry=true;
 	else
 		seguimiento_harry=false;
+}
+
+void VentanaPrincipal::on_tam_mapa_x_valueChanged(int arg1)
+{
+	modificar_tamano();
+	ui->pos_harry_x->setMaximum(tam_x-2);
+	ui->pos_copa_x->setMaximum(tam_x-2);
+}
+
+void VentanaPrincipal::on_tam_mapa_y_valueChanged(int arg1)
+{
+	modificar_tamano();
+	ui->pos_harry_y->setMaximum(tam_y-2);
+	ui->pos_copa_y->setMaximum(tam_y-2);
+}
+
+void VentanaPrincipal::on_lista_algoritmos_currentIndexChanged(int index)
+{
+	if (index==0){
+		algoritmo=0;
+	}
+	else if (index==1){
+		algoritmo=1;
+	}
+	else if (index==2){
+		algoritmo=2;
+	}
 }

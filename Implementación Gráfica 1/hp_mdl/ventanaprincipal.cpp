@@ -83,6 +83,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	posicion_harry_original=muneco_harry->get_posicion_harry();
 	posicion_copa_original=el_mapa->get_pos_copa();
 
+	nuevo=true;
+
 }
 
 void VentanaPrincipal::set_texto_estado(QString estado_harry){
@@ -99,6 +101,7 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	terminado_ejecucion=false;
 	if(!ejecutando){
+		nuevo=true;
 		el_mapa->resize(tam_x,tam_y);
 		el_mapa->mover_copa(common::QP(ui->pos_copa_x->value(),ui->pos_copa_y->value()));
 		muneco_harry->set_posicion_harry_nuevo(common::QP(ui->pos_harry_x->value(),ui->pos_harry_y->value()));
@@ -153,12 +156,15 @@ void VentanaPrincipal::gen_lab_visual(){
 	contador_objeto=0;
 	mapa_generado=true;
 	on_checkBox_clicked();
+	tamano_original_x=tam_x;
+	tamano_original_y=tam_y;
 }
 
 void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 
 	terminado_ejecucion=false;
 	if(!ejecutando){
+		nuevo=true;
 		el_mapa->resize(tam_x,tam_y);
 		el_mapa->mover_copa(common::QP(ui->pos_copa_x->value(),ui->pos_copa_y->value()));
 		muneco_harry->set_posicion_harry_nuevo(common::QP(ui->pos_harry_x->value(),ui->pos_harry_y->value()));
@@ -207,6 +213,7 @@ void nodoMapa::hay_camino (bool camino){
 void VentanaPrincipal::on_play_lab_clicked()
 {
 	if(mapa_generado){
+		if (nuevo){
 		ejecutando=true;
 		pausa=false;
 		QPoint pos;
@@ -260,8 +267,6 @@ void VentanaPrincipal::on_play_lab_clicked()
 		}
 		qApp->processEvents();
 	}
-	}
-
 	if (ejecutando){
 	if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 
@@ -271,6 +276,11 @@ void VentanaPrincipal::on_play_lab_clicked()
 	else{
 	set_texto_estado("Harry no ha encontrado la salida");
 	ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
+	}
+	}
+}
+	else{
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
 	}
 }
 	ejecutando=false;
@@ -299,6 +309,7 @@ void VentanaPrincipal::set_tam_y (unsigned tamano_y){
 void VentanaPrincipal::modificar_tamano(){
 	set_tam_x(ui->tam_mapa_x->value());
 	set_tam_y(ui->tam_mapa_y->value());
+	nuevo=false;
 }
 
 void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_ventana){
@@ -362,11 +373,16 @@ void VentanaPrincipal::on_horizontalSlider_2_valueChanged(int value)
 
 void VentanaPrincipal::on_stop_lab_clicked()
 {
-	if(mapa_generado){
-	ejecutando=false;
-	pausa=true;
-	muneco_harry->set_posicion_harry_nuevo(posicion_harry_original);
-	gen_lab_visual();
+	if(nuevo){
+		if(mapa_generado){
+			ejecutando=false;
+			pausa=true;
+			muneco_harry->set_posicion_harry_nuevo(posicion_harry_original);
+			gen_lab_visual();
+		}
+	}
+	else{
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
 	}
 }
 
@@ -423,8 +439,13 @@ void VentanaPrincipal::on_checkBox_3_clicked()
 
 void VentanaPrincipal::on_pause_lab_clicked()
 {
+	if(nuevo){
 	pausa=true;
 	ejecutando=false;
+	}
+	else{
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
+	}
 }
 
 unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){

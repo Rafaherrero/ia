@@ -101,10 +101,13 @@ private:
 	unsigned tam_y;
 	unsigned tamano_icono;
 	unsigned algoritmo;
+	unsigned tamano_original_x;
+	unsigned tamano_original_y;
 	bool redimensionado;
 	bool seguimiento_harry;
 	bool mapa_generado;
 	bool maxima_velocidad;
+	bool nuevo;
 	unsigned tema_actual;
 	QPixmap suelo_tierra;
 	QPixmap suelo_fuego;

@@ -18,19 +18,15 @@ SOURCES += main.cpp\
     tabla_t.cpp \
     harryPotter.cpp \
     mapa_t.cpp \
-    common.cpp \
-    infolaberinto.cpp
+    common.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa_t.h \
     common.h \
     exceptions.h \
     tabla_t.h \
-    harryPotter.h \
-    infolaberinto.h
+    harryPotter.h
 
-
-FORMS    += ventanaprincipal.ui \
-    infolaberinto.ui
+FORMS    += ventanaprincipal.ui
 
 CONFIG += c++11

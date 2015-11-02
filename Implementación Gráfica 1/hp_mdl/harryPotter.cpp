@@ -47,7 +47,7 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 	vidas = vida_gastada;
 }
 
-bool harryPotter::puedo_continuar(){
+bool harryPotter::puedo_continuar_DFS(){
 	if (get_posicion_harry()==laberinto.get_pos_copa()||stack.empty())
 		return false;
 	else
@@ -72,7 +72,7 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
-QPoint harryPotter::movimiento(){
+QPoint harryPotter::movimiento_DFS(){
 
 	aux = get_next_dir();
 	if(aux != get_posicion_harry()){
@@ -88,4 +88,12 @@ QPoint harryPotter::movimiento(){
 		set_posicion_harry(stack.top());
 	}
 	return get_posicion_harry();
+}
+
+bool harryPotter::puedo_continuar_estrella(){
+
+}
+
+QPoint harryPotter::movimiento_estrella(){
+
 }

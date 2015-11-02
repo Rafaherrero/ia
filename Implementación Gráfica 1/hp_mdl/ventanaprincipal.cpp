@@ -77,8 +77,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	el_mapa = new mapa_t(tam_x,tam_y);
 	muneco_harry = new harryPotter(*el_mapa);
 
-	path_obstaculo=&obstaculo_tierra;
-	path_suelo=&suelo_tierra;
+	ruta_de_obstaculo=&obstaculo_tierra;
+	ruta_de_suelo=&suelo_tierra;
 
 	posicion_harry_original=muneco_harry->get_posicion_harry();
 	posicion_copa_original=el_mapa->get_pos_copa();
@@ -108,6 +108,8 @@ void VentanaPrincipal::on_boton_generar_clicked()
 		el_mapa->generar_laberinto();
 		posicion_harry_original=muneco_harry->get_posicion_harry();
 		posicion_copa_original=el_mapa->get_pos_copa();
+		path_obstaculo=ruta_de_obstaculo;
+		path_suelo=ruta_de_suelo;
 		gen_lab_visual();
 	}
 }
@@ -171,6 +173,8 @@ void VentanaPrincipal::gen_lab_setos(unsigned porcentaje){
 		el_mapa->generar_aleatorio(porcentaje);
 		posicion_harry_original=muneco_harry->get_posicion_harry();
 		posicion_copa_original=el_mapa->get_pos_copa();
+		path_obstaculo=ruta_de_obstaculo;
+		path_suelo=ruta_de_suelo;
 		gen_lab_visual();
 	}
 }
@@ -327,20 +331,20 @@ void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_venta
 void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 {
 	if (index==0){
-		path_obstaculo=&obstaculo_tierra;
-		path_suelo=&suelo_tierra;
+		ruta_de_obstaculo=&obstaculo_tierra;
+		ruta_de_suelo=&suelo_tierra;
 	}
 	else if (index==1){
-		path_obstaculo=&obstaculo_fuego;
-		path_suelo=&suelo_fuego;
+		ruta_de_obstaculo=&obstaculo_fuego;
+		ruta_de_suelo=&suelo_fuego;
 	}
 	else if (index==2){
-		path_obstaculo=&obstaculo_aire;
-		path_suelo=&suelo_aire;
+		ruta_de_obstaculo=&obstaculo_aire;
+		ruta_de_suelo=&suelo_aire;
 	}
 	else if (index==3){
-		path_obstaculo=&obstaculo_agua;
-		path_suelo=&suelo_agua;
+		ruta_de_obstaculo=&obstaculo_agua;
+		ruta_de_suelo=&suelo_agua;
 	}
 }
 

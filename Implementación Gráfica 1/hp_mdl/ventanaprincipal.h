@@ -122,6 +122,8 @@ private:
 	QPixmap obstaculo_fuego;
 	QPixmap obstaculo_aire;
 	QPixmap obstaculo_agua;
+	QPixmap* ruta_de_obstaculo=NULL;
+	QPixmap* ruta_de_suelo=NULL;
 	QGraphicsPixmapItem* harry_icono;
 	QGraphicsPixmapItem* copa;
 	QGraphicsPixmapItem* camino=NULL;

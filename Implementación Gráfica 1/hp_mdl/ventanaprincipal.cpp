@@ -37,8 +37,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Agua");
 
 	ui->lista_algoritmos->addItem("DFS");
-	ui->lista_algoritmos->addItem("Estrella");
-	ui->lista_algoritmos->addItem("Otro");
+//	ui->lista_algoritmos->addItem("Estrella");
+//	ui->lista_algoritmos->addItem("Otro");
 
 	redimensionado=false;
 	seguimiento_harry=false;
@@ -210,10 +210,17 @@ void nodoMapa::hay_camino (bool camino){
 	haycamino_=camino;
 }
 
-void VentanaPrincipal::on_play_lab_clicked()
+void VentanaPrincipal::on_play_lab_clicked(){
+	ejecutar_un_paso = false;
+	if (nuevo)
+		ejecutar_algoritmo();
+	else
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+}
+
+void VentanaPrincipal::ejecutar_algoritmo()
 {
 	if(mapa_generado){
-		if (nuevo){
 		ejecutando=true;
 		pausa=false;
 		QPoint pos;
@@ -230,7 +237,7 @@ void VentanaPrincipal::on_play_lab_clicked()
 	contador_objeto=0;
 
 	if(algoritmo==0){
-	while (muneco_harry->puedo_continuar_DFS()&&ejecutando){
+	while (muneco_harry->puedo_continuar_DFS()&&ejecutando&&!un_paso){
 		camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 		camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 		scene->addItem(camino);
@@ -245,11 +252,13 @@ void VentanaPrincipal::on_play_lab_clicked()
 			set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
 			qApp->processEvents();
 		}
+		if (ejecutar_un_paso)
+			un_paso=true;
 	}
 	qApp->processEvents();
 	}
 	else if (algoritmo==1){
-		while (muneco_harry->puedo_continuar_estrella()&&ejecutando){
+		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
@@ -264,23 +273,20 @@ void VentanaPrincipal::on_play_lab_clicked()
 				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
 				qApp->processEvents();
 			}
+			if (ejecutar_un_paso)
+				un_paso=true;
 		}
 		qApp->processEvents();
 	}
-	if (ejecutando){
-	if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
-
-	set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
-	ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
-	}
-	else{
-	set_texto_estado("Harry no ha encontrado la salida");
-	ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
-	}
-	}
-}
-	else{
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
+	if (ejecutando&&!un_paso){
+		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
+			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+		}
+		else{
+			set_texto_estado("Harry no ha encontrado la salida");
+			ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
+		}
 	}
 }
 	ejecutando=false;
@@ -377,13 +383,13 @@ void VentanaPrincipal::on_stop_lab_clicked()
 		if(mapa_generado){
 			ejecutando=false;
 			pausa=true;
+			ejecutar_un_paso = false;
 			muneco_harry->set_posicion_harry_nuevo(posicion_harry_original);
 			gen_lab_visual();
 		}
 	}
-	else{
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
-	}
+	else
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
 }
 
 void VentanaPrincipal::on_checkBox_2_clicked()
@@ -413,12 +419,12 @@ void VentanaPrincipal::on_lista_algoritmos_currentIndexChanged(int index)
 	if (index==0){
 		algoritmo=0;
 	}
-	else if (index==1){
-		algoritmo=1;
-	}
-	else if (index==2){
-		algoritmo=2;
-	}
+//	else if (index==1){
+//		algoritmo=1;
+//	}
+//	else if (index==2){
+//		algoritmo=2;
+//	}
 }
 
 void VentanaPrincipal::on_checkBox_3_clicked()
@@ -440,14 +446,26 @@ void VentanaPrincipal::on_checkBox_3_clicked()
 void VentanaPrincipal::on_pause_lab_clicked()
 {
 	if(nuevo){
-	pausa=true;
-	ejecutando=false;
+		pausa=true;
+		ejecutando=false;
+		ejecutar_un_paso = false;
 	}
-	else{
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando");
-	}
+	else
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
 }
 
 unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
 	return coord_i+coord_j*tam_x;
+}
+
+void VentanaPrincipal::on_next_lab_clicked()
+{
+	if (nuevo){
+		un_paso=false;
+		ejecutar_un_paso = true;
+		ejecutar_algoritmo();
+		on_pause_lab_clicked();
+	}
+	else
+		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
 }

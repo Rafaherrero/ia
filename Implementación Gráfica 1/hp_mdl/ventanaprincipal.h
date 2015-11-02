@@ -70,6 +70,7 @@ public:
 	void set_tam_y (unsigned tamano_y);
 	void ventana_aviso(QString nombre_ventana, QString texto_ventana);
 	unsigned get_posicion (unsigned coord_i, unsigned coord_j);
+	void ejecutar_algoritmo();
 
 private slots:
 	void on_boton_generar_clicked();
@@ -90,6 +91,8 @@ private slots:
 	void on_checkBox_3_clicked();
 	void on_pause_lab_clicked();
 
+	void on_next_lab_clicked();
+
 private:
 	Ui::VentanaPrincipal *ui;
 	QGraphicsScene *scene;
@@ -108,6 +111,8 @@ private:
 	bool mapa_generado;
 	bool maxima_velocidad;
 	bool nuevo;
+	bool ejecutar_un_paso;
+	bool un_paso;
 	unsigned tema_actual;
 	QPixmap suelo_tierra;
 	QPixmap suelo_fuego;

@@ -42,6 +42,8 @@ public:
 	bool puedo_continuar_DFS();
     bool estoy_en_la_copa();
 	QPoint movimiento_DFS();
+	bool puedo_continuar_escalada();
+	QPoint movimiento_escalada();
 	bool puedo_continuar_estrella();
 	QPoint movimiento_estrella();
 	bool puedo_continuar_escalada();

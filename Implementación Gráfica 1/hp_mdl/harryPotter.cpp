@@ -96,6 +96,7 @@ bool harryPotter::puedo_continuar_escalada(){
 
 QPoint harryPotter::movimiento_escalada()
 {
+	std::cout << "Soy el movimiento en escalada!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
 	return movimiento_DFS(); //TODO: Implementar algoritmo de escalada.
 }
 
@@ -104,5 +105,6 @@ bool harryPotter::puedo_continuar_estrella(){
 }
 
 QPoint harryPotter::movimiento_estrella(){
+	std::cout << "Soy el movimiento en estrella!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
 	return movimiento_DFS(); //TODO: Implementar algoritmo A*.
 }

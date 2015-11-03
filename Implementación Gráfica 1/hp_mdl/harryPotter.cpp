@@ -90,10 +90,19 @@ QPoint harryPotter::movimiento_DFS(){
 	return get_posicion_harry();
 }
 
-bool harryPotter::puedo_continuar_estrella(){
+bool harryPotter::puedo_continuar_escalada(){
+	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo de escalada
+}
 
+QPoint harryPotter::movimiento_escalada()
+{
+	return movimiento_DFS(); //TODO: Implementar algoritmo de escalada.
+}
+
+bool harryPotter::puedo_continuar_estrella(){
+	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo A*
 }
 
 QPoint harryPotter::movimiento_estrella(){
-
+	return movimiento_DFS(); //TODO: Implementar algoritmo A*.
 }

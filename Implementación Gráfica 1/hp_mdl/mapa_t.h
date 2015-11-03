@@ -111,7 +111,7 @@ public:
 	unsigned contar_entidades(void);
 
 	/*!
-	 * \brief Se usa para contar una concreta especie de entidad
+	 * \brief Se usa para contar una especie en concreto
 	 * \param entidad la entidad en cuestión
 	 * \return devuelve el número de coincidencias
 	 */
@@ -219,8 +219,6 @@ public:
 	 * \return Devuelve el ID de la entidad
 	 */
 	id_t& get_ent(QPoint celda, dir_t dir);
-
-
 
 	///@}
 };

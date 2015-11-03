@@ -26,7 +26,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Harry Potter y los Monstruos del Laberinto (v4.0.0.1.0)</string>
+   <string>Harry Potter y los Monstruos del Laberinto (v4.0.0.1.1)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">

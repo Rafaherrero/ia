@@ -37,8 +37,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Agua");
 
 	ui->lista_algoritmos->addItem("DFS");
-//	ui->lista_algoritmos->addItem("Estrella");
-//	ui->lista_algoritmos->addItem("Otro");
+	ui->lista_algoritmos->addItem("Escalada");
+	ui->lista_algoritmos->addItem("Estrella");
 
 	redimensionado=false;
 	seguimiento_harry=false;
@@ -262,6 +262,27 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	qApp->processEvents();
 	}
 	else if (algoritmo==1){
+		while (muneco_harry->puedo_continuar_escalada()&&ejecutando&&!un_paso){
+			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+			scene->addItem(camino);
+			pos = muneco_harry->movimiento_escalada();
+			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
+				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
+			if (!maxima_velocidad){
+				if (!redimensionado&&seguimiento_harry)
+					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
+				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
+				qApp->processEvents();
+			}
+			if (ejecutar_un_paso)
+				un_paso=true;
+		}
+		qApp->processEvents();
+	}
+	else if (algoritmo==2){
 		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
@@ -423,12 +444,12 @@ void VentanaPrincipal::on_lista_algoritmos_currentIndexChanged(int index)
 	if (index==0){
 		algoritmo=0;
 	}
-//	else if (index==1){
-//		algoritmo=1;
-//	}
-//	else if (index==2){
-//		algoritmo=2;
-//	}
+	else if (index==1){
+		algoritmo=1;
+	}
+	else if (index==2){
+		algoritmo=2;
+	}
 }
 
 void VentanaPrincipal::on_checkBox_3_clicked()

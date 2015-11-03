@@ -97,3 +97,11 @@ bool harryPotter::puedo_continuar_estrella(){
 QPoint harryPotter::movimiento_estrella(){
 
 }
+
+bool harryPotter::puedo_continuar_escalada(){
+
+}
+
+QPoint harryPotter::movimiento_escalada(){
+
+}

@@ -216,6 +216,7 @@ void nodoMapa::hay_camino (bool camino){
 
 void VentanaPrincipal::on_play_lab_clicked(){
 	ejecutar_un_paso = false;
+	un_paso = false;
 	if (nuevo)
 		ejecutar_algoritmo();
 	else
@@ -486,7 +487,7 @@ unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
 void VentanaPrincipal::on_next_lab_clicked()
 {
 	if (nuevo){
-		un_paso=false;
+		un_paso = false;
 		ejecutar_un_paso = true;
 		ejecutar_algoritmo();
 		on_pause_lab_clicked();

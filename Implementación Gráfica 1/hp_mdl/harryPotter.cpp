@@ -74,7 +74,45 @@ QPoint harryPotter::get_next_dir(){
 
 QPoint harryPotter::get_next_dir_escalada()
 {
+	QPoint p_arriba = common::QP(get_posicion_harry(), ID_ORIENTACION_ARRIBA);
+	QPoint p_abajo = common::QP(get_posicion_harry(), ID_ORIENTACION_ABAJO);
+	QPoint p_derecha = common::QP(get_posicion_harry(), ID_ORIENTACION_DERECHA);
+	QPoint p_izquierda = common::QP(get_posicion_harry(), ID_ORIENTACION_IZQUIERDA);
 
+	unsigned h_arriba = funcion_heuristica_prox(p_arriba);
+	unsigned h_abajo = funcion_heuristica_prox(p_abajo);
+	unsigned h_derecha = funcion_heuristica_prox(p_derecha);
+	unsigned h_izquierda = funcion_heuristica_prox(p_izquierda);
+
+	std::pair<QPoint,unsigned> arriba(p_arriba, h_arriba);
+	std::pair<QPoint,unsigned> abajo(p_abajo, h_abajo);
+	std::pair<QPoint,unsigned> derecha(p_derecha, h_derecha);
+	std::pair<QPoint,unsigned> izquierda(p_izquierda, h_izquierda);
+
+	std::vector<std::pair<QPoint,unsigned>> lista;
+
+	if(laberinto.get_seto(p_arriba) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_arriba) == ID_GENERACION_VACIO){
+		lista.push_back(arriba);
+	}
+	if(laberinto.get_seto(p_abajo) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_abajo) == ID_GENERACION_VACIO){
+		lista.push_back(abajo);
+	}
+	if (laberinto.get_seto(p_derecha) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_derecha) == ID_GENERACION_VACIO){
+		lista.push_back(derecha);
+	}
+	if (laberinto.get_seto(p_izquierda) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_izquierda) == ID_GENERACION_VACIO){
+		lista.push_back(izquierda);
+	}
+
+	QPoint punto_final = get_posicion_harry();
+	unsigned h_ahora = 32000;
+	for(int i = 0; i < lista.size(); i++){
+		if(h_ahora > lista[i].second){
+			h_ahora = lista[i].second;
+			punto_final = lista[i].first;
+		}
+	}
+	return punto_final;
 }
 
 QPoint harryPotter::movimiento_DFS(){

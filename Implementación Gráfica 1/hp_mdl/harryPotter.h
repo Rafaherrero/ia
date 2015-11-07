@@ -50,7 +50,8 @@ public:
 	unsigned get_mana();
 	unsigned get_vidas();
 
-	unsigned funcion_heuristica_prox();
+	unsigned funcion_heuristica_prox(QPoint);
+	QPoint get_next_dir_escalada();
 };
 
 #endif // harryPotter_H

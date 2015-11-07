@@ -46,8 +46,6 @@ public:
 	QPoint movimiento_escalada();
 	bool puedo_continuar_estrella();
 	QPoint movimiento_estrella();
-	bool puedo_continuar_escalada();
-	QPoint movimiento_escalada();
 	unsigned get_mana();
 	unsigned get_vidas();
 };

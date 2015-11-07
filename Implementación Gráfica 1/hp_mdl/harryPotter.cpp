@@ -79,7 +79,7 @@ QPoint harryPotter::movimiento_DFS(){
 		set_posicion_harry(aux);
 		stack.push(get_posicion_harry());
 		if (!stack.empty())
-		marcar.at(stack.top())=ID_GENERACION_VISITADO;
+			marcar.at(stack.top())=ID_GENERACION_VISITADO;
 	}
 	else{
 		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
@@ -107,12 +107,4 @@ bool harryPotter::puedo_continuar_estrella(){
 QPoint harryPotter::movimiento_estrella(){
 	std::cout << "Soy el movimiento en estrella!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
 	return movimiento_DFS(); //TODO: Implementar algoritmo A*.
-}
-
-bool harryPotter::puedo_continuar_escalada(){
-
-}
-
-QPoint harryPotter::movimiento_escalada(){
-
 }

@@ -72,6 +72,11 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
+QPoint harryPotter::get_next_dir_escalada()
+{
+
+}
+
 QPoint harryPotter::movimiento_DFS(){
 
 	aux = get_next_dir();
@@ -96,8 +101,29 @@ bool harryPotter::puedo_continuar_escalada(){
 
 QPoint harryPotter::movimiento_escalada()
 {
-	std::cout << "Soy el movimiento en escalada!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
-	return movimiento_DFS(); //TODO: Implementar algoritmo de escalada.
+	//std::cout << "Soy el movimiento en escalada!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
+	std::cout << "La distancia entre harry y la copa es " << funcion_heuristica_prox(posicion_harry) << std::endl;
+	aux = get_next_dir_escalada();
+	if(aux != get_posicion_harry()){
+		set_posicion_harry(aux);
+		stack.push(get_posicion_harry());
+		if (!stack.empty())
+		marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	}
+	else{
+		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
+		stack.pop();
+		if (!stack.empty())
+		set_posicion_harry(stack.top());
+	}
+	return get_posicion_harry();
+}
+
+unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
+{
+	QPoint p2 = laberinto.get_pos_copa();
+	double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y()));
+	return (unsigned)resultado;
 }
 
 bool harryPotter::puedo_continuar_estrella(){
@@ -107,12 +133,4 @@ bool harryPotter::puedo_continuar_estrella(){
 QPoint harryPotter::movimiento_estrella(){
 	std::cout << "Soy el movimiento en estrella!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
 	return movimiento_DFS(); //TODO: Implementar algoritmo A*.
-}
-
-bool harryPotter::puedo_continuar_escalada(){
-
-}
-
-QPoint harryPotter::movimiento_escalada(){
-
 }

@@ -33,8 +33,8 @@ private:
 	QPoint aux;
 	bool primera_vez;
 	bool encontrada_copa;
-	unsigned costo_transicion;
-	bool tipo_distancia; //falso = manhattan, true = euclides
+	unsigned costo_transicion_;
+	bool tipo_distancia_; //falso = manhattan, true = euclides
 
 public:
 

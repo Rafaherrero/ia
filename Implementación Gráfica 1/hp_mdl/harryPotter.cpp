@@ -7,8 +7,8 @@ harryPotter::harryPotter(mapa_t& lab):
 	laberinto(lab),
 	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO),
 	encontrada_copa(false),
-	costo_transicion(5),
-	tipo_distancia(false) //Manhattan
+	costo_transicion_(5),
+	tipo_distancia_(false) //Manhattan
 {
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
@@ -125,7 +125,7 @@ QPoint harryPotter::movimiento_escalada()
         primera_vez = false;
 	}
 	aux = get_next_dir_escalada(); // Obtener el x' con menor h*(x)
-	marcar.at(posicion_harry) = costo_transicion + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
+	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
 	set_posicion_harry(aux); //Nos desplazamos a x'
 
 	if(laberinto.get_pos_copa() == posicion_harry)
@@ -137,7 +137,7 @@ QPoint harryPotter::movimiento_escalada()
 unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
 {
 	QPoint p2 = laberinto.get_pos_copa();
-	if(tipo_distancia){
+	if(tipo_distancia_){
 		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
 		return unsigned(resultado);
 	}
@@ -175,11 +175,11 @@ QPoint harryPotter::movimiento_estrella(){
 
 unsigned& harryPotter::costo_transicion(void)
 {
-	return costo_transicion;
+	return costo_transicion_;
 }
 
 
 bool& harryPotter::tipo_distancia(void)
 {
-	return tipo_distancia;
+	return tipo_distancia_;
 }

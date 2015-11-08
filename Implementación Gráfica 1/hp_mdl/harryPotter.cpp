@@ -122,7 +122,6 @@ QPoint harryPotter::movimiento_escalada()
 		}
         primera_vez = false;
 	}
-	std::cout << "La distancia entre harry y la copa es " << funcion_heuristica_prox(posicion_harry) << std::endl;
 	aux = get_next_dir_escalada();
     marcar.at(posicion_harry)+=10; // Se suma la bandera+1
 	set_posicion_harry(aux);
@@ -136,8 +135,11 @@ QPoint harryPotter::movimiento_escalada()
 unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
 {
 	QPoint p2 = laberinto.get_pos_copa();
-	double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y()));
-	return (unsigned)resultado;
+    double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
+    /*unsigned mx = abs(p1.x()-p2.x()); Distancia manhattan
+    unsigned my = abs(p1.y()-p2.y());
+    return mx+my;*/
+    return unsigned(resultado);
 }
 
 QPoint harryPotter::movimiento_DFS(){

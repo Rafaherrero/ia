@@ -120,10 +120,11 @@ QPoint harryPotter::movimiento_escalada()
 				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
 			}
 		}
+        primera_vez = false;
 	}
 	std::cout << "La distancia entre harry y la copa es " << funcion_heuristica_prox(posicion_harry) << std::endl;
 	aux = get_next_dir_escalada();
-	marcar.at(posicion_harry)+=1; // Se suma la bandera+1
+    marcar.at(posicion_harry)+=10; // Se suma la bandera+1
 	set_posicion_harry(aux);
 
 	if(laberinto.get_pos_copa() == posicion_harry)

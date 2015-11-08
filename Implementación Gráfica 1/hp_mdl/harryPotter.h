@@ -31,6 +31,8 @@ private:
     QPoint get_next_dir();
     QStack<QPoint> stack;
 	QPoint aux;
+	bool primera_vez;
+	bool encontrada_copa;
 
 public:
 

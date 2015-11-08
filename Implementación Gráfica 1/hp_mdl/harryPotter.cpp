@@ -5,7 +5,8 @@ harryPotter::harryPotter(mapa_t& lab):
 	vidas(3),
 	mana(3),
 	laberinto(lab),
-	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO)
+	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO),
+	encontrada_copa(false)
 {
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
@@ -36,7 +37,8 @@ void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
 	marcar.clear();
 	laberinto.mover_harry(nueva_posicion);
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
-
+	primera_vez = true;
+	encontrada_copa = false;
 }
 
 void harryPotter::set_mana (unsigned mana_encontrado){
@@ -79,40 +81,62 @@ QPoint harryPotter::get_next_dir_escalada()
 	QPoint p_derecha = common::QP(get_posicion_harry(), ID_ORIENTACION_DERECHA);
 	QPoint p_izquierda = common::QP(get_posicion_harry(), ID_ORIENTACION_IZQUIERDA);
 
-	unsigned h_arriba = funcion_heuristica_prox(p_arriba);
-	unsigned h_abajo = funcion_heuristica_prox(p_abajo);
-	unsigned h_derecha = funcion_heuristica_prox(p_derecha);
-	unsigned h_izquierda = funcion_heuristica_prox(p_izquierda);
+	std::vector<QPoint> lista;
 
-	std::pair<QPoint,unsigned> arriba(p_arriba, h_arriba);
-	std::pair<QPoint,unsigned> abajo(p_abajo, h_abajo);
-	std::pair<QPoint,unsigned> derecha(p_derecha, h_derecha);
-	std::pair<QPoint,unsigned> izquierda(p_izquierda, h_izquierda);
-
-	std::vector<std::pair<QPoint,unsigned>> lista;
-
-	if(laberinto.get_seto(p_arriba) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_arriba) == ID_GENERACION_VACIO){
-		lista.push_back(arriba);
+	if(laberinto.get_seto(p_arriba) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_arriba);
 	}
-	if(laberinto.get_seto(p_abajo) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_abajo) == ID_GENERACION_VACIO){
-		lista.push_back(abajo);
+	if(laberinto.get_seto(p_abajo) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_abajo);
 	}
-	if (laberinto.get_seto(p_derecha) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_derecha) == ID_GENERACION_VACIO){
-		lista.push_back(derecha);
+	if (laberinto.get_seto(p_derecha) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_derecha);
 	}
-	if (laberinto.get_seto(p_izquierda) == ID_GLOBAL_SETO_NO_HAY && marcar.at(p_izquierda) == ID_GENERACION_VACIO){
-		lista.push_back(izquierda);
+	if (laberinto.get_seto(p_izquierda) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_izquierda);
 	}
 
-	QPoint punto_final = get_posicion_harry();
-	unsigned h_ahora = 32000;
-	for(int i = 0; i < lista.size(); i++){
-		if(h_ahora > lista[i].second){
-			h_ahora = lista[i].second;
-			punto_final = lista[i].first;
+	QPoint p_final;
+	unsigned v_ahora = 32000;
+	for(unsigned i = 0; i < lista.size(); i++){
+		unsigned valor_bandera = marcar.at(lista[i]);
+		if(valor_bandera < v_ahora){
+			p_final = lista[i];
+			v_ahora = valor_bandera;
 		}
 	}
-	return punto_final;
+	return p_final;
+}
+
+bool harryPotter::puedo_continuar_escalada(){
+	return !encontrada_copa; //TODO: Implementar condición de parada del algirtmo de escalada
+}
+
+QPoint harryPotter::movimiento_escalada()
+{
+	if(primera_vez){
+		for(unsigned i = 0; i < marcar.tam_x(); i++){
+			for(unsigned j = 0; j < marcar.tam_y(); j++){
+				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
+			}
+		}
+	}
+	std::cout << "La distancia entre harry y la copa es " << funcion_heuristica_prox(posicion_harry) << std::endl;
+	aux = get_next_dir_escalada();
+	marcar.at(posicion_harry)+=1; // Se suma la bandera+1
+	set_posicion_harry(aux);
+
+	if(laberinto.get_pos_copa() == posicion_harry)
+		encontrada_copa = true;
+
+	return posicion_harry;
+}
+
+unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
+{
+	QPoint p2 = laberinto.get_pos_copa();
+	double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y()));
+	return (unsigned)resultado;
 }
 
 QPoint harryPotter::movimiento_DFS(){
@@ -131,37 +155,6 @@ QPoint harryPotter::movimiento_DFS(){
 		set_posicion_harry(stack.top());
 	}
 	return get_posicion_harry();
-}
-
-bool harryPotter::puedo_continuar_escalada(){
-	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo de escalada
-}
-
-QPoint harryPotter::movimiento_escalada()
-{
-	//std::cout << "Soy el movimiento en escalada!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
-	std::cout << "La distancia entre harry y la copa es " << funcion_heuristica_prox(posicion_harry) << std::endl;
-	aux = get_next_dir_escalada();
-	if(aux != get_posicion_harry()){
-		set_posicion_harry(aux);
-		stack.push(get_posicion_harry());
-		if (!stack.empty())
-		marcar.at(stack.top())=ID_GENERACION_VISITADO;
-	}
-	else{
-		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
-		stack.pop();
-		if (!stack.empty())
-		set_posicion_harry(stack.top());
-	}
-	return get_posicion_harry();
-}
-
-unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
-{
-	QPoint p2 = laberinto.get_pos_copa();
-	double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y()));
-	return (unsigned)resultado;
 }
 
 bool harryPotter::puedo_continuar_estrella(){

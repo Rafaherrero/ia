@@ -33,6 +33,8 @@ private:
 	QPoint aux;
 	bool primera_vez;
 	bool encontrada_copa;
+	unsigned costo_transicion;
+	bool tipo_distancia; //falso = manhattan, true = euclides
 
 public:
 
@@ -54,6 +56,9 @@ public:
 
 	unsigned funcion_heuristica_prox(QPoint);
 	QPoint get_next_dir_escalada();
+
+	unsigned& costo_transicion(void);
+	bool& tipo_distancia(void);
 };
 
 #endif // harryPotter_H

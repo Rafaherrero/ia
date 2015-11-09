@@ -284,6 +284,8 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		qApp->processEvents();
 	}
 	else if (algoritmo==1){
+
+
 		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);

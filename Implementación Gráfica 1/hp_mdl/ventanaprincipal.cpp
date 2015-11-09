@@ -308,10 +308,12 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			QSound::play("sounds/Trompeta_ganador.wav");
 			ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
 		}
 		else{
 			set_texto_estado("Harry no ha encontrado la salida");
+			QSound::play("sounds/Trompeta_perdedor.wav");
 			ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
 		}
 	}

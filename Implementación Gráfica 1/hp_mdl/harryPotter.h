@@ -111,7 +111,7 @@ public:
 	 * \brief Ejecuta una iteración del algoritmo A*
 	 * \return Devuelve la posicion actual de Harry
 	 */
-	QPoint movimiento_estrella();
+	QStack<QPoint> movimiento_estrella();
 
 	/*!
 	 * \brief Analiza todas las condiciones de parada del LRTA*

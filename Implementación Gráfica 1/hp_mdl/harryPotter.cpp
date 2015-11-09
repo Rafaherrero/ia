@@ -173,15 +173,14 @@ bool harryPotter::puedo_continuar_estrella()
 	return puedo_continuar_DFS();
 }
 
-QPoint harryPotter::movimiento_estrella()
+QStack<QPoint> harryPotter::movimiento_estrella()
 {
 	trayectoria* a_estrella;
 	a_estrella = new trayectoria(laberinto, get_posicion_harry());
 	path solucion;
 	solucion=a_estrella->obtener_camino_minimo();
-	while(!solucion.camino.empty()){
-		solucion.camino.pop_front();
-	}
+	return solucion.camino;
+
 }
 
 

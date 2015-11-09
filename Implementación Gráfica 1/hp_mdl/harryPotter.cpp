@@ -76,7 +76,7 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
-QPoint harryPotter::get_next_dir_escalada()
+QPoint harryPotter::get_next_dir_LRTA()
 {
 	QPoint p_arriba = common::QP(get_posicion_harry(), ID_ORIENTACION_ARRIBA);
 	QPoint p_abajo = common::QP(get_posicion_harry(), ID_ORIENTACION_ABAJO);
@@ -110,11 +110,11 @@ QPoint harryPotter::get_next_dir_escalada()
 	return p_final;
 }
 
-bool harryPotter::puedo_continuar_escalada(){
+bool harryPotter::puedo_continuar_LRTA(){
 	return !encontrada_copa; //TODO: Implementar condición de parada del algirtmo de escalada
 }
 
-QPoint harryPotter::movimiento_escalada()
+QPoint harryPotter::movimiento_LRTA()
 {
 	if(primera_vez){ //Inicializacion
 		for(unsigned i = 0; i < marcar.tam_x(); i++){
@@ -124,7 +124,7 @@ QPoint harryPotter::movimiento_escalada()
 		}
         primera_vez = false;
 	}
-	aux = get_next_dir_escalada(); // Obtener el x' con menor h*(x)
+	aux = get_next_dir_LRTA(); // Obtener el x' con menor h*(x)
 	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
 	set_posicion_harry(aux); //Nos desplazamos a x'
 

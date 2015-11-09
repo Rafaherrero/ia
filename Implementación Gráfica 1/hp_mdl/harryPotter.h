@@ -11,6 +11,7 @@
 #include <common.h>
 #include <mapa_t.h>
 #include <QStack>
+#include <trayectoria.h>
 #include <cmath>
 
 class harryPotter
@@ -52,6 +53,8 @@ public:
 	unsigned funcion_heuristica_prox(QPoint);
 	QPoint get_next_dir_LRTA();
 	bool puedo_continuar_estrella();
+	int heuristica(QPoint inicial, QPoint meta);
+	QPoint get_next_dir_A_estrella();
 	QPoint movimiento_estrella();
 	unsigned get_mana();
 	unsigned get_vidas();

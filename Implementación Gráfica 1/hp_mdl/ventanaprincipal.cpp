@@ -283,29 +283,28 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		}
 		qApp->processEvents();
 	}
-	else if (algoritmo==1){
+//	else if (algoritmo==1){
 
-
-		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
-			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
-			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
-			scene->addItem(camino);
-			pos = muneco_harry->movimiento_estrella();
-			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
-			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
-				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
-			if (!maxima_velocidad){
-				if (!redimensionado&&seguimiento_harry)
-					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
-				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
-				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
-				qApp->processEvents();
-			}
-			if (ejecutar_un_paso)
-				un_paso=true;
-		}
-		qApp->processEvents();
-	}
+//		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
+//			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+//			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+//			scene->addItem(camino);
+//			pos = muneco_harry->movimiento_estrella();
+//			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+//			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
+//				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
+//			if (!maxima_velocidad){
+//				if (!redimensionado&&seguimiento_harry)
+//					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+//				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
+//				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
+//				qApp->processEvents();
+//			}
+//			if (ejecutar_un_paso)
+//				un_paso=true;
+//		}
+//		qApp->processEvents();
+//	}
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");

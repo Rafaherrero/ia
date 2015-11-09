@@ -11,6 +11,7 @@
 #include <common.h>
 #include <mapa_t.h>
 #include <QStack>
+#include <trayectoria.h>
 #include <cmath>
 
 class harryPotter

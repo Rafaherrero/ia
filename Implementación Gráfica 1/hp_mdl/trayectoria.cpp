@@ -82,7 +82,7 @@ void trayectoria::comprobar()
 	for (int i=0; i < eliminar.size(); i++){
 		abierta.removeAt(eliminar.at(i));
 	}
-	eliminar.removeAll();
+	eliminar.clear();
 	for(int i=0; i < abierta.size(); i++){
 		for(int j=i+1; j < abierta.size(); j++){
 			if (abierta[i].camino.top()==abierta[j].camino.top()){

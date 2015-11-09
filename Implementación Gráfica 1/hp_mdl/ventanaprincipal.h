@@ -52,7 +52,16 @@ public:
 	QPixmap* obstaculo_;
 	QPixmap* suelo_;
 public:
-	nodoMapa(bool);
+	/// \name Constructor
+	///@{
+	/*!
+	 * \brief Constructor de cada uno de los objetos del mapa
+	 * \param hayseto Define si ese objeto es un obstáculo o no
+	 */
+	
+	nodoMapa(bool hayseto);
+	///@}
+	/// \name 
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	bool hay_seto();
 	void hay_camino (bool camino);

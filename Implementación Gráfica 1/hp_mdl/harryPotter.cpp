@@ -180,7 +180,7 @@ QPoint harryPotter::movimiento_estrella()
 	path solucion;
 	solucion=a_estrella->obtener_camino_minimo();
 	while(!solucion.camino.empty()){
-		solucion.camino.pop();
+		solucion.camino.pop_front();
 	}
 }
 

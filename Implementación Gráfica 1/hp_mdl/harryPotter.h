@@ -55,7 +55,7 @@ public:
 	bool puedo_continuar_estrella();
 	int heuristica(QPoint inicial, QPoint meta);
 	QPoint get_next_dir_A_estrella();
-	QPoint movimiento_estrella();
+	QStack<QPoint> movimiento_estrella();
 	unsigned get_mana();
 	unsigned get_vidas();
 	unsigned& costo_transicion(void);

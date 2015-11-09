@@ -283,7 +283,12 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		}
 		qApp->processEvents();
 	}
-//	else if (algoritmo==1){
+	else if (algoritmo==1){
+
+		QStack<QPoint> camino_estrella;
+
+		camino_estrella = muneco_harry->movimiento_estrella();
+
 
 //		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 //			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
@@ -303,8 +308,8 @@ void VentanaPrincipal::ejecutar_algoritmo()
 //			if (ejecutar_un_paso)
 //				un_paso=true;
 //		}
-//		qApp->processEvents();
-//	}
+		//qApp->processEvents();
+	}
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");

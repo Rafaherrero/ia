@@ -9,6 +9,7 @@
 #include <QGraphicsPixmapItem>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QSound>
 
 #include "common.h"
 #include "mapa_t.h"

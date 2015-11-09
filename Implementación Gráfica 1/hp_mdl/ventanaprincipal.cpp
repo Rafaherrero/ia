@@ -283,7 +283,12 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		}
 		qApp->processEvents();
 	}
-//	else if (algoritmo==1){
+	else if (algoritmo==1){
+
+		QStack<QPoint> camino_estrella;
+
+		camino_estrella = muneco_harry->movimiento_estrella();
+
 
 //		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 //			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
@@ -303,15 +308,17 @@ void VentanaPrincipal::ejecutar_algoritmo()
 //			if (ejecutar_un_paso)
 //				un_paso=true;
 //		}
-//		qApp->processEvents();
-//	}
+		//qApp->processEvents();
+	}
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			QSound::play("sounds/Trompeta_ganador.wav");
 			ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
 		}
 		else{
 			set_texto_estado("Harry no ha encontrado la salida");
+			QSound::play("sounds/Trompeta_perdedor.wav");
 			ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
 		}
 	}

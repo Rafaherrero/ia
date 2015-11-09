@@ -37,8 +37,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Agua");
 
 	ui->lista_algoritmos->addItem("DFS");
-	ui->lista_algoritmos->addItem("Escalada");
-	ui->lista_algoritmos->addItem("Estrella");
+	ui->lista_algoritmos->addItem("A*");
+	ui->lista_algoritmos->addItem("LRTA*");
 
 	redimensionado=false;
 	seguimiento_harry=false;
@@ -216,6 +216,7 @@ void nodoMapa::hay_camino (bool camino){
 
 void VentanaPrincipal::on_play_lab_clicked(){
 	ejecutar_un_paso = false;
+	un_paso = false;
 	if (nuevo)
 		ejecutar_algoritmo();
 	else
@@ -261,12 +262,12 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	}
 	qApp->processEvents();
 	}
-	else if (algoritmo==1){
-		while (muneco_harry->puedo_continuar_escalada()&&ejecutando&&!un_paso){
+	else if (algoritmo==2){
+		while (muneco_harry->puedo_continuar_LRTA()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
-			pos = muneco_harry->movimiento_escalada();
+			pos = muneco_harry->movimiento_LRTA();
 			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
 			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
 				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
@@ -282,7 +283,7 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		}
 		qApp->processEvents();
 	}
-	else if (algoritmo==2){
+	else if (algoritmo==1){
 		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
@@ -486,7 +487,7 @@ unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
 void VentanaPrincipal::on_next_lab_clicked()
 {
 	if (nuevo){
-		un_paso=false;
+		un_paso = false;
 		ejecutar_un_paso = true;
 		ejecutar_algoritmo();
 		on_pause_lab_clicked();

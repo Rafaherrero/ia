@@ -5,7 +5,10 @@ harryPotter::harryPotter(mapa_t& lab):
 	vidas(3),
 	mana(3),
 	laberinto(lab),
-	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO)
+	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO),
+	encontrada_copa(false),
+	costo_transicion_(5),
+	tipo_distancia_(false) //Manhattan
 {
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
@@ -36,7 +39,8 @@ void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
 	marcar.clear();
 	laberinto.mover_harry(nueva_posicion);
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
-
+	primera_vez = true;
+	encontrada_copa = false;
 }
 
 void harryPotter::set_mana (unsigned mana_encontrado){
@@ -74,6 +78,76 @@ QPoint harryPotter::get_next_dir(){
 	return get_posicion_harry();
 }
 
+QPoint harryPotter::get_next_dir_LRTA()
+{
+	QPoint p_arriba = common::QP(get_posicion_harry(), ID_ORIENTACION_ARRIBA);
+	QPoint p_abajo = common::QP(get_posicion_harry(), ID_ORIENTACION_ABAJO);
+	QPoint p_derecha = common::QP(get_posicion_harry(), ID_ORIENTACION_DERECHA);
+	QPoint p_izquierda = common::QP(get_posicion_harry(), ID_ORIENTACION_IZQUIERDA);
+
+	std::vector<QPoint> lista;
+
+	if(laberinto.get_seto(p_arriba) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_arriba);
+	}
+	if(laberinto.get_seto(p_abajo) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_abajo);
+	}
+	if (laberinto.get_seto(p_derecha) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_derecha);
+	}
+	if (laberinto.get_seto(p_izquierda) == ID_GLOBAL_SETO_NO_HAY){
+		lista.push_back(p_izquierda);
+	}
+
+	QPoint p_final;
+	unsigned v_ahora = 32000;
+	for(unsigned i = 0; i < lista.size(); i++){
+		unsigned valor_bandera = marcar.at(lista[i]);
+		if(valor_bandera < v_ahora){
+			p_final = lista[i];
+			v_ahora = valor_bandera;
+		}
+	}
+	return p_final;
+}
+
+bool harryPotter::puedo_continuar_LRTA(){
+	return !encontrada_copa; //TODO: Implementar condición de parada del algirtmo de escalada
+}
+
+QPoint harryPotter::movimiento_LRTA()
+{
+	if(primera_vez){ //Inicializacion
+		for(unsigned i = 0; i < marcar.tam_x(); i++){
+			for(unsigned j = 0; j < marcar.tam_y(); j++){
+				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
+			}
+		}
+        primera_vez = false;
+	}
+	aux = get_next_dir_LRTA(); // Obtener el x' con menor h*(x)
+	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
+	set_posicion_harry(aux); //Nos desplazamos a x'
+
+	if(laberinto.get_pos_copa() == posicion_harry)
+		encontrada_copa = true;
+
+	return posicion_harry;
+}
+
+unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
+{
+	QPoint p2 = laberinto.get_pos_copa();
+	if(tipo_distancia_){
+		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
+		return unsigned(resultado);
+	}
+	unsigned mx = abs(p1.x()-p2.x()); //Distancia manhattan
+    unsigned my = abs(p1.y()-p2.y());
+	return mx+my;
+}
+
 QPoint harryPotter::movimiento_DFS(){
 
 	aux = get_next_dir();
@@ -92,18 +166,6 @@ QPoint harryPotter::movimiento_DFS(){
 	return get_posicion_harry();
 }
 
-//********************** FUNCIONES PARA EL ALGORITMO DE ESCALADA ***************************
-
-bool harryPotter::puedo_continuar_escalada(){
-	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo de escalada
-}
-
-QPoint harryPotter::movimiento_escalada()
-{
-	std::cout << "Soy el movimiento en escalada!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
-	return movimiento_DFS(); //TODO: Implementar algoritmo de escalada.
-}
-
 //********************** FUNCIONES PARA EL ALGORITMO A ESTRELLA ***************************
 
 bool harryPotter::puedo_continuar_estrella()
@@ -120,5 +182,16 @@ QPoint harryPotter::movimiento_estrella()
 	while(!solucion.camino.empty()){
 		solucion.camino.pop();
 	}
+}
 
+
+unsigned& harryPotter::costo_transicion(void)
+{
+	return costo_transicion_;
+}
+
+
+bool& harryPotter::tipo_distancia(void)
+{
+	return tipo_distancia_;
 }

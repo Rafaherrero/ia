@@ -26,9 +26,9 @@ unsigned harryPotter::get_vidas(){
 	return vidas;
 }
 
-void harryPotter::set_posicion_harry (QPoint ranas_de_chocolate){
-	posicion_harry = ranas_de_chocolate;
-	laberinto.mover_harry(ranas_de_chocolate);
+void harryPotter::set_posicion_harry (QPoint pos){
+	posicion_harry = pos;
+	laberinto.mover_harry(pos);
 }
 
 void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
@@ -58,7 +58,7 @@ bool harryPotter::puedo_continuar_DFS(){
 		return true;
 }
 
-QPoint harryPotter::get_next_dir(){
+QPoint harryPotter::get_next_dir_DFS(){
 	for (int i = 0; i < 4; i++){
 		if (i==ID_ORIENTACION_DERECHA && laberinto.get_seto(get_posicion_harry(), i) == ID_GLOBAL_SETO_NO_HAY && marcar.at(get_posicion_harry(), i) == ID_GENERACION_VACIO){
 			return get_posicion_harry()+MOVER_DERECHA;
@@ -148,7 +148,7 @@ unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
 
 QPoint harryPotter::movimiento_DFS(){
 
-	aux = get_next_dir();
+	aux = get_next_dir_DFS();
 	if(aux != get_posicion_harry()){
 		set_posicion_harry(aux);
 		stack.push(get_posicion_harry());

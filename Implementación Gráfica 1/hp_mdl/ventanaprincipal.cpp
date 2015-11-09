@@ -286,8 +286,24 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	else if (algoritmo==1){
 
 		QStack<QPoint> camino_estrella;
+		QStack<QPoint> copia_al_derecho;
 
 		camino_estrella = muneco_harry->movimiento_estrella();
+
+		if(!camino_estrella.empty()){
+			while (!camino_estrella.empty()){
+				copia_al_derecho.push(camino_estrella.pop());
+			}
+			while (!copia_al_derecho.empty()){
+				camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+				camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+				scene->addItem(camino);
+				pos = copia_al_derecho.pop();
+				muneco_harry->set_posicion_harry(pos);
+				harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			}
+
+		}
 
 
 //		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
@@ -308,7 +324,7 @@ void VentanaPrincipal::ejecutar_algoritmo()
 //			if (ejecutar_un_paso)
 //				un_paso=true;
 //		}
-		//qApp->processEvents();
+		qApp->processEvents();
 	}
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){

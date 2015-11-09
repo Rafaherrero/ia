@@ -48,8 +48,6 @@ const QPoint MOVER_IZQUIERDA(-1,0);
 #define ID_GENERACION_MARCADO 103
 #define ID_GENERACION_VACIO 100
 
-#define NO_SOLUCION 999999999
-
 namespace common{
 	unsigned mix(unsigned long a, unsigned long b, unsigned long c);
 	unsigned random(void);

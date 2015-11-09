@@ -167,9 +167,6 @@ path trayectoria::obtener_camino_minimo()
 	else{
 		std::cout << "No tiene solución." << std::endl;
 		QList <path> no_solucion;
-		path room;
-		room.coste=NO_SOLUCION;
-		no_solucion.append(room);
 		return no_solucion.first();
 	}
 }

@@ -7,7 +7,6 @@
 
 struct path{
 	QStack<QPoint> camino;
-	int coste;
 	int H;
 };
 
@@ -18,6 +17,7 @@ class trayectoria
 		QList<path> cerrada;
 		mapa_t& laberinto;
 
+		int manhattan(QPoint origen);
 		void diversificar();
 		void ordenar();
 		void comprobar();

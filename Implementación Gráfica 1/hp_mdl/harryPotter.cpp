@@ -47,6 +47,8 @@ void harryPotter::set_vidas (unsigned vida_gastada){
 	vidas = vida_gastada;
 }
 
+//********************** FUNCIONES PARA EL ALGORITMO DFS ***************************
+
 bool harryPotter::puedo_continuar_DFS(){
 	if (get_posicion_harry()==laberinto.get_pos_copa()||stack.empty())
 		return false;
@@ -90,6 +92,8 @@ QPoint harryPotter::movimiento_DFS(){
 	return get_posicion_harry();
 }
 
+//********************** FUNCIONES PARA EL ALGORITMO DE ESCALADA ***************************
+
 bool harryPotter::puedo_continuar_escalada(){
 	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo de escalada
 }
@@ -100,11 +104,21 @@ QPoint harryPotter::movimiento_escalada()
 	return movimiento_DFS(); //TODO: Implementar algoritmo de escalada.
 }
 
-bool harryPotter::puedo_continuar_estrella(){
-	return puedo_continuar_DFS(); //TODO: Implementar condición de parada del algirtmo A*
+//********************** FUNCIONES PARA EL ALGORITMO A ESTRELLA ***************************
+
+bool harryPotter::puedo_continuar_estrella()
+{
+	return puedo_continuar_DFS();
 }
 
-QPoint harryPotter::movimiento_estrella(){
-	std::cout << "Soy el movimiento en estrella!" << std::endl; //TODO: Quitar esto cuando ya no haga falta
-	return movimiento_DFS(); //TODO: Implementar algoritmo A*.
+QPoint harryPotter::movimiento_estrella()
+{
+	trayectoria* a_estrella;
+	a_estrella = new trayectoria(laberinto, get_posicion_harry());
+	path solucion;
+	solucion=a_estrella->obtener_camino_minimo();
+	while(!solucion.camino.empty()){
+		solucion.camino.pop();
+	}
+
 }

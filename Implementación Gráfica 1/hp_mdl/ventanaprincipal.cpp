@@ -46,6 +46,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	seguimiento_harry=false;
 	mapa_generado=false;
 	maxima_velocidad=false;
+	finalizado=true;
 	tema_actual=0;
 	tamano_icono=18;
 
@@ -219,13 +220,18 @@ void VentanaPrincipal::on_play_lab_clicked(){
 	un_paso = false;
 	if (nuevo)
 		ejecutar_algoritmo();
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 void VentanaPrincipal::ejecutar_algoritmo()
 {
 	if(mapa_generado){
+		finalizado=false;
 		ejecutando=true;
 		pausa=false;
 		QPoint pos;
@@ -264,41 +270,8 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	}
 	else if (algoritmo==1){
 
-		QStack<QPoint> camino_estrella;
-		QStack<QPoint> copia_al_derecho;
+		ejecucion_A_estrella();
 
-		set_texto_estado("Se está calculando el algoritmo A*");
-		qApp->processEvents();
-		camino_estrella = muneco_harry->movimiento_estrella();
-		set_texto_estado("Se ha calculado el algoritmo A*");
-		qApp->processEvents();
-
-		pos = camino_estrella.top();
-
-		if(pos!=(common::QP(-1,-1))){
-			while (!camino_estrella.empty()){
-				copia_al_derecho.push(camino_estrella.pop());
-			}
-			while (!copia_al_derecho.empty()){
-				camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
-				camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
-				scene->addItem(camino);
-				pos = copia_al_derecho.pop();
-				muneco_harry->set_posicion_harry(pos);
-				harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
-				if (!maxima_velocidad){
-					if (!redimensionado&&seguimiento_harry)
-						ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
-					usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
-					set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
-					qApp->processEvents();
-				}
-				if (ejecutar_un_paso)
-					un_paso=true;
-			qApp->processEvents();
-			}
-		}
-		qApp->processEvents();
 	}
 	else if (algoritmo==2){
 		while (muneco_harry->puedo_continuar_LRTA()&&ejecutando&&!un_paso){
@@ -350,16 +323,60 @@ void VentanaPrincipal::ejecutar_algoritmo()
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
 			QSound::play("sounds/Trompeta_ganador.wav");
 			ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			finalizado=true;
 		}
 		else{
 			set_texto_estado("Harry no ha encontrado la salida");
 			QSound::play("sounds/Trompeta_perdedor.wav");
 			ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
+			finalizado=true;
 		}
 	}
 }
 	ejecutando=false;
 	terminado_ejecucion=true;
+}
+
+void VentanaPrincipal::ejecucion_A_estrella (void){
+
+	QStack<QPoint> camino_estrella;
+	QStack<QPoint> copia_al_derecho;
+	QPoint pos;
+	QImage image_camino(RUTA_CAMINO);
+
+	set_texto_estado("Se está calculando el algoritmo A*");
+	qApp->processEvents();
+	camino_estrella = muneco_harry->movimiento_estrella();
+	set_texto_estado("Se ha calculado el algoritmo A*");
+	qApp->processEvents();
+
+	pos = camino_estrella.top();
+
+	if(pos!=(common::QP(-1,-1))){
+		while (!camino_estrella.empty()){
+			copia_al_derecho.push(camino_estrella.pop());
+		}
+		while (!copia_al_derecho.empty()&&!pausa&&ejecutando){
+			pos = copia_al_derecho.pop();
+			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+			scene->addItem(camino);
+			muneco_harry->set_posicion_harry(pos);
+			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			if (!maxima_velocidad){
+				if (!redimensionado&&seguimiento_harry)
+					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
+				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
+				qApp->processEvents();
+			}
+			if (ejecutar_un_paso)
+				un_paso=true;
+		qApp->processEvents();
+		}
+	}
+	qApp->processEvents();
+
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
@@ -461,8 +478,12 @@ void VentanaPrincipal::on_stop_lab_clicked()
 			gen_lab_visual();
 		}
 	}
-	else
+	else{
+	if (!finalizado)
 		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else
+		ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 void VentanaPrincipal::on_checkBox_2_clicked()
@@ -526,8 +547,12 @@ void VentanaPrincipal::on_pause_lab_clicked()
 		ejecutando=false;
 		ejecutar_un_paso = false;
 	}
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
@@ -536,12 +561,20 @@ unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
 
 void VentanaPrincipal::on_next_lab_clicked()
 {
-	if (nuevo){
+	if (algoritmo==1)
+		ventana_aviso("OPCION NO VALIDA", "Esta opción no está disponible para el algoritmo A*.");
+	else{
+	if (nuevo&&!finalizado){
 		un_paso = false;
 		ejecutar_un_paso = true;
 		ejecutar_algoritmo();
 		on_pause_lab_clicked();
 	}
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
+}
 }

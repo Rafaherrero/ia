@@ -81,6 +81,7 @@ public:
 	void ventana_aviso(QString nombre_ventana, QString texto_ventana);
 	unsigned get_posicion (unsigned coord_i, unsigned coord_j);
 	void ejecutar_algoritmo();
+	void ejecucion_A_estrella();
 
 private slots:
 	void on_boton_generar_clicked();
@@ -123,6 +124,7 @@ private:
 	bool nuevo;
 	bool ejecutar_un_paso;
 	bool un_paso;
+	bool finalizado;
 	unsigned tema_actual;
 	QPixmap suelo_tierra;
 	QPixmap suelo_fuego;
@@ -142,6 +144,7 @@ private:
 	QMessageBox ventana_error;
 	QPoint posicion_harry_original;
 	QPoint posicion_copa_original;
+
 	unsigned contador_objeto=0;
 
 };

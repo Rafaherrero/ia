@@ -150,7 +150,7 @@ QPoint harryPotter::movimiento_RTA()
 	if(laberinto.get_pos_copa() == posicion_harry) //Si hemos encontrado la copa, salimos
 		encontrada_copa = true;
 
-	if((marcar.at(posicion_harry)-funcion_heuristica_prox(posicion_harry)) > costo_transicion_*25) //Si pasamos demasiadas veces por un mismo lugar, morimos
+	if((marcar.at(posicion_harry)-funcion_heuristica_prox(posicion_harry)) > costo_transicion_*200) //Si pasamos demasiadas veces por un mismo lugar, morimos
 		muerto = true;
 
 	return posicion_harry;

@@ -45,8 +45,8 @@ private:
 	QPoint get_next_dir_LRTA(); //Método para obtener el siguiente paso del LRTA*
 	QPoint get_next_dir_RTA(); //Método para obtener el siguiente paso del RTA*
 	bool estoy_en_la_copa(); //Metodo para saber si estamos situados sobre la copa
-	void bubble(std::vector<QPoint>& vec);
-	QPoint get_fx(unsigned min);
+	void bubble(std::vector<QPoint>& vec); //Algoritmo para ordenar elementos de una lista (máximo 4 elementos, mínimo 1).
+	QPoint get_fx(unsigned min); //Método que nos dedvuelve la casilla con valor (bandera) mínimo o secondmin.
 public:
 	/// \name Constructores
 	/// @{

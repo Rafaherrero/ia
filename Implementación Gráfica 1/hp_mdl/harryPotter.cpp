@@ -8,7 +8,8 @@ harryPotter::harryPotter(mapa_t& lab):
 	marcar(lab.get_x(), lab.get_y(), ID_GENERACION_VACIO),
 	encontrada_copa(false),
 	costo_transicion_(5),
-	tipo_distancia_(false) //Manhattan
+	tipo_distancia_(false), //Manhattan
+	muerto(false)
 {
 	stack.push(get_posicion_harry());
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
@@ -41,6 +42,7 @@ void harryPotter::set_posicion_harry_nuevo (QPoint nueva_posicion){
 	marcar.at(stack.top())=ID_GENERACION_VISITADO;
 	primera_vez = true;
 	encontrada_copa = false;
+	muerto = false;
 }
 
 void harryPotter::set_mana (unsigned mana_encontrado){
@@ -58,6 +60,24 @@ bool harryPotter::puedo_continuar_DFS(){
 		return false;
 	else
 		return true;
+}
+
+QPoint harryPotter::movimiento_DFS(){
+
+	aux = get_next_dir_DFS();
+	if(aux != get_posicion_harry()){
+		set_posicion_harry(aux);
+		stack.push(get_posicion_harry());
+		if (!stack.empty())
+			marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	}
+	else{
+		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
+		stack.pop();
+		if (!stack.empty())
+			set_posicion_harry(stack.top());
+	}
+	return get_posicion_harry();
 }
 
 QPoint harryPotter::get_next_dir_DFS(){
@@ -78,7 +98,94 @@ QPoint harryPotter::get_next_dir_DFS(){
 	return get_posicion_harry();
 }
 
-QPoint harryPotter::get_next_dir_LRTA()
+//********************** FUNCIONES PARA EL ALGORITMO LRTA* ***************************
+
+bool harryPotter::puedo_continuar_LRTA(){
+	return !encontrada_copa && !muerto;
+}
+
+QPoint harryPotter::movimiento_LRTA()
+{
+	if(primera_vez){ //Inicializacion
+		for(unsigned i = 0; i < marcar.tam_x(); i++){
+			for(unsigned j = 0; j < marcar.tam_y(); j++){
+				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
+			}
+		}
+		primera_vez = false;
+	}
+	aux = get_fx(MIN); // Obtener el x' con h*(x) mínimo
+	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
+	set_posicion_harry(aux); //Nos desplazamos a x'
+
+	if(laberinto.get_pos_copa() == posicion_harry) //Si hemos encontrado la copa, salimos
+		encontrada_copa = true;
+
+	if((marcar.at(posicion_harry)-funcion_heuristica_prox(posicion_harry)) > costo_transicion_*25) //Si pasamos demasiadas veces por un mismo lugar, morimos
+		muerto = true;
+
+	return posicion_harry;
+}
+
+//********************** FUNCIONES PARA EL ALGORITMO RTA ***************************
+
+bool harryPotter::puedo_continuar_RTA(){
+	return !encontrada_copa && !muerto;
+}
+
+
+QPoint harryPotter::movimiento_RTA()
+{
+	if(primera_vez){ //Inicializacion
+		for(unsigned i = 0; i < marcar.tam_x(); i++){
+			for(unsigned j = 0; j < marcar.tam_y(); j++){
+				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
+			}
+		}
+		primera_vez = false;
+	}
+	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(get_fx(SECONDMIN)); // Al x se le suma f(x') del segundo mínimo y el coste de transicion
+	set_posicion_harry(get_fx(MIN)); //Nos desplazamos a x' con f(x') mínimo
+
+	if(laberinto.get_pos_copa() == posicion_harry) //Si hemos encontrado la copa, salimos
+		encontrada_copa = true;
+
+	if((marcar.at(posicion_harry)-funcion_heuristica_prox(posicion_harry)) > costo_transicion_*25) //Si pasamos demasiadas veces por un mismo lugar, morimos
+		muerto = true;
+
+	return posicion_harry;
+}
+
+//********************** FUNCIONES PARA EL ALGORITMO A ESTRELLA ***************************
+
+bool harryPotter::puedo_continuar_estrella()
+{
+	return puedo_continuar_DFS();
+}
+
+QStack<QPoint> harryPotter::movimiento_estrella()
+{
+	trayectoria* a_estrella;
+	a_estrella = new trayectoria(laberinto, get_posicion_harry());
+	return a_estrella->obtener_camino_minimo().camino;
+
+}
+
+//********************** MÉTODOS COMUNES PARA ALGORITMOS HEURÍSTICOS *********************
+
+unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
+{
+	QPoint p2 = laberinto.get_pos_copa();
+	if(tipo_distancia_){
+		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
+		return unsigned(resultado);
+	}
+	unsigned mx = abs(p1.x()-p2.x()); //Distancia manhattan
+	unsigned my = abs(p1.y()-p2.y());
+	return mx+my;
+}
+
+QPoint harryPotter::get_fx(unsigned min)
 {
 	QPoint p_arriba = common::QP(get_posicion_harry(), ID_ORIENTACION_ARRIBA);
 	QPoint p_abajo = common::QP(get_posicion_harry(), ID_ORIENTACION_ABAJO);
@@ -100,100 +207,29 @@ QPoint harryPotter::get_next_dir_LRTA()
 		lista.push_back(p_izquierda);
 	}
 
-	QPoint p_final;
-	unsigned v_ahora = 32000;
-	for(unsigned i = 0; i < lista.size(); i++){
-		unsigned valor_bandera = marcar.at(lista[i]);
-		if(valor_bandera < v_ahora){
-			p_final = lista[i];
-			v_ahora = valor_bandera;
-		}
+	if(lista.size() == 0){//Si no tenemos donde movernos, nos quedamos en el sitio y nos morimos
+		muerto=true;
+		return posicion_harry;
 	}
-	return p_final;
+
+	bubble(lista); //ordenar la lista de menor a mayor usando el algoritmo de la burbuja (por usar uno)
+	if(min > 0 && lista.size() > 1) //Devolver el primer o segundo mínimo
+		return lista[1];
+	return lista[0];
 }
 
-bool harryPotter::puedo_continuar_LRTA(){
-	return !encontrada_copa; //TODO: Implementar condición de parada del algirtmo de escalada
-}
-
-QPoint harryPotter::movimiento_LRTA()
+void harryPotter::bubble(std::vector<QPoint> &vec)
 {
-	if(primera_vez){ //Inicializacion
-		for(unsigned i = 0; i < marcar.tam_x(); i++){
-			for(unsigned j = 0; j < marcar.tam_y(); j++){
-				marcar.at(common::QP(i,j)) = funcion_heuristica_prox(common::QP(i,j)); //Colocar todas las banderas a h*(x)
+	bool change = true;
+	for(std::size_t i = 1; (i < vec.size()) && (change); i++){
+		change = false;
+		for(std::size_t j = vec.size()-1; j >= i; j--)
+			if( marcar.at(vec[j]) < marcar.at(vec[j-1])){
+				std::swap(vec[j-1], vec[j]);
+				change = true;
 			}
-		}
-        primera_vez = false;
 	}
-	aux = get_next_dir_LRTA(); // Obtener el x' con menor h*(x)
-	marcar.at(posicion_harry) = costo_transicion_ + marcar.at(aux); // Al x se le suma f(x') y el coste de transicion
-	set_posicion_harry(aux); //Nos desplazamos a x'
-
-	if(laberinto.get_pos_copa() == posicion_harry)
-		encontrada_copa = true;
-
-	return posicion_harry;
 }
-
-bool harryPotter::puedo_continuar_RTA(){
-	return puedo_continuar_LRTA();
-}
-
-QPoint harryPotter::movimiento_RTA()
-{
-	return movimiento_LRTA();
-}
-
-
-
-
-
-unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
-{
-	QPoint p2 = laberinto.get_pos_copa();
-	if(tipo_distancia_){
-		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
-		return unsigned(resultado);
-	}
-	unsigned mx = abs(p1.x()-p2.x()); //Distancia manhattan
-    unsigned my = abs(p1.y()-p2.y());
-	return mx+my;
-}
-
-QPoint harryPotter::movimiento_DFS(){
-
-	aux = get_next_dir_DFS();
-	if(aux != get_posicion_harry()){
-		set_posicion_harry(aux);
-		stack.push(get_posicion_harry());
-		if (!stack.empty())
-			marcar.at(stack.top())=ID_GENERACION_VISITADO;
-	}
-	else{
-		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
-		stack.pop();
-		if (!stack.empty())
-		set_posicion_harry(stack.top());
-	}
-	return get_posicion_harry();
-}
-
-//********************** FUNCIONES PARA EL ALGORITMO A ESTRELLA ***************************
-
-bool harryPotter::puedo_continuar_estrella()
-{
-	return puedo_continuar_DFS();
-}
-
-QStack<QPoint> harryPotter::movimiento_estrella()
-{
-	trayectoria* a_estrella;
-	a_estrella = new trayectoria(laberinto, get_posicion_harry());
-	return a_estrella->obtener_camino_minimo().camino;
-
-}
-
 
 unsigned& harryPotter::costo_transicion(void)
 {

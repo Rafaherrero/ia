@@ -124,6 +124,21 @@ public:
 	 * \return Devuelve la posicion actual de Harry
 	 */
 	QPoint movimiento_LRTA();
+
+	/*!
+	 * \brief Analiza todas las condiciones de parada del RTA*
+	 * \return Si es falso Harry muere o encuentra la copa, en otro caso continua la ejecución
+	 */
+	bool puedo_continuar_RTA();
+
+	/*!
+	 * \brief Ejecuta una iteración del algoritmo RTA*
+	 * \return Devuelve la posicion actual de Harry
+	 */
+	QPoint movimiento_RTA();
+
+
+
 	///@}
 
 	/// \name Métodos en deshuso

@@ -136,6 +136,19 @@ QPoint harryPotter::movimiento_LRTA()
 	return posicion_harry;
 }
 
+bool harryPotter::puedo_continuar_RTA(){
+	return puedo_continuar_LRTA();
+}
+
+QPoint harryPotter::movimiento_RTA()
+{
+	return movimiento_LRTA();
+}
+
+
+
+
+
 unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
 {
 	QPoint p2 = laberinto.get_pos_copa();

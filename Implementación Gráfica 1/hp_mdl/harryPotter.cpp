@@ -60,6 +60,24 @@ bool harryPotter::puedo_continuar_DFS(){
 		return true;
 }
 
+QPoint harryPotter::movimiento_DFS(){
+
+	aux = get_next_dir_DFS();
+	if(aux != get_posicion_harry()){
+		set_posicion_harry(aux);
+		stack.push(get_posicion_harry());
+		if (!stack.empty())
+			marcar.at(stack.top())=ID_GENERACION_VISITADO;
+	}
+	else{
+		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
+		stack.pop();
+		if (!stack.empty())
+		set_posicion_harry(stack.top());
+	}
+	return get_posicion_harry();
+}
+
 QPoint harryPotter::get_next_dir_DFS(){
 	for (int i = 0; i < 4; i++){
 		if (i==ID_ORIENTACION_DERECHA && laberinto.get_seto(get_posicion_harry(), i) == ID_GLOBAL_SETO_NO_HAY && marcar.at(get_posicion_harry(), i) == ID_GENERACION_VACIO){
@@ -77,6 +95,8 @@ QPoint harryPotter::get_next_dir_DFS(){
 	}
 	return get_posicion_harry();
 }
+
+//********************** FUNCIONES PARA EL ALGORITMO LRTA* ***************************
 
 QPoint harryPotter::get_next_dir_LRTA()
 {
@@ -136,6 +156,8 @@ QPoint harryPotter::movimiento_LRTA()
 	return posicion_harry;
 }
 
+//********************** FUNCIONES PARA EL ALGORITMO RTA ***************************
+
 bool harryPotter::puedo_continuar_RTA(){
 	return puedo_continuar_LRTA();
 }
@@ -143,40 +165,6 @@ bool harryPotter::puedo_continuar_RTA(){
 QPoint harryPotter::movimiento_RTA()
 {
 	return movimiento_LRTA();
-}
-
-
-
-
-
-unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
-{
-	QPoint p2 = laberinto.get_pos_copa();
-	if(tipo_distancia_){
-		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
-		return unsigned(resultado);
-	}
-	unsigned mx = abs(p1.x()-p2.x()); //Distancia manhattan
-    unsigned my = abs(p1.y()-p2.y());
-	return mx+my;
-}
-
-QPoint harryPotter::movimiento_DFS(){
-
-	aux = get_next_dir_DFS();
-	if(aux != get_posicion_harry()){
-		set_posicion_harry(aux);
-		stack.push(get_posicion_harry());
-		if (!stack.empty())
-			marcar.at(stack.top())=ID_GENERACION_VISITADO;
-	}
-	else{
-		marcar.at(get_posicion_harry())=ID_GENERACION_MARCADO;
-		stack.pop();
-		if (!stack.empty())
-		set_posicion_harry(stack.top());
-	}
-	return get_posicion_harry();
 }
 
 //********************** FUNCIONES PARA EL ALGORITMO A ESTRELLA ***************************
@@ -194,6 +182,19 @@ QStack<QPoint> harryPotter::movimiento_estrella()
 
 }
 
+//********************** MÉTODOS COMUNES PARA ALGORITMOS HEURÍSTICOS *********************
+
+unsigned harryPotter::funcion_heuristica_prox(QPoint p1)
+{
+	QPoint p2 = laberinto.get_pos_copa();
+	if(tipo_distancia_){
+		double resultado = sqrt((p2.x() - p1.x())*(p2.x() - p1.x()) + (p2.y() - p1.y())*(p2.y() - p1.y())); //Distancia euclides
+		return unsigned(resultado);
+	}
+	unsigned mx = abs(p1.x()-p2.x()); //Distancia manhattan
+	unsigned my = abs(p1.y()-p2.y());
+	return mx+my;
+}
 
 unsigned& harryPotter::costo_transicion(void)
 {

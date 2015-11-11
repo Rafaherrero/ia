@@ -26,6 +26,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->grafico_mapa->setMaximumSize(580,535);
 	set_texto_estado("No se ha creado ningún laberinto");
 	scene->addItem(carga);
+	nuevo=true;
 
 	connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderValueChanged(int)));
 	connect(ui->boton_aleatorio,SIGNAL(clicked(bool)),this,SLOT(on_boton_aleatorio_clicked()));
@@ -37,13 +38,15 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 	ui->lista_temas->addItem("Agua");
 
 	ui->lista_algoritmos->addItem("DFS");
-//	ui->lista_algoritmos->addItem("Estrella");
-//	ui->lista_algoritmos->addItem("Otro");
+	ui->lista_algoritmos->addItem("A*");
+	ui->lista_algoritmos->addItem("LRTA*");
+	ui->lista_algoritmos->addItem("RTA*");
 
 	redimensionado=false;
 	seguimiento_harry=false;
 	mapa_generado=false;
 	maxima_velocidad=false;
+	finalizado=true;
 	tema_actual=0;
 	tamano_icono=18;
 
@@ -82,8 +85,6 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 
 	posicion_harry_original=muneco_harry->get_posicion_harry();
 	posicion_copa_original=el_mapa->get_pos_copa();
-
-	nuevo=true;
 
 }
 
@@ -216,15 +217,21 @@ void nodoMapa::hay_camino (bool camino){
 
 void VentanaPrincipal::on_play_lab_clicked(){
 	ejecutar_un_paso = false;
+	un_paso = false;
 	if (nuevo)
 		ejecutar_algoritmo();
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 void VentanaPrincipal::ejecutar_algoritmo()
 {
 	if(mapa_generado){
+		finalizado=false;
 		ejecutando=true;
 		pausa=false;
 		QPoint pos;
@@ -262,11 +269,16 @@ void VentanaPrincipal::ejecutar_algoritmo()
 	qApp->processEvents();
 	}
 	else if (algoritmo==1){
-		while (muneco_harry->puedo_continuar_estrella()&&ejecutando&&!un_paso){
+
+		ejecucion_A_estrella();
+
+	}
+	else if (algoritmo==2){
+		while (muneco_harry->puedo_continuar_LRTA()&&ejecutando&&!un_paso){
 			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
-			pos = muneco_harry->movimiento_estrella();
+			pos = muneco_harry->movimiento_LRTA();
 			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
 			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
 				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
@@ -282,19 +294,89 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		}
 		qApp->processEvents();
 	}
+
+	else if (algoritmo==3){
+		while (muneco_harry->puedo_continuar_RTA()&&ejecutando&&!un_paso){
+			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+			scene->addItem(camino);
+			pos = muneco_harry->movimiento_RTA();
+			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
+				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
+			if (!maxima_velocidad){
+				if (!redimensionado&&seguimiento_harry)
+					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
+				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
+				qApp->processEvents();
+			}
+			if (ejecutar_un_paso)
+				un_paso=true;
+		}
+		qApp->processEvents();
+	}
+
+
 	if (ejecutando&&!un_paso){
 		if (muneco_harry->get_posicion_harry()==el_mapa->get_pos_copa()){
 			set_texto_estado("¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			QSound::play("sounds/Trompeta_ganador.wav");
 			ventana_aviso("¡¡¡FELICIDADES!!!","¡¡¡HARRY HA ENCONTRADO LA COPA!!!");
+			finalizado=true;
 		}
 		else{
 			set_texto_estado("Harry no ha encontrado la salida");
+			QSound::play("sounds/Trompeta_perdedor.wav");
 			ventana_aviso("HARRY HA MUERTO","Harry no ha encontrado la salida y Voldemort lo ha matado :(");
+			finalizado=true;
 		}
 	}
 }
 	ejecutando=false;
 	terminado_ejecucion=true;
+}
+
+void VentanaPrincipal::ejecucion_A_estrella (void){
+
+	QStack<QPoint> camino_estrella;
+	QStack<QPoint> copia_al_derecho;
+	QPoint pos;
+	QImage image_camino(RUTA_CAMINO);
+
+	set_texto_estado("Se está calculando el algoritmo A*");
+	qApp->processEvents();
+	camino_estrella = muneco_harry->movimiento_estrella();
+	set_texto_estado("Se ha calculado el algoritmo A*");
+	qApp->processEvents();
+
+	pos = camino_estrella.top();
+
+	if(pos!=(common::QP(-1,-1))){
+		while (!camino_estrella.empty()){
+			copia_al_derecho.push(camino_estrella.pop());
+		}
+		while (!copia_al_derecho.empty()&&!pausa&&ejecutando){
+			pos = copia_al_derecho.pop();
+			camino = new QGraphicsPixmapItem(QPixmap::fromImage(image_camino));
+			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+			scene->addItem(camino);
+			muneco_harry->set_posicion_harry(pos);
+			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			if (!maxima_velocidad){
+				if (!redimensionado&&seguimiento_harry)
+					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
+				usleep((ui->horizontalSlider_2->maximum()*100)-(ui->horizontalSlider_2->value()*100));
+				set_texto_estado("Harry se ha movido a la posición ("+QString::number(pos.x())+","+QString::number(pos.y())+")");
+				qApp->processEvents();
+			}
+			if (ejecutar_un_paso)
+				un_paso=true;
+		qApp->processEvents();
+		}
+	}
+	qApp->processEvents();
+
 }
 
 void VentanaPrincipal::sliderValueChanged(int value)
@@ -330,6 +412,7 @@ void VentanaPrincipal::ventana_aviso(QString nombre_ventana, QString texto_venta
 
 void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 {
+	if (nuevo){
 	if (index==0){
 		ruta_de_obstaculo=&obstaculo_tierra;
 		ruta_de_suelo=&suelo_tierra;
@@ -346,6 +429,9 @@ void VentanaPrincipal::on_lista_temas_currentIndexChanged(int index)
 		ruta_de_obstaculo=&obstaculo_agua;
 		ruta_de_suelo=&suelo_agua;
 	}
+	}
+	else
+		ventana_aviso("ERROR CAMBIANDO ALGORITMOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
 }
 
 void VentanaPrincipal::on_checkBox_clicked()
@@ -392,8 +478,12 @@ void VentanaPrincipal::on_stop_lab_clicked()
 			gen_lab_visual();
 		}
 	}
-	else
+	else{
+	if (!finalizado)
 		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else
+		ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 void VentanaPrincipal::on_checkBox_2_clicked()
@@ -423,12 +513,15 @@ void VentanaPrincipal::on_lista_algoritmos_currentIndexChanged(int index)
 	if (index==0){
 		algoritmo=0;
 	}
-//	else if (index==1){
-//		algoritmo=1;
-//	}
-//	else if (index==2){
-//		algoritmo=2;
-//	}
+	else if (index==1){
+		algoritmo=1;
+	}
+	else if (index==2){
+		algoritmo=2;
+	}
+	else if (index==3){
+		algoritmo=3;
+	}
 }
 
 void VentanaPrincipal::on_checkBox_3_clicked()
@@ -454,8 +547,12 @@ void VentanaPrincipal::on_pause_lab_clicked()
 		ejecutando=false;
 		ejecutar_un_paso = false;
 	}
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
 }
 
 unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
@@ -464,12 +561,20 @@ unsigned VentanaPrincipal::get_posicion (unsigned coord_i, unsigned coord_j){
 
 void VentanaPrincipal::on_next_lab_clicked()
 {
-	if (nuevo){
-		un_paso=false;
+	if (algoritmo==1)
+		ventana_aviso("OPCION NO VALIDA", "Esta opción no está disponible para el algoritmo A*.");
+	else{
+	if (nuevo&&!finalizado){
+		un_paso = false;
 		ejecutar_un_paso = true;
 		ejecutar_algoritmo();
 		on_pause_lab_clicked();
 	}
-	else
-		ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+	else{
+		if (!finalizado)
+			ventana_aviso("ERROR CAMBIANDO TAMAÑOS", "Ha cambiado el valor de los datos mientras una búsqueda se estaba ejecutando. Genere un nuevo laberinto.");
+		else
+			ventana_aviso("OPCION NO VALIDA", "Genere un nuevo laberinto.");
+	}
+}
 }

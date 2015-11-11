@@ -7,6 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 TARGET = hp_mdl
 TEMPLATE = app
@@ -18,14 +19,16 @@ SOURCES += main.cpp\
     tabla_t.cpp \
     harryPotter.cpp \
     mapa_t.cpp \
-    common.cpp
+    common.cpp \
+    trayectoria.cpp
 
 HEADERS  += ventanaprincipal.h \
     mapa_t.h \
     common.h \
     exceptions.h \
     tabla_t.h \
-    harryPotter.h
+    harryPotter.h \
+    trayectoria.h
 
 FORMS    += ventanaprincipal.ui
 

@@ -128,8 +128,6 @@ path trayectoria::obtener_camino_minimo()
 		}
 	}
 
-	std::cout << "No tiene solución." << std::endl;
-
 	path room;
 	QPoint error(-1,-1);
 	room.camino.push(error);

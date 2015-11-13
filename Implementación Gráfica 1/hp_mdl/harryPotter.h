@@ -146,7 +146,7 @@ public:
 
 	///@}
 
-	/// \name Métodos en deshuso
+	/// \name Métodos en desuso
 	///@{
 	unsigned get_mana();
 	unsigned get_vidas();

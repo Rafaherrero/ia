@@ -6,20 +6,6 @@
 
 namespace exception{
 
-    /*
-    class nombre_de_error:public std::exception
-    {
-    private:
-        const char* what_;
-
-    public:
-        nombre_de_error(void);
-        nombre_de_error(const char*);
-
-        const char* what() const throw(){return what_;}
-    };
-    */
-
     class out_of_range:public std::exception
     {
     private:

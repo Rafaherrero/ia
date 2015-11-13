@@ -14,6 +14,9 @@
 #include <trayectoria.h>
 #include <cmath>
 
+#define MIN 0
+#define SECONDMIN 1
+
 class harryPotter
 {
 	/*!
@@ -33,13 +36,17 @@ private:
 	QPoint aux; //TODO
 	bool primera_vez; //Primera vez que se ejecuta el algoritmo (el que sea)
 	bool encontrada_copa; //false=copa no encontrada, true=copa encontrada
+	bool muerto;
 	unsigned costo_transicion_; //Coste de los nodos
 	bool tipo_distancia_; //falso = manhattan, true = euclides
 
 	unsigned funcion_heuristica_prox(QPoint);// Función de estimación heurística por proximidad al objetivo
 	QPoint get_next_dir_DFS(); //Metodo para obtener el siguiente paso del DFS
 	QPoint get_next_dir_LRTA(); //Método para obtener el siguiente paso del LRTA*
+	QPoint get_next_dir_RTA(); //Método para obtener el siguiente paso del RTA*
 	bool estoy_en_la_copa(); //Metodo para saber si estamos situados sobre la copa
+	void bubble(std::vector<QPoint>& vec); //Algoritmo para ordenar elementos de una lista (máximo 4 elementos, mínimo 1).
+	QPoint get_fx(unsigned min); //Método que nos dedvuelve la casilla con valor (bandera) mínimo o secondmin.
 public:
 	/// \name Constructores
 	/// @{
@@ -137,11 +144,9 @@ public:
 	 */
 	QPoint movimiento_RTA();
 
-
-
 	///@}
 
-	/// \name Métodos en deshuso
+	/// \name Métodos en desuso
 	///@{
 	unsigned get_mana();
 	unsigned get_vidas();

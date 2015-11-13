@@ -7,7 +7,7 @@
 
 struct path{
 	QStack<QPoint> camino;
-	int H;
+	int coste;
 };
 
 class trayectoria
@@ -21,6 +21,8 @@ class trayectoria
 		void diversificar();
 		void ordenar();
 		void comprobar();
+
+		int get_fx(path tray);
 
 	public:
 		trayectoria(mapa_t& lab, QPoint pos_harry);

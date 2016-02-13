@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>VentanaPrincipal</class>
  <widget class="QMainWindow" name="VentanaPrincipal">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,7 +29,11 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Harry Potter y los Monstruos del Laberinto (v5.0.0.0.0)</string>
+   <string>Harry Potter y los Monstruos del Laberinto (v5.1.0.0.0)</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../recursos/img/Comun/Loading.png</normaloff>../recursos/img/Comun/Loading.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">

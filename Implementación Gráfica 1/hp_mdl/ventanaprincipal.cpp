@@ -102,6 +102,8 @@ void VentanaPrincipal::on_boton_generar_clicked()
 {
 	terminado_ejecucion=false;
 	if(!ejecutando){
+		on_tam_mapa_x_valueChanged(0);
+		on_tam_mapa_y_valueChanged(0);
 		nuevo=true;
 		el_mapa->resize(tam_x,tam_y);
 		el_mapa->mover_copa(common::QP(ui->pos_copa_x->value(),ui->pos_copa_y->value()));
@@ -253,7 +255,9 @@ void VentanaPrincipal::ejecutar_algoritmo()
 		camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 		scene->addItem(camino);
 		pos = muneco_harry->movimiento_DFS();
+		scene->removeItem(harry_icono);
 		harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+		scene->addItem(harry_icono);
 		if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
 			objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
 		if (!maxima_velocidad){
@@ -279,7 +283,9 @@ void VentanaPrincipal::ejecutar_algoritmo()
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
 			pos = muneco_harry->movimiento_LRTA();
+			scene->removeItem(harry_icono);
 			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			scene->addItem(harry_icono);
 			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
 				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
 			if (!maxima_velocidad){
@@ -301,7 +307,9 @@ void VentanaPrincipal::ejecutar_algoritmo()
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
 			pos = muneco_harry->movimiento_RTA();
+			scene->removeItem(harry_icono);
 			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			scene->addItem(harry_icono);
 			if ((common::QP(pos.x(),pos.y()))!=(common::QP(el_mapa->get_pos_copa().x(),el_mapa->get_pos_copa().y())))
 				objetos_mapa[get_posicion(pos.x(),pos.y())]->hay_camino (true);
 			if (!maxima_velocidad){
@@ -362,7 +370,9 @@ void VentanaPrincipal::ejecucion_A_estrella (void){
 			camino->setOffset(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
 			scene->addItem(camino);
 			muneco_harry->set_posicion_harry(pos);
+			scene->removeItem(harry_icono);
 			harry_icono->setOffset(pos.x()*tamano_icono,pos.y()*tamano_icono);
+			scene->addItem(harry_icono);
 			if (!maxima_velocidad){
 				if (!redimensionado&&seguimiento_harry)
 					ui->grafico_mapa->centerOn(muneco_harry->get_posicion_harry().x()*tamano_icono,muneco_harry->get_posicion_harry().y()*tamano_icono);
@@ -496,16 +506,20 @@ void VentanaPrincipal::on_checkBox_2_clicked()
 
 void VentanaPrincipal::on_tam_mapa_x_valueChanged(int arg1)
 {
-	modificar_tamano();
-	ui->pos_harry_x->setMaximum(tam_x-2);
-	ui->pos_copa_x->setMaximum(tam_x-2);
+	if(!ejecutando){
+		modificar_tamano();
+	}
+	ui->pos_harry_x->setMaximum(ui->tam_mapa_x->value()-2);
+	ui->pos_copa_x->setMaximum(ui->tam_mapa_x->value()-2);
 }
 
 void VentanaPrincipal::on_tam_mapa_y_valueChanged(int arg1)
 {
-	modificar_tamano();
-	ui->pos_harry_y->setMaximum(tam_y-2);
-	ui->pos_copa_y->setMaximum(tam_y-2);
+	if(!ejecutando){
+		modificar_tamano();
+	}
+	ui->pos_harry_y->setMaximum(ui->tam_mapa_y->value()-2);
+	ui->pos_copa_y->setMaximum(ui->tam_mapa_y->value()-2);
 }
 
 void VentanaPrincipal::on_lista_algoritmos_currentIndexChanged(int index)
